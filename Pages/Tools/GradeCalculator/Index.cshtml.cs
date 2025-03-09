@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using MyWebApp.Projects.GradeCalculator.Models;
+using MyWebApp.Models;
 
-namespace MyWebApp.Projects.GradeCalculator.Pages
+namespace MyWebApp.Pages.Tools.GradeCalculator
 {
     public class IndexModel : PageModel
     {

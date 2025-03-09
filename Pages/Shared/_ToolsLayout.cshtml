@@ -1,0 +1,82 @@
+@{
+    Layout = "_Layout";
+}
+
+<!-- Tools Header -->
+<div class="bg-gradient-to-br from-blue-500 to-blue-600 dark:from-blue-600 dark:to-blue-700">
+    <div class="container mx-auto px-4">
+        <!-- Breadcrumb -->
+        <nav class="py-4">
+            <ol class="flex items-center space-x-2 space-x-reverse text-sm text-blue-100">
+                <li>
+                    <a href="/" class="hover:text-white transition-colors">خانه</a>
+                </li>
+                <li>
+                    <svg class="w-4 h-4 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                </li>
+                @if (ViewData["ShowToolNav"]?.ToString()?.ToLower() == "true")
+                {
+                    <li>
+                        <a href="/tools" class="hover:text-white transition-colors">ابزارها</a>
+                    </li>
+                    <li>
+                        <svg class="w-4 h-4 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </li>
+                    <li>
+                        <span class="text-white">@ViewData["ToolName"]</span>
+                    </li>
+                }
+                else
+                {
+                    <li>
+                        <span class="text-white">ابزارها</span>
+                    </li>
+                }
+            </ol>
+        </nav>
+
+        <!-- Tool Header -->
+        <div class="pb-16 pt-8">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-3xl font-bold text-white mb-2">@ViewData["ToolName"]</h1>
+                    <p class="text-blue-100">@ViewData["ToolDescription"]</p>
+                </div>
+                @if (!string.IsNullOrEmpty(ViewData["ToolIcon"]?.ToString()))
+                {
+                    <div class="bg-white/10 p-4 rounded-2xl">
+                        <i class="@ViewData["ToolIcon"] text-4xl text-white"></i>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Tools Navigation -->
+<!-- @if (ViewData["ShowToolNav"]?.ToString()?.ToLower() == "true")
+{
+    <div class="bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 sticky top-16 z-40">
+        <div class="container mx-auto px-4">
+            <nav class="flex items-center space-x-6 space-x-reverse overflow-x-auto">
+                <a href="/tools/grade-calculator" 
+                   class="py-4 px-2 border-b-2 @(ViewData["ToolName"]?.ToString() == "محاسبه نمره" ? "border-blue-500 text-blue-600 dark:text-blue-400" : "border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white") transition-colors">
+                    محاسبه نمره
+                </a>
+            </nav>
+        </div>
+    </div>
+} -->
+
+<!-- Main Content -->
+<div class="container mx-auto px-4 py-8">
+    @RenderBody()
+</div>
+
+@section Scripts {
+    @await RenderSectionAsync("Scripts", required: false)
+} 
