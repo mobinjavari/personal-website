@@ -1,213 +1,185 @@
-﻿<!DOCTYPE html>
+﻿@using MyWebApp.Models;
+<!DOCTYPE html>
 <html lang="fa" dir="rtl" class="light">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] | Mobin Javari</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        // Tailwind Theme Configuration
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        primary: {
-                            light: '#3b82f6',
-                            dark: '#60a5fa'
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <meta name="description" content="@(ViewData["Description"] ?? SiteConfig.Meta.DefaultDescription)" />
+    <meta name="keywords" content="@(ViewData["Keywords"] ?? SiteConfig.Meta.DefaultKeywords)" />
+    <meta name="author" content="@(ViewData["Author"] ?? SiteConfig.Meta.DefaultAuthor)" />
+    <meta name="robots" content="@(ViewData["Robots"] ?? SiteConfig.Meta.DefaultRobots)" />
+    <meta name="theme-color" content="@SiteConfig.Site.ThemeColor" />
+
+    <meta property="og:title" content="@ViewData["Title"] | @SiteConfig.Site.Name" />
+    <meta property="og:description" content="@(ViewData["Description"] ?? SiteConfig.Meta.DefaultDescription)" />
+    <meta property="og:type" content="@(ViewData["OgType"] ?? SiteConfig.Meta.DefaultOgType)" />
+    <meta property="og:url" content="@(ViewData["OgUrl"] ?? $"{Context.Request.Scheme}://{Context.Request.Host}{Context.Request.Path}")" />
+    <meta property="og:image" content="@(ViewData["OgImage"] ?? "")" />
+
+    <meta name="twitter:card" content="@SiteConfig.Meta.TwitterCardType" />
+    <meta name="twitter:title" content="@ViewData["Title"] | @SiteConfig.Site.Name" />
+    <meta name="twitter:description" content="@(ViewData["Description"] ?? SiteConfig.Meta.DefaultDescription)" />
+    <meta name="twitter:image" content="@(ViewData["TwitterImage"] ?? ViewData["OgImage"] ?? "")" />
+    
+    <title>@ViewData["Title"] | @SiteConfig.Site.Name</title>
+    
+    <script src="https://cdn.tailwindcss.com?v=3.4.1"></script>
+    <script src="~/js/tailwind.config.js"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
-<body class="min-h-screen theme-transition bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
-    <!-- Navbar -->
-    <header class="fixed w-full z-50 top-0">
-        <nav class="theme-transition bg-white/80 dark:bg-slate-900/80 backdrop-blur-lg border-b border-slate-200 dark:border-slate-800">
+<body class="min-h-screen theme-transition bg-white dark:bg-slate-900 text-slate-900 dark:text-white overflow-y-scroll">
+    <header class="fixed w-full z-[110] top-0">
+        <nav class="theme-transition bg-white/80 dark:bg-slate-900/80 backdrop-blur-lg border-b border-slate-200/50 dark:border-slate-800/50">
             <div class="container mx-auto px-4">
                 <div class="flex items-center justify-between h-16">
-                    <a href="/" class="text-2xl font-bold bg-gradient-to-r from-[#238636] to-[#2ea043] dark:from-[#3fb950] dark:to-[#7ee787] text-transparent bg-clip-text">
-                        مبین جواری
+                    <a href="/" class="text-2xl font-bold">
+                        <span class="bg-gradient-to-r from-[#238636] to-[#2ea043] dark:from-[#3fb950] dark:to-[#7ee787] text-transparent bg-clip-text">
+                            مبین جواری
+                        </span>
                     </a>
                     
-                    <div class="hidden md:flex items-center space-x-8 space-x-reverse">
-                        <!-- Navigation Links -->
-                        <a href="/#home" class="text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors">خانه</a>
-                        <a href="/#projects" class="text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors">پروژه‌ها</a>
-                        <a href="/#skills" class="text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors">مهارت‌ها</a>
-                        <!-- <a href="/#contact" class="px-4 py-2 bg-primary-light dark:bg-primary-dark text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-500 transition-colors">تماس</a> -->
-
-                        <!-- Theme Toggle Button -->
-                        <button id="theme-toggle" class="p-2 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
-                            <!-- Sun Icon -->
+                    <div class="flex items-center gap-4">
+                        <button id="theme-toggle" 
+                                class="p-2 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all duration-300 hover:scale-110">
                             <svg class="w-5 h-5 hidden dark:block text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"/>
                             </svg>
-                            <!-- Moon Icon -->
                             <svg class="w-5 h-5 block dark:hidden text-slate-900" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/>
                             </svg>
                         </button>
-                    </div>
-
-                    <!-- Mobile Menu Button -->
-                    <div class="flex items-center gap-4 md:hidden">
-                        <button id="theme-toggle-mobile" class="p-2 rounded-lg bg-slate-100 dark:bg-slate-800">
-                            <!-- Sun Icon -->
-                            <svg class="w-5 h-5 hidden dark:block text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"/>
-                            </svg>
-                            <!-- Moon Icon -->
-                            <svg class="w-5 h-5 block dark:hidden text-slate-900" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/>
-                            </svg>
-                        </button>
-                        <button id="mobile-menu-button" class="text-slate-600 dark:text-slate-300">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <button id="mobile-menu-button" 
+                                class="relative w-8 h-8 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all duration-300">
+                            <svg class="menu-icon w-6 h-6 block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                             </svg>
+                            <svg class="close-icon w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
                         </button>
-                    </div>
-                </div>
-
-                <!-- Mobile Menu -->
-                <div id="mobile-menu" class="hidden md:hidden pb-4">
-                    <div class="flex flex-col space-y-4">
-                        <a href="#home" class="text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors">خانه</a>
-                        <a href="#projects" class="text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors">پروژه‌ها</a>
-                        <a href="#skills" class="text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors">مهارت‌ها</a>
-                        <a href="#contact" class="px-4 py-2 bg-primary-light dark:bg-primary-dark text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-500 transition-colors text-center">تماس</a>
                     </div>
                 </div>
             </div>
         </nav>
     </header>
 
-    <!-- Main Content Wrapper -->
     <div class="pt-16">
         <main class="theme-transition">
             @RenderBody()
         </main>
     </div>
 
-    <!-- Footer با طراحی مدرن -->
-    <footer class="theme-transition bg-slate-100 dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700">
+    <footer class="theme-transition bg-gradient-to-b from-slate-50 to-slate-100 dark:from-slate-800 dark:to-slate-900 border-t border-slate-200 dark:border-slate-700">
         <div class="container mx-auto px-4">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 py-12">
-                <div>
-                    <h3 class="text-xl font-bold mb-4 text-slate-900 dark:text-white">درباره من</h3>
-                    <p class="text-slate-600 dark:text-slate-300">توسعه‌دهنده خلاق با تجربه در ساخت راه‌حل‌های دیجیتال</p>
+                <div data-aos="fade-up" data-aos-delay="100">
+                    <h3 class="text-xl font-bold mb-4 text-slate-900 dark:text-white relative inline-block">
+                        <span class="relative">
+                            درباره من
+                            <span class="absolute bottom-0 left-0 w-full h-[50%] bg-gradient-to-t from-[#238636]/20 to-transparent dark:from-[#3fb950]/20 rounded-b-lg"></span>
+                        </span>
+                    </h3>
+                    <p class="text-slate-600 dark:text-slate-300 leading-relaxed">
+                        @SiteConfig.Content.Footer.AboutMe
+                    </p>
                 </div>
-                <div>
-                    <h3 class="text-xl font-bold mb-4 text-slate-900 dark:text-white">لینک‌های مفید</h3>
-                    <ul class="space-y-2">
-                        <li><a href="#projects" class="text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors">نمونه کارها</a></li>
-                        <li><a href="#skills" class="text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors">مهارت‌ها</a></li>
-                        <!-- <li><a href="#contact" class="text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors">تماس با من</a></li> -->
+
+                <div data-aos="fade-up" data-aos-delay="200">
+                    <h3 class="text-xl font-bold mb-4 text-slate-900 dark:text-white relative inline-block">
+                        <span class="relative">
+                            لینک‌های مفید
+                            <span class="absolute bottom-0 left-0 w-full h-[50%] bg-gradient-to-t from-[#238636]/20 to-transparent dark:from-[#3fb950]/20 rounded-b-lg"></span>
+                        </span>
+                    </h3>
+                    @{
+                        var usefulLinks = SiteConfig.Content.Footer.UsefulLinks;
+                    }
+
+                    <ul class="space-y-3">
+                        @foreach (var link in usefulLinks)
+                        {
+                            <li>
+                                <a href="@link.Url" 
+                                   class="group flex items-center text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors">
+                                    <span class="m-2 w-2 h-2 rounded-full bg-[#238636] dark:bg-[#3fb950] mr-2 transform scale-0 group-hover:scale-100 transition-transform"></span>
+                                    @link.Title
+                                </a>
+                            </li>
+                        }
                     </ul>
                 </div>
-                <div>
-                    <h3 class="text-xl font-bold mb-4 text-slate-900 dark:text-white">شبکه‌های اجتماعی</h3>
+
+                <div data-aos="fade-up" data-aos-delay="300">
+                    <h3 class="text-xl font-bold mb-4 text-slate-900 dark:text-white relative inline-block">
+                        <span class="relative">
+                            شبکه‌های اجتماعی
+                            <span class="absolute bottom-0 left-0 w-full h-[50%] bg-gradient-to-t from-[#238636]/20 to-transparent dark:from-[#3fb950]/20 rounded-b-lg"></span>
+                        </span>
+                    </h3>
+                    @{
+                        var socialLinks = SiteConfig.Content.Footer.SocialLinks;
+                    }
+
                     <div class="flex space-x-4 space-x-reverse">
-                        <a href="https://x.com/mobinjavari" class="w-10 h-10 bg-slate-200 dark:bg-slate-700 rounded-full flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-blue-500 dark:hover:bg-blue-500 hover:text-white transition-all">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a href="https://github.com/mobinjavari" class="w-10 h-10 bg-slate-200 dark:bg-slate-700 rounded-full flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-800 dark:hover:bg-slate-600 hover:text-white transition-all">
-                            <i class="fab fa-github"></i>
-                        </a>
+                        @foreach (var social in socialLinks)
+                        {
+                            <a href="@social.Url" 
+                               class="group w-10 h-10 bg-slate-200 dark:bg-slate-700 rounded-full flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-@(social.Color)-500 dark:hover:bg-@(social.Color)-500 hover:text-white transition-all duration-300 hover:scale-110 relative overflow-hidden">
+                                <span class="absolute inset-0 bg-gradient-to-r from-@(social.Color)-600 to-@(social.Color)-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                                <i class="fab fa-@social.Icon relative z-10"></i>
+                            </a>
+                        }
                     </div>
                 </div>
             </div>
-            <div class="py-6 border-t border-slate-200 dark:border-slate-700 text-center">
-                <p class="text-slate-600 dark:text-slate-300">&copy; @DateTime.Now.Year - تمامی حقوق محفوظ است</p>
+
+            <div class="py-6 border-t border-slate-200 dark:border-slate-700">
+                <p class="text-center text-slate-600 dark:text-slate-300">
+                    <span class="bg-gradient-to-r from-[#238636] to-[#2ea043] dark:from-[#3fb950] dark:to-[#7ee787] text-transparent bg-clip-text">
+                        &copy; @DateTime.Now.Year
+                    </span> 
+                    - تمامی حقوق محفوظ است
+                </p>
             </div>
         </div>
     </footer>
 
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>
-        // Initialize AOS
-        AOS.init({
-            duration: 800,
-            once: true
-        });
+    <div id="mobile-menu" 
+         class="hidden fixed inset-0 bg-white/95 dark:bg-slate-900/95 backdrop-blur-lg z-[100] transform transition-all duration-300">
+        <div class="h-full flex flex-col justify-center">
+            <div class="container mx-auto px-4 py-8">
+                @{
+                    var menuItems = SiteConfig.Content.Header.MenuItems;
+                }
 
-        // Mobile Menu Toggle
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    @foreach (var item in menuItems)
+                    {
+                        <a href="@item.Url" class="group p-6 bg-slate-50 dark:bg-slate-800/50 rounded-2xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-all duration-300">
+                            <div class="flex items-center gap-4">
+                                <span class="w-12 h-12 rounded-xl bg-[#238636]/10 dark:bg-[#3fb950]/10 flex items-center justify-center text-[#238636] dark:text-[#3fb950] group-hover:scale-110 transition-transform duration-300">
+                                    <i class="@item.Brand fa-@item.Icon text-xl"></i>
+                                </span>
+                                <div class="flex-1">
+                                    <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-1">@item.Title</h3>
+                                    <p class="text-sm text-slate-600 dark:text-slate-400">@item.Desc</p>
+                                </div>
+                                <span class="text-[#238636] dark:text-[#3fb950] opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <i class="fas fa-arrow-left"></i>
+                                </span>
+                            </div>
+                        </a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
 
-        mobileMenuButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-
-        // Smooth Scroll
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
-
-        // Navbar Scroll Effect
-        window.addEventListener('scroll', () => {
-            const nav = document.querySelector('nav');
-            if (window.scrollY > 0) {
-                nav.classList.add('shadow-lg');
-            } else {
-                nav.classList.remove('shadow-lg');
-            }
-        });
-
-        // Theme Toggle Logic with Smooth Transition
-        function initTheme() {
-            // Add transition class to body
-            document.body.classList.add('theme-transition');
-            
-            if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                document.documentElement.classList.add('dark');
-            } else {
-                document.documentElement.classList.remove('dark');
-            }
-
-            // Remove transition class after initial load
-            setTimeout(() => {
-                document.body.classList.remove('theme-transition');
-            }, 300);
-        }
-
-        function toggleTheme() {
-            // Add transition class
-            document.body.classList.add('theme-transition');
-
-            if (document.documentElement.classList.contains('dark')) {
-                document.documentElement.classList.remove('dark');
-                localStorage.theme = 'light';
-            } else {
-                document.documentElement.classList.add('dark');
-                localStorage.theme = 'dark';
-            }
-
-            // Remove transition class after animation
-            setTimeout(() => {
-                document.body.classList.remove('theme-transition');
-            }, 300);
-        }
-
-        // Initialize theme
-        initTheme();
-
-        // Add event listeners
-        document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
-        document.getElementById('theme-toggle-mobile').addEventListener('click', toggleTheme);
-    </script>
-
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

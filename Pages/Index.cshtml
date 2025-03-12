@@ -1,13 +1,13 @@
 ﻿@page
 @model IndexModel
+@using MyWebApp.Models;
 @{
     ViewData["Title"] = "Portfolio";
 }
 
 <div class="relative min-h-screen bg-[#ffffff] dark:bg-[#0d1117]">
     <!-- Hero Section -->
-    <div id="home" class="relative overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50 to-green-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
-        <!-- Background Pattern با تغییر opacity -->
+    <section data-section="home" class="relative overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50 to-green-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
         <div class="absolute inset-0 dark:opacity-10 opacity-20">
             <svg class="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
                 <defs>
@@ -19,186 +19,274 @@
             </svg>
         </div>
 
-        <!-- Animated Background Shapes -->
         <div class="absolute inset-0 overflow-hidden">
             <div class="absolute -top-1/2 -right-1/2 w-full h-full rounded-full bg-gradient-to-b from-[#238636]/10 to-transparent dark:from-[#238636]/20 animate-pulse"></div>
             <div class="absolute -bottom-1/2 -left-1/2 w-full h-full rounded-full bg-gradient-to-t from-blue-500/10 to-transparent dark:from-blue-500/20 animate-pulse delay-1000"></div>
         </div>
 
-        <!-- Glass Effect Overlay -->
         <div class="absolute inset-0 backdrop-blur-[100px]"></div>
 
-        <!-- Content -->
-        <div class="relative container mx-auto px-4 pt-32 pb-20">
+        <div class="relative container mx-auto px-4 pt-28 pb-20">
             <div class="flex flex-col lg:flex-row items-center justify-between gap-12">
                 <div class="lg:w-1/2 text-center lg:text-right" data-aos="fade-up">
                     <span class="inline-block px-4 py-2 rounded-2xl bg-[#238636] bg-opacity-10 dark:bg-opacity-20 text-[#238636] dark:text-[#7ee787] text-sm font-medium mb-4">
-                        توسعه‌دهنده Full-Stack
+                        @SiteConfig.Content.Hero.JobTitle
                     </span>
                     <h1 class="text-5xl lg:text-6xl font-bold mb-6 text-[#24292f] dark:text-[#c9d1d9]">
-                        توسعه‌دهنده خلاق و
-                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#238636] to-[#2ea043] dark:from-[#3fb950] dark:to-[#7ee787]">
-                            حرفه‌ای
-                        </span>
+                        @SiteConfig.Content.Hero.Title
                     </h1>
                     <p class="text-[#57606a] dark:text-[#8b949e] text-lg mb-12">
-                        متخصص در طراحی و توسعه وب‌سایت‌های مدرن و اپلیکیشن‌های موبایل
+                        @SiteConfig.Content.Hero.Description
                     </p>
                     <div class="flex flex-col sm:flex-row gap-6 justify-center lg:justify-start">
-                        <a href="#contact" 
-                           class="group relative px-8 py-4 bg-[#238636] hover:bg-[#2ea043] dark:bg-[#238636] dark:hover:bg-[#2ea043] text-white rounded-2xl transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl hover:shadow-[#238636]/20 dark:hover:shadow-[#238636]/30 overflow-hidden">
-                            <span class="relative z-10 text-lg font-medium">تماس با من</span>
-                            <div class="absolute inset-0 -translate-y-full group-hover:translate-y-0 bg-gradient-to-b from-white/10 to-transparent transition-transform duration-300"></div>
-                        </a>
-                        <a href="#projects" 
-                           class="group relative px-8 py-4 border-2 border-[#238636] dark:border-[#238636] text-[#238636] dark:text-[#7ee787] rounded-2xl transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl hover:shadow-[#238636]/10 dark:hover:shadow-[#238636]/20 overflow-hidden">
-                            <span class="relative z-10 text-lg font-medium">نمونه کارها</span>
-                            <div class="absolute inset-0 translate-y-full group-hover:translate-y-0 bg-[#238636]/10 dark:bg-[#238636]/20 transition-transform duration-300"></div>
-                        </a>
+                        @foreach (var action in SiteConfig.Content.Hero.Actions)
+                        {
+                            @if (action.IsPrimary)
+                            {
+                                <button onclick="scrollToSection('@action.Target')" 
+                                        data-section="@action.Target" class="group relative px-8 py-4 bg-[#238636] hover:bg-[#2ea043] dark:bg-[#238636] dark:hover:bg-[#2ea043] text-white rounded-2xl transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl hover:shadow-[#238636]/20 dark:hover:shadow-[#238636]/30 overflow-hidden">
+                                    <span class="relative z-10 text-lg font-medium">@action.Title</span>
+                                    <div class="absolute inset-0 -translate-y-full group-hover:translate-y-0 bg-gradient-to-b from-white/10 to-transparent transition-transform duration-300"></div>
+                                </button>
+                            }
+                            else
+                            {
+                                <button onclick="scrollToSection('@action.Target')" 
+                                        data-section="@action.Target" class="group relative px-8 py-4 border-2 border-[#238636] dark:border-[#238636] text-[#238636] dark:text-[#7ee787] rounded-2xl transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl hover:shadow-[#238636]/10 dark:hover:shadow-[#238636]/20 overflow-hidden">
+                                    <span class="relative z-10 text-lg font-medium">@action.Title</span>
+                                    <div class="absolute inset-0 translate-y-full group-hover:translate-y-0 bg-[#238636]/10 dark:bg-[#238636]/20 transition-transform duration-300"></div>
+                                </button>
+                            }
+                        }
                     </div>
                 </div>
                 <div class="lg:w-1/2 relative" data-aos="fade-left">
                     <div class="relative z-10">
-                        <img src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?q=80&w=800&auto=format&fit=crop"
+                        <img src="@SiteConfig.Content.Hero.ProfileImage"
                              alt="Profile" 
                              class="rounded-3xl shadow-2xl w-full max-w-md mx-auto ring-1 ring-[#d0d7de] dark:ring-[#30363d]">
-                        <!-- Decorative Elements -->
-                        <div class="absolute -top-4 -right-4 w-full h-full rounded-3xl -z-10 
-                                  bg-gradient-to-r from-[#238636] to-[#2ea043] dark:from-[#3fb950] dark:to-[#7ee787] 
-                                  opacity-20 dark:opacity-30">
-                        </div>
-                        <div class="absolute -bottom-4 -left-4 w-full h-full rounded-3xl -z-10 
-                                  bg-gradient-to-l from-[#238636] to-[#2ea043] dark:from-[#3fb950] dark:to-[#7ee787] 
-                                  opacity-20 dark:opacity-30">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Projects Section -->
-    <section id="projects" class="py-20 bg-white dark:bg-slate-900">
-        <div class="container mx-auto px-4">
-            <h2 class="text-4xl font-bold text-center mb-12" data-aos="fade-up">پروژه‌های من</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Project Card 1 -->
-                <div class="group relative overflow-hidden rounded-3xl shadow-lg" data-aos="fade-up" data-aos-delay="100">
-                    <div class="relative overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1555949963-aa79dcee981c?q=80&w=800&auto=format&fit=crop" 
-                             alt="AI Project" 
-                             class="w-full h-64 object-cover transform group-hover:scale-110 transition duration-500">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <div class="absolute bottom-0 p-6">
-                                <h3 class="text-xl font-bold text-white mb-2">پروژه هوش مصنوعی</h3>
-                                <p class="text-gray-200 mb-4">سیستم پردازش تصویر با یادگیری عمیق</p>
-                                <div class="flex gap-4 flex-wrap">
-                                    <span class="px-4 py-2 bg-blue-500/20 text-blue-100 rounded-xl text-sm">Python</span>
-                                    <span class="px-4 py-2 bg-green-500/20 text-green-100 rounded-xl text-sm">TensorFlow</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Project Card 2 -->
-                <div class="group relative overflow-hidden rounded-3xl shadow-lg" data-aos="fade-up" data-aos-delay="200">
-                    <div class="relative overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=800&auto=format&fit=crop" 
-                             alt="Financial App" 
-                             class="w-full h-64 object-cover transform group-hover:scale-110 transition duration-500">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <div class="absolute bottom-0 p-6">
-                                <h3 class="text-xl font-bold text-white mb-2">اپلیکیشن مدیریت مالی</h3>
-                                <p class="text-gray-200 mb-4">پلتفرم مدیریت امور مالی شخصی</p>
-                                <div class="flex gap-4 flex-wrap">
-                                    <span class="px-4 py-2 bg-purple-500/20 text-purple-100 rounded-xl text-sm">React</span>
-                                    <span class="px-4 py-2 bg-orange-500/20 text-orange-100 rounded-xl text-sm">Firebase</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Project Card 3 -->
-                <div class="group relative overflow-hidden rounded-3xl shadow-lg" data-aos="fade-up" data-aos-delay="300">
-                    <div class="relative overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=800&auto=format&fit=crop" 
-                             alt="Learning Platform" 
-                             class="w-full h-64 object-cover transform group-hover:scale-110 transition duration-500">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <div class="absolute bottom-0 p-6">
-                                <h3 class="text-xl font-bold text-white mb-2">پلتفرم آموزشی</h3>
-                                <p class="text-gray-200 mb-4">سیستم مدیریت یادگیری آنلاین</p>
-                                <div class="flex gap-4 flex-wrap">
-                                    <span class="px-4 py-2 bg-blue-500/20 text-blue-100 rounded-xl text-sm">.NET</span>
-                                    <span class="px-4 py-2 bg-yellow-500/20 text-yellow-100 rounded-xl text-sm">Vue.js</span>
-                                </div>
-                            </div>
-                        </div>
+                        <div class="absolute -top-4 -right-4 w-full h-full rounded-3xl -z-10 bg-gradient-to-r from-[#238636] to-[#2ea043] dark:from-[#3fb950] dark:to-[#7ee787] opacity-20 dark:opacity-30 animate-float-delay-1"></div>
+                        <div class="absolute -bottom-4 -left-4 w-full h-full rounded-3xl -z-10 bg-gradient-to-l from-[#238636] to-[#2ea043] dark:from-[#3fb950] dark:to-[#7ee787] opacity-20 dark:opacity-30 animate-float-delay-2"></div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Skills Section -->
-    <section id="skills" class="py-20 bg-gray-50 dark:bg-slate-800">
+    <!-- Add after hero section -->
+    <div class="sticky top-16 z-40 theme-transition bg-white/80 dark:bg-slate-900/80 backdrop-blur-lg border-y border-slate-200 dark:border-slate-800">
         <div class="container mx-auto px-4">
-            <h2 class="text-4xl font-bold text-center mb-12" data-aos="fade-up">مهارت‌های من</h2>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
-                <!-- Frontend -->
-                <div class="p-6 bg-white dark:bg-slate-700 rounded-3xl shadow-lg hover:shadow-xl transition-shadow duration-300" data-aos="zoom-in" data-aos-delay="100">
-                    <div class="text-center">
-                        <div class="w-16 h-16 mx-auto mb-4 bg-blue-100 dark:bg-blue-900/20 rounded-2xl flex items-center justify-center">
-                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" 
-                                 class="w-8 h-8" alt="React Icon">
+            <nav class="flex items-center justify-center">
+                <div class="flex items-center overflow-x-auto scrollbar-none">
+                    @foreach (var item in SiteConfig.Content.Hero.Navigation)
+                    {
+                        <button onclick="scrollToSection('@item.Target')" 
+                                data-section="@item.Target"
+                                class="relative group whitespace-nowrap py-3 sm:py-4 px-4 sm:px-6 text-sm sm:text-base text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors nav-section">
+                            <span>@item.Title</span>
+                            <span class="absolute bottom-0 left-0 w-full h-0.5 bg-[#238636] dark:bg-[#3fb950] scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300"></span>
+                            <span class="active-indicator absolute bottom-0 left-0 w-full h-0.5 bg-[#238636] dark:bg-[#3fb950] scale-x-0 transition-transform origin-left duration-300"></span>
+                        </button>
+                    }
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Projects Section -->
+    <section data-section="@SiteConfig.Content.Projects.Id" class="py-20 bg-white dark:bg-slate-900">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12" data-aos="fade-up">
+                <span class="inline-block px-4 py-2 rounded-full bg-[#238636]/10 dark:bg-[#238636]/20 text-[#238636] dark:text-[#7ee787] text-sm font-medium mb-4">
+                    @SiteConfig.Content.Projects.Subtitle
+                </span>
+                <h2 class="text-4xl font-bold mb-4">@SiteConfig.Content.Projects.Title</h2>
+                <p class="text-slate-600 dark:text-slate-400">@SiteConfig.Content.Projects.Description</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                @foreach (var project in SiteConfig.Content.Projects.Items)
+                {
+                    <div class="group bg-white dark:bg-slate-800 rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 relative overflow-hidden" 
+                         data-aos="fade-up" data-aos-delay="100">
+                        <div class="relative h-48 rounded-t-3xl overflow-hidden">
+                            <div class="absolute inset-0 bg-gradient-to-br from-[#238636]/20 to-transparent dark:from-[#238636]/30 group-hover:scale-150 transition-transform duration-500"></div>
+                            <img src="@project.Image" 
+                                 alt="@project.Title" 
+                                 class="w-full h-full object-cover transform group-hover:scale-110 transition duration-500">
+                            <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black/50"></div>
                         </div>
-                        <h3 class="text-lg font-semibold mb-2">Frontend</h3>
-                        <div class="w-full bg-gray-200 dark:bg-slate-600/30 rounded-xl h-2">
-                            <div class="bg-[#58a6ff] dark:bg-[#1f6feb] h-2 rounded-xl" style="width: 90%"></div>
+
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3 group-hover:text-[#238636] dark:group-hover:text-[#3fb950] transition-colors">
+                                @project.Title
+                            </h3>
+                            <p class="text-slate-600 dark:text-slate-400 text-sm mb-4 line-clamp-2">
+                                @project.Description
+                            </p>
+
+                            <div class="flex flex-wrap gap-2 mb-6">
+                                @foreach (var tech in project.Technologies)
+                                {
+                                    <span class="px-3 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-400 rounded-lg text-xs font-medium hover:scale-105 hover:shadow-md transition-all duration-300">
+                                        @tech
+                                    </span>
+                                }
+                            </div>
+
+                            <div class="h-px w-full bg-gradient-to-r from-transparent via-slate-200 dark:via-slate-700 to-transparent"></div>
+
+                            <div class="mt-4">
+                                <a href="#" class="group/btn flex items-center justify-between text-[#238636] dark:text-[#3fb950] hover:opacity-75 transition-opacity">
+                                    <span class="text-sm font-medium">مشاهده پروژه</span>
+                                    <span class="transform group-hover/btn:translate-x-1 transition-transform">
+                                        <i class="fas fa-arrow-left"></i>
+                                    </span>
+                                </a>
+                            </div>
                         </div>
                     </div>
-                </div>
+                }
+            </div>
+        </div>
+    </section>
 
-                <!-- Backend -->
-                <div class="p-6 bg-white dark:bg-slate-700 rounded-3xl shadow-lg hover:shadow-xl transition-shadow duration-300" data-aos="zoom-in" data-aos-delay="200">
-                    <div class="text-center">
-                        <div class="w-16 h-16 mx-auto mb-4 bg-green-100 dark:bg-green-900/20 rounded-2xl flex items-center justify-center">
-                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" 
-                                 class="w-8 h-8" alt="Node.js Icon">
+    <!-- Skills Section -->
+    <section data-section="@SiteConfig.Content.Skills.Id" class="py-20 bg-gray-50 dark:bg-slate-800">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12" data-aos="fade-up">
+                <span class="inline-block px-4 py-2 rounded-full bg-[#238636]/10 dark:bg-[#238636]/20 text-[#238636] dark:text-[#7ee787] text-sm font-medium mb-4">
+                    @SiteConfig.Content.Skills.Subtitle
+                </span>
+                <h2 class="text-4xl font-bold mb-4">@SiteConfig.Content.Skills.Title</h2>
+                <p class="text-slate-600 dark:text-slate-400">@SiteConfig.Content.Skills.Description</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                @foreach (var skill in SiteConfig.Content.Skills.Items)
+                {
+                    <div class="group bg-white dark:bg-slate-700 rounded-3xl p-6 hover:translate-y-[-0.5rem] hover:shadow-xl transition-all duration-500 relative overflow-hidden hover:bg-gradient-to-br hover:from-[#238636]/5 hover:to-transparent dark:hover:from-[#238636]/10 dark:hover:to-transparent" 
+                         data-aos="zoom-in" data-aos-delay="100">
+                        <div class="absolute inset-0 opacity-5 dark:opacity-10">
+                            <svg class="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+                                <pattern id="skill-grid-@skill.Title.ToLower()" width="4" height="4" patternUnits="userSpaceOnUse">
+                                    <path d="M0 4L4 0M-1 1L1 -1M3 5L5 3" stroke="currentColor" stroke-width="0.5"/>
+                                </pattern>
+                                <rect width="100%" height="100%" fill="url(#skill-grid-@skill.Title.ToLower())"/>
+                            </svg>
                         </div>
-                        <h3 class="text-lg font-semibold mb-2">Backend</h3>
-                        <div class="w-full bg-gray-200 dark:bg-slate-600/30 rounded-xl h-2">
-                            <div class="bg-[#3fb950] dark:bg-[#238636] h-2 rounded-xl" style="width: 85%"></div>
+
+                        <div class="relative">
+                            <div class="w-14 h-14 mb-4 bg-[#238636]/10 dark:bg-[#238636]/20 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-all duration-500">
+                                <i class="fas fa-@skill.Icon text-xl text-[#238636] dark:text-[#3fb950]"></i>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="text-base font-semibold text-slate-900 dark:text-white">
+                                @skill.Title
+                            </h3>
+                            <span class="text-sm font-medium bg-[#238636]/10 dark:bg-[#238636]/20 text-[#238636] dark:text-[#3fb950] px-2 py-1 rounded-lg">
+                                @skill.Progress%
+                            </span>
+                        </div>
+
+                        <div class="h-1.5 w-full bg-slate-100 dark:bg-slate-600/30 rounded-full overflow-hidden">
+                            <div class="relative h-full bg-gradient-to-r from-[#238636] to-[#2ea043] dark:from-[#238636] dark:to-[#3fb950] rounded-full transition-all duration-700 ease-out"
+                                 style="width: 0%"
+                                 data-progress="@skill.Progress">
+                                <div class="absolute inset-0 w-full h-full bg-white/20 group-hover:animate-shimmer"></div>
+                            </div>
                         </div>
                     </div>
+                }
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section data-section="@SiteConfig.Content.Contact.Id" class="py-20 bg-gradient-to-b from-white to-slate-50 dark:from-slate-900 dark:to-slate-800">
+        <div class="container mx-auto px-4">
+            <div class="max-w-3xl mx-auto">
+                <div class="text-center mb-12" data-aos="fade-up">
+                    <span class="inline-block px-4 py-2 rounded-full bg-[#238636]/10 dark:bg-[#238636]/20 text-[#238636] dark:text-[#7ee787] text-sm font-medium mb-4">
+                        @SiteConfig.Content.Contact.Subtitle
+                    </span>
+                    <h2 class="text-4xl font-bold mb-4">@SiteConfig.Content.Contact.Title</h2>
+                    <p class="text-slate-600 dark:text-slate-400">@SiteConfig.Content.Contact.Description</p>
                 </div>
 
-                <!-- Mobile -->
-                <div class="p-6 bg-white dark:bg-slate-700 rounded-3xl shadow-lg hover:shadow-xl transition-shadow duration-300" data-aos="zoom-in" data-aos-delay="300">
-                    <div class="text-center">
-                        <div class="w-16 h-16 mx-auto mb-4 bg-purple-100 dark:bg-purple-900/20 rounded-2xl flex items-center justify-center">
-                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flutter/flutter-original.svg" 
-                                 class="w-8 h-8" alt="Flutter Icon">
-                        </div>
-                        <h3 class="text-lg font-semibold mb-2">Mobile</h3>
-                        <div class="w-full bg-gray-200 dark:bg-slate-600/30 rounded-xl h-2">
-                            <div class="bg-[#8957e5] dark:bg-[#6b4bb5] h-2 rounded-xl" style="width: 80%"></div>
-                        </div>
-                    </div>
-                </div>
+                <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-8 md:p-10" data-aos="fade-up" data-aos-delay="100">
+                    <form class="space-y-6 text-right">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-2">
+                                <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">نام</label>
+                                <div class="relative">
+                                    <input type="text" 
+                                           class="w-full px-12 py-3 text-right bg-slate-50 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-[#238636]/20 dark:focus:ring-[#238636]/30 focus:border-[#238636] dark:focus:border-[#238636] outline-none transition-all duration-200"
+                                           placeholder="نام خود را وارد کنید">
+                                    <div class="absolute inset-y-0 right-4 flex items-center pointer-events-none text-slate-400">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                </div>
+                            </div>
 
-                <!-- UI/UX -->
-                <div class="p-6 bg-white dark:bg-slate-700 rounded-3xl shadow-lg hover:shadow-xl transition-shadow duration-300" data-aos="zoom-in" data-aos-delay="400">
-                    <div class="text-center">
-                        <div class="w-16 h-16 mx-auto mb-4 bg-orange-100 dark:bg-orange-900/20 rounded-2xl flex items-center justify-center">
-                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg" 
-                                 class="w-8 h-8" alt="Figma Icon">
+                            <div class="space-y-2">
+                                <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">ایمیل</label>
+                                <div class="relative">
+                                    <input type="email" 
+                                           class="w-full px-12 py-3 text-right bg-slate-50 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-[#238636]/20 dark:focus:ring-[#238636]/30 focus:border-[#238636] dark:focus:border-[#238636] outline-none transition-all duration-200"
+                                           placeholder="ایمیل خود را وارد کنید">
+                                    <div class="absolute inset-y-0 right-4 flex items-center pointer-events-none text-slate-400">
+                                        <i class="fas fa-envelope"></i>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <h3 class="text-lg font-semibold mb-2">UI/UX</h3>
-                        <div class="w-full bg-gray-200 dark:bg-slate-600/30 rounded-xl h-2">
-                            <div class="bg-[#f85149] dark:bg-[#da3633] h-2 rounded-xl" style="width: 75%"></div>
+
+                        <div class="space-y-2">
+                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">پیام</label>
+                            <div class="relative">
+                                <textarea rows="4" 
+                                        class="w-full px-12 py-3 text-right bg-slate-50 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-[#238636]/20 dark:focus:ring-[#238636]/30 focus:border-[#238636] dark:focus:border-[#238636] outline-none transition-all duration-200"
+                                        placeholder="پیام خود را بنویسید"></textarea>
+                                <div class="absolute top-3 right-4 text-slate-400">
+                                    <i class="fas fa-message"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-start">
+                            <button type="submit" 
+                                    class="group relative inline-flex items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-[#238636] to-[#2ea043] p-0.5 font-bold text-white hover:text-white focus:outline-none focus:ring-4 focus:ring-[#238636]/50 group-hover:from-[#238636] group-hover:to-[#2ea043] dark:focus:ring-[#238636]/50">
+                                <span class="relative rounded-lg bg-[#238636] px-8 py-3 transition-all duration-75 ease-in group-hover:bg-opacity-0 flex items-center gap-2">
+                                    <i class="fas fa-paper-plane group-hover:-translate-x-1 transition-transform duration-200"></i>
+                                    <span>ارسال پیام</span>
+                                </span>
+                            </button>
+                        </div>
+                    </form>
+
+                    <div class="mt-10 pt-8 border-t border-slate-200 dark:border-slate-700">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="flex items-center gap-6 p-4 rounded-xl bg-slate-50 dark:bg-slate-700/50">
+                                <div class="w-12 h-12 rounded-full bg-[#238636]/10 dark:bg-[#238636]/20 flex items-center justify-center text-[#238636] dark:text-[#7ee787]">
+                                    <i class="fas fa-envelope text-lg"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-sm font-medium text-slate-600 dark:text-slate-400">ایمیل</h3>
+                                    <p class="text-sm">@SiteConfig.Content.Contact.Email</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center gap-6 p-4 rounded-xl bg-slate-50 dark:bg-slate-700/50">
+                                <div class="w-12 h-12 rounded-full bg-[#238636]/10 dark:bg-[#238636]/20 flex items-center justify-center text-[#238636] dark:text-[#7ee787]">
+                                    <i class="fas fa-location-dot text-lg"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-sm font-medium text-slate-600 dark:text-slate-400">موقعیت</h3>
+                                    <p class="text-sm">@SiteConfig.Content.Contact.Location</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

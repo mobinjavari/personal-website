@@ -1,62 +1,210 @@
 @page "/tools"
+@using MyWebApp.Models
 @model MyWebApp.Pages.Tools.IndexModel
 @{
     Layout = "_ToolsLayout";
     ViewData["Title"] = "Tools";
     ViewData["ToolName"] = "لیست";
     ViewData["ToolDescription"] = "مجموعه ابزارهای کاربردی برای تسهیل کارهای روزمره";
-    ViewData["ToolIcon"] = "fas fa-toolbox";
+    ViewData["ToolIcon"] = "fas fa-list";
 }
 
 <div class="max-w-6xl mx-auto">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- Grade Calculator Tool -->
-        <a href="/tools/grade-calculator" class="group">
-            <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg overflow-hidden transition-transform duration-300 group-hover:-translate-y-1">
-                <div class="p-6">
+    <!-- Search Tools -->
+    <div class="mb-8" data-aos="fade-up">
+        <div class="relative">
+            <input type="text" 
+                   id="tools-search"
+                   placeholder="جستجو در ابزارها..." 
+                   class="w-full px-12 py-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl focus:ring-2 focus:ring-[#238636]/20 dark:focus:ring-[#238636]/30 focus:border-[#238636] dark:focus:border-[#238636] outline-none transition-all">
+            <div class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400">
+                <i class="fas fa-search"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tools Grid -->
+    <div id="tools-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" data-aos="fade-up" data-aos-delay="100">
+        @foreach (var tool in SiteConfig.Content.Tools.Items)
+        {
+            <a href="/tools/@tool.Id" 
+                class="tool-item group relative bg-white dark:bg-slate-800 rounded-2xl transition-all duration-500 hover:shadow-xl hover:shadow-[#238636]/5 dark:hover:shadow-[#238636]/10 hover:-translate-y-1 overflow-hidden"
+                data-tool-name="@tool.Title"
+                data-tool-description="@tool.Description"
+                data-aos="zoom-in" data-aos-delay="150">
+                <div class="absolute inset-0">
+                    <div class="absolute inset-0 bg-gradient-to-br from-[#238636]/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <div class="absolute inset-0 bg-[#238636]/5 dark:bg-[#238636]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"></div>
+                </div>
+                
+                <div class="relative p-6">
                     <div class="flex items-center gap-4 mb-4">
-                        <div class="bg-blue-500/10 dark:bg-blue-500/20 p-3 rounded-xl">
-                            <i class="fas fa-calculator text-2xl text-blue-500"></i>
+                        <div class="relative group/icon">
+                            <div class="absolute inset-0 bg-[#238636]/20 dark:bg-[#238636]/30 blur-xl rounded-full group-hover/icon:scale-125 transition-transform duration-500"></div>
+                            <div class="relative bg-gradient-to-br from-[#238636]/10 to-[#2ea043]/10 dark:from-[#238636]/20 dark:to-[#2ea043]/20 p-4 rounded-xl group-hover/icon:bg-[#238636]/20 dark:group-hover/icon:bg-[#238636]/30 transition-all duration-500">
+                                <i class="@tool.IconBrand fa-@tool.Icon text-2xl text-[#238636] dark:text-[#2ea043] group-hover/icon:scale-110 transition-transform duration-500"></i>
+                            </div>
                         </div>
-                        <div>
-                            <h3 class="text-lg font-semibold text-slate-900 dark:text-white">محاسبه نمره</h3>
-                            <p class="text-slate-600 dark:text-slate-400 text-sm">محاسبه رتبه دانش‌آموز بر اساس نمره</p>
+
+                        <div class="flex-1">
+                            <h3 class="text-lg font-semibold text-slate-900 dark:text-white group-hover:text-[#238636] dark:group-hover:text-[#2ea043] transition-colors duration-300">
+                                @tool.Title
+                            </h3>
+                            <p class="text-slate-600 dark:text-slate-400 text-sm mt-1">@tool.Description</p>
                         </div>
                     </div>
-                    <div class="flex items-center justify-between text-sm">
-                        <span class="text-slate-600 dark:text-slate-400">
-                            <i class="fas fa-clock ml-1"></i>
-                            زمان تخمینی: ۱ دقیقه
-                        </span>
-                        <span class="text-blue-500 group-hover:translate-x-2 transition-transform duration-300">
-                            <i class="fas fa-arrow-left"></i>
-                        </span>
+
+                    <!-- Meta Section -->
+                    <div class="flex items-center justify-between text-sm pt-4 border-t border-slate-200/50 dark:border-slate-700/50">
+                        <div class="flex items-center gap-4">
+                            <span class="flex items-center text-slate-600 dark:text-slate-400 group/meta hover:text-[#238636] dark:hover:text-[#2ea043] transition-colors">
+                                <div class="relative ml-2">
+                                    <i class="fas fa-circle text-xs text-green-500 animate-pulse"></i>
+                                </div>
+                                <span>فعال</span>
+                            </span>
+
+                            <span class="flex items-center text-slate-600 dark:text-slate-400 group/meta hover:text-[#238636] dark:hover:text-[#2ea043] transition-colors">
+                                <div class="relative ml-2">
+                                    <i class="fas fa-history text-[#238636]/60 dark:text-[#2ea043]/60"></i>
+                                </div>
+                                <span>
+                                    @{
+                                        var timeDiff = DateTime.Now - tool.LastUpdate;
+                                        string timeText;
+
+                                        if (timeDiff.TotalMinutes < 1)
+                                        {
+                                            timeText = "همین الان";
+                                        }
+                                        else if (timeDiff.TotalMinutes < 60)
+                                        {
+                                            timeText = $"{Math.Floor(timeDiff.TotalMinutes)} دقیقه پیش";
+                                        }
+                                        else if (timeDiff.TotalHours < 24)
+                                        {
+                                            timeText = $"{Math.Floor(timeDiff.TotalHours)} ساعت پیش";
+                                        }
+                                        else if (timeDiff.TotalDays < 7)
+                                        {
+                                            timeText = $"{Math.Floor(timeDiff.TotalDays)} روز پیش";
+                                        }
+                                        else if (timeDiff.TotalDays < 30)
+                                        {
+                                            timeText = $"{Math.Floor(timeDiff.TotalDays / 7)} هفته پیش";
+                                        }
+                                        else if (timeDiff.TotalDays < 365)
+                                        {
+                                            timeText = $"{Math.Floor(timeDiff.TotalDays / 30)} ماه پیش";
+                                        }
+                                        else
+                                        {
+                                            timeText = $"{Math.Floor(timeDiff.TotalDays / 365)} سال پیش";
+                                        }
+                                    }
+                                    @timeText
+                                </span>
+                            </span>
+                        </div>
+
+                        <div class="relative overflow-hidden rounded-full w-8 h-8 bg-[#238636]/5 dark:bg-[#238636]/10 group-hover:bg-[#238636]/10 dark:group-hover:bg-[#238636]/20 transition-all duration-300 group-hover:scale-110">
+                            <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 animate-shimmer"></div>
+                            <span class="absolute inset-0 flex items-center justify-center text-[#238636] dark:text-[#2ea043] transform group-hover:-translate-x-8 transition-transform duration-300">
+                                <i class="fas fa-arrow-left"></i>
+                            </span>
+                            <span class="absolute inset-0 flex items-center justify-center text-[#238636] dark:text-[#2ea043] transform translate-x-8 group-hover:translate-x-0 transition-transform duration-300">
+                                <i class="fas fa-chevron-left"></i>
+                            </span>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </a>
+            </a>
+        }
 
-        <!-- Coming Soon Tools -->
-        <div class="opacity-60 cursor-not-allowed">
-            <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg overflow-hidden">
-                <div class="p-6">
-                    <div class="flex items-center gap-4 mb-4">
-                        <div class="bg-slate-500/10 dark:bg-slate-500/20 p-3 rounded-xl">
-                            <i class="fas fa-clock text-2xl text-slate-500"></i>
-                        </div>
-                        <div>
-                            <h3 class="text-lg font-semibold text-slate-900 dark:text-white">به زودی</h3>
-                            <p class="text-slate-600 dark:text-slate-400 text-sm">ابزارهای بیشتر در راه هستند...</p>
+        <!-- Coming Soon Card -->
+        <div class="tool-item relative bg-white dark:bg-slate-800 rounded-2xl opacity-60 cursor-not-allowed overflow-hidden"
+                data-tool-name="@SiteConfig.Content.Tools.Title"
+                data-tool-description="@SiteConfig.Content.Tools.Description"
+                data-aos="zoom-in" data-aos-delay="200">
+            <div class="absolute inset-0">
+                <div class="absolute inset-0 bg-gradient-to-br from-slate-500/10 via-transparent to-slate-500/5"></div>
+                <div class="absolute inset-0 bg-slate-500/5 blur-xl"></div>
+            </div>
+            
+            <div class="relative p-6">
+                <div class="flex items-center gap-4 mb-4">
+                    <div class="relative">
+                        <div class="absolute inset-0 bg-slate-500/10 dark:bg-slate-500/20 blur-xl rounded-full"></div>
+                        <div class="relative bg-slate-500/10 dark:bg-slate-500/20 p-4 rounded-xl">
+                            <i class="fas fa-clock text-2xl text-slate-500">
+                                <div class="absolute inset-0 bg-slate-500/10 animate-pulse rounded-xl"></div>
+                            </i>
                         </div>
                     </div>
-                    <div class="flex items-center justify-between text-sm">
-                        <span class="text-slate-600 dark:text-slate-400">
-                            <i class="fas fa-hourglass ml-1"></i>
-                            در حال توسعه
-                        </span>
+                    
+                    <div class="flex-1">
+                        <h3 class="text-lg font-semibold text-slate-900 dark:text-white">به زودی</h3>
+                        <p class="text-slate-600 dark:text-slate-400 text-sm mt-1">ابزارهای بیشتر در راه هستند...</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between text-sm pt-4 border-t border-slate-200/50 dark:border-slate-700/50">
+                    <div class="flex items-center gap-2">
+                        <i class="fas fa-hourglass-half text-slate-500 animate-pulse"></i>
+                        <span class="text-slate-600 dark:text-slate-400">در حال توسعه</span>
+                    </div>
+                    <div class="relative w-16 h-1 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                        <div class="absolute inset-y-0 right-0 bg-slate-500 w-1/3">
+                            <div class="absolute inset-0 bg-gradient-to-r from-transparent via-slate-400 to-transparent animate-shimmer"></div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div> 
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('tools-search');
+            const toolItems = document.querySelectorAll('.tool-item');
+
+            searchInput.addEventListener('input', function(e) {
+                const searchTerm = e.target.value.toLowerCase().trim();
+
+                toolItems.forEach(item => {
+                    const toolName = item.getAttribute('data-tool-name').toLowerCase();
+                    const toolDesc = item.getAttribute('data-tool-description').toLowerCase();
+                    const isMatch = toolName.includes(searchTerm) || toolDesc.includes(searchTerm);
+
+                    if (isMatch) {
+                        item.classList.remove('hidden');
+                        setTimeout(() => item.classList.remove('opacity-0'), 10);
+                    } else {
+                        item.classList.add('opacity-0');
+                        setTimeout(() => item.classList.add('hidden'), 300);
+                    }
+                });
+
+                const visibleTools = document.querySelectorAll('.tool-item:not(.hidden)');
+                const noResultsMsg = document.getElementById('no-results');
+                
+                if (visibleTools.length === 0 && !noResultsMsg) {
+                    const message = document.createElement('div');
+                    message.id = 'no-results';
+                    message.className = 'col-span-full text-center py-8 text-slate-500 dark:text-slate-400';
+                    message.innerHTML = `
+                        <div class="flex flex-col items-center gap-4">
+                            <i class="fas fa-search text-4xl opacity-50"></i>
+                            <p>نتیجه‌ای یافت نشد!</p>
+                        </div>
+                    `;
+                    document.getElementById('tools-grid').appendChild(message);
+                } else if (visibleTools.length > 0 && noResultsMsg) {
+                    noResultsMsg.remove();
+                }
+            });
+        });
+    </script>
+} 

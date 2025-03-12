@@ -6,77 +6,246 @@
     ViewData["ToolName"] = "محاسبه نمره";
     ViewData["ToolDescription"] = "محاسبه رتبه دانش‌آموز بر اساس نمره";
     ViewData["ToolIcon"] = "fas fa-calculator";
-    ViewData["ShowToolNav"] = "true";
 }
 
-<div class="max-w-2xl mx-auto">
-    <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg overflow-hidden">
-        <div class="p-6">
-            <form method="post" class="space-y-6">
-                <div>
-                    <label asp-for="Grade.Score" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                        نمره (0-100):
-                    </label>
-                    <input asp-for="Grade.Score" 
-                           type="number" 
-                           step="0.01"
-                           class="w-full px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-400" />
+<style>
+    /* Remove number input spinners */
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    input[type="number"] {
+        -moz-appearance: textfield;
+    }
+</style>
+
+<div class="min-h-screen bg-gray-50 dark:bg-gray-900 py-12">
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <!-- Header Section -->
+        <div class="text-center mb-12">
+            <h1 class="text-3xl font-bold text-gray-900 dark:text-white sm:text-4xl">
+                محاسبه‌گر نمره
+            </h1>
+            <p class="mt-3 text-lg text-gray-500 dark:text-gray-400">
+                نمره دانش‌آموز را وارد کنید و رتبه‌بندی آن را مشاهده کنید
+            </p>
+        </div>
+
+        <div class="grid gap-8 md:grid-cols-3">
+            <!-- Calculator Card -->
+            <div class="md:col-span-2">
+                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl rounded-2xl">
+                    <!-- Calculator Form -->
+                    <div class="p-8">
+                        <form method="post" class="space-y-6">
+                            <div>
+                                <label for="Score" class="block text-base font-semibold text-gray-900 dark:text-white mb-3">
+                                    نمره دانش‌آموز
+                                </label>
+                                <div class="relative">
+                                    <input asp-for="Score"
+                                           type="number"
+                                           min="0"
+                                           max="100"
+                                           step="0.01"
+                                           class="block w-full h-14 rounded-xl border-0 py-4 pr-4 pl-12
+                                                  text-gray-900 dark:text-white text-lg font-medium
+                                                  ring-1 ring-inset ring-gray-300 dark:ring-gray-700
+                                                  placeholder:text-gray-400 dark:placeholder:text-gray-500
+                                                  focus:ring-2 focus:ring-inset focus:ring-indigo-500
+                                                  dark:bg-gray-800/50 dark:focus:ring-indigo-500
+                                                  transition-shadow duration-200"
+                                           placeholder="مثال: 85.5" />
+                                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                        <span class="text-base font-medium text-gray-500 dark:text-gray-400">/100</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button type="submit" 
+                                    class="w-full bg-indigo-600 text-white rounded-lg px-4 py-3 
+                                           hover:bg-indigo-700 focus:outline-none focus:ring-2 
+                                           focus:ring-offset-2 focus:ring-indigo-500 
+                                           transition-colors duration-200 text-lg font-medium">
+                                محاسبه رتبه
+                            </button>
+                        </form>
+
+                        <!-- Result Section -->
+                        @if (!string.IsNullOrEmpty(Model.Message))
+                        {
+                            <div class="mt-6 rounded-lg bg-red-50 dark:bg-red-900/20 p-4">
+                                <div class="flex">
+                                    <div class="flex-shrink-0">
+                                        <i class="fas fa-exclamation-circle text-red-400"></i>
+                                    </div>
+                                    <div class="mr-3">
+                                        <p class="text-sm text-red-700 dark:text-red-400">@Model.Message</p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        else if (!string.IsNullOrEmpty(Model.Rank))
+                        {
+                            <div class="mt-6">
+                                <div class="relative overflow-hidden rounded-2xl bg-white dark:bg-gray-800/50 shadow-lg">
+                                    <div class="absolute inset-0 opacity-10 bg-gradient-to-br from-current to-transparent @Model.ColorClass.Replace("border", "bg")"></div>
+                                    <div class="relative p-6">
+                                        <div class="flex items-center justify-between">
+                                            <div class="flex items-center gap-4">
+                                                <div class="w-14 h-14 rounded-xl bg-gradient-to-br @Model.ColorClass.Replace("border", "from").Replace("-500", "-400") to-current/80
+                                                            flex items-center justify-center">
+                                                    <i class="@(Model.GetRankIcon(Model.Rank)) text-2xl text-white"></i>
+                                                </div>
+                                                <div class="flex flex-col">
+                                                    <span class="text-sm font-medium text-gray-500 dark:text-gray-400">رتبه شما</span>
+                                                    <span class="text-2xl font-extrabold bg-gradient-to-r text-black dark:text-white to-current bg-clip-text">
+                                                        @Model.Rank
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="flex flex-col items-end">
+                                                <span class="text-sm font-medium text-gray-500 dark:text-gray-400">نمره</span>
+                                                <span class="text-3xl font-black @Model.ColorClass.Replace("border", "text")">
+                                                    @Model.Score
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
                 </div>
 
-                <button type="submit" 
-                        class="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-slate-800">
-                    محاسبه رتبه
-                </button>
-            </form>
+                <!-- Advertisement Card -->
+                <div class="mt-8">
+                    <div class="bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl overflow-hidden shadow-xl">
+                        <div class="relative">
+                            <!-- Background Pattern -->
+                            <div class="absolute inset-0 opacity-10">
+                                <svg class="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+                                    <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">
+                                        <path d="M 10 0 L 0 0 0 10" fill="none" stroke="white" stroke-width="0.5"/>
+                                    </pattern>
+                                    <rect width="100" height="100" fill="url(#grid)"/>
+                                </svg>
+                            </div>
 
-            @if (!string.IsNullOrEmpty(Model.Grade.Message))
-            {
-                <div class="mt-6 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg p-4">
-                    <p class="text-red-700 dark:text-red-400">@Model.Grade.Message</p>
-                </div>
-            }
-            else if (!string.IsNullOrEmpty(Model.Grade.Rank))
-            {
-                <div class="mt-6 border rounded-lg p-4 @Model.Grade.ColorClass">
-                    <div class="flex items-center justify-between">
-                        <span class="font-medium">رتبه دانش‌آموز:</span>
-                        <div class="flex items-center gap-2">
-                            <span class="text-lg font-bold">@Model.Grade.Rank</span>
-                            @{
-                                var iconClass = Model.Grade.Rank switch
-                                {
-                                    "عالی" => "fas fa-medal",
-                                    "خوب" => "fas fa-thumbs-up",
-                                    "متوسط" => "fas fa-arrow-right",
-                                    _ => "fas fa-exclamation"
-                                };
-                            }
-                            <i class="@iconClass"></i>
+                            <!-- Content -->
+                            <div class="relative p-4 sm:p-6">
+                                <div class="flex flex-col sm:flex-row items-start gap-4 sm:gap-6">
+                                    <!-- Image Container -->
+                                    <div class="w-20 h-20 sm:w-24 sm:h-24 mx-auto sm:mx-0 flex-shrink-0 rounded-xl overflow-hidden">
+                                        <img src="https://placehold.co/96x96" 
+                                             alt="تبلیغات" 
+                                             class="w-full h-full object-cover"
+                                             loading="lazy" />
+                                    </div>
+
+                                    <!-- Text Content -->
+                                    <div class="flex-1 text-center sm:text-right">
+                                        <div class="flex flex-wrap items-center justify-center sm:justify-start gap-2 mb-2">
+                                            <span class="px-2 py-1 bg-white/10 rounded-lg text-xs font-medium text-white">
+                                                تبلیغات ویژه
+                                            </span>
+                                            <span class="px-2 py-1 bg-white/10 rounded-lg text-xs font-medium text-white">
+                                                محدود
+                                            </span>
+                                        </div>
+                                        <h3 class="text-lg font-bold text-white mb-2">
+                                            عنوان تبلیغ شما در اینجا
+                                        </h3>
+                                        <p class="text-white/80 text-sm leading-relaxed mb-4">
+                                            متن تبلیغ شما در این قسمت نمایش داده می‌شود. این فضا برای معرفی محصول یا خدمات شما است.
+                                        </p>
+                                        
+                                        <!-- CTA Button -->
+                                        <a href="#" class="inline-flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 
+                                                        rounded-lg text-white text-sm font-medium transition-colors duration-200">
+                                            <span>اطلاعات بیشتر</span>
+                                            <i class="fas fa-arrow-left text-xs"></i>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <!-- Bottom Stats -->
+                                <div class="mt-6 pt-6 border-t border-white/10">
+                                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-white/80 text-sm text-center sm:text-right">
+                                        <div class="flex items-center justify-center sm:justify-start gap-2">
+                                            <i class="fas fa-eye"></i>
+                                            <span>1.2K بازدید</span>
+                                        </div>
+                                        <div class="flex items-center justify-center sm:justify-start gap-2">
+                                            <i class="fas fa-clock"></i>
+                                            <span>3 روز باقی‌مانده</span>
+                                        </div>
+                                        <div class="flex items-center justify-center sm:justify-start gap-2">
+                                            <i class="fas fa-star"></i>
+                                            <span>تبلیغ ویژه</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            }
-        </div>
+            </div>
 
-        <!-- Grade Scale Info -->
-        <div class="border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 p-6">
-            <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-4">راهنمای رتبه‌بندی</h3>
-            <div class="grid grid-cols-2 gap-4">
-                <div class="flex items-center gap-2">
-                    <span class="w-3 h-3 rounded-full bg-green-500"></span>
-                    <span class="text-slate-600 dark:text-slate-400">90 تا 100: عالی</span>
+            <!-- Info Card -->
+            <div class="md:col-span-1">
+                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl rounded-2xl">
+                    <div class="p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white flex items-center gap-3 mb-6">
+                            <div class="w-8 h-8 rounded-lg bg-yellow-100 dark:bg-yellow-900/30 
+                                      flex items-center justify-center">
+                                <i class="fas fa-star text-yellow-600 dark:text-yellow-400"></i>
+                            </div>
+                            راهنمای رتبه‌بندی
+                        </h3>
+                        <div class="space-y-4">
+                            @foreach (var grade in Model.GradeScales)
+                            {
+                                <div class="flex items-center p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/50 
+                                            transition-colors duration-200">
+                                    <div class="flex-shrink-0">
+                                        <i class="fas fa-minus text-lg @grade.Color.Replace("bg", "text")"></i>
+                                    </div>
+                                    <div class="mr-3">
+                                        <p class="text-sm font-medium text-gray-700 dark:text-gray-300">@grade.Text</p>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
                 </div>
-                <div class="flex items-center gap-2">
-                    <span class="w-3 h-3 rounded-full bg-blue-500"></span>
-                    <span class="text-slate-600 dark:text-slate-400">75 تا 89: خوب</span>
-                </div>
-                <div class="flex items-center gap-2">
-                    <span class="w-3 h-3 rounded-full bg-yellow-500"></span>
-                    <span class="text-slate-600 dark:text-slate-400">50 تا 74: متوسط</span>
-                </div>
-                <div class="flex items-center gap-2">
-                    <span class="w-3 h-3 rounded-full bg-red-500"></span>
-                    <span class="text-slate-600 dark:text-slate-400">کمتر از 50: ضعیف</span>
+
+                <!-- Additional Info -->
+                <div class="mt-6 bg-white dark:bg-gray-800 overflow-hidden shadow-xl rounded-2xl">
+                    <div class="p-6">
+                        <h3 class="text-lg font-medium text-gray-900 dark:text-white flex items-center gap-3 mb-4">
+                            <div class="w-8 h-8 rounded-lg bg-yellow-100 dark:bg-yellow-900/30 
+                                      flex items-center justify-center">
+                                <i class="fas fa-lightbulb text-yellow-600 dark:text-yellow-400"></i>
+                            </div>
+                            نکات مهم
+                        </h3>
+                        <ul class="space-y-3 text-sm text-gray-600 dark:text-gray-400">
+                            <li class="flex items-center gap-2">
+                                <i class="fas fa-check text-green-500"></i>
+                                نمره باید بین 0 تا 100 باشد
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <i class="fas fa-check text-green-500"></i>
+                                امکان وارد کردن اعشار تا دو رقم
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <i class="fas fa-check text-green-500"></i>
+                                نمایش آنی نتیجه پس از محاسبه
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>

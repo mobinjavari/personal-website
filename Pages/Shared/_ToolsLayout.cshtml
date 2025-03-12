@@ -3,74 +3,101 @@
 }
 
 <!-- Tools Header -->
-<div class="bg-gradient-to-br from-blue-500 to-blue-600 dark:from-blue-600 dark:to-blue-700">
-    <div class="container mx-auto px-4">
-        <!-- Breadcrumb -->
-        <nav class="py-4">
-            <ol class="flex items-center space-x-2 space-x-reverse text-sm text-blue-100">
-                <li>
-                    <a href="/" class="hover:text-white transition-colors">خانه</a>
-                </li>
-                <li>
-                    <svg class="w-4 h-4 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                    </svg>
-                </li>
-                @if (ViewData["ShowToolNav"]?.ToString()?.ToLower() == "true")
-                {
-                    <li>
-                        <a href="/tools" class="hover:text-white transition-colors">ابزارها</a>
-                    </li>
-                    <li>
-                        <svg class="w-4 h-4 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                        </svg>
-                    </li>
-                    <li>
-                        <span class="text-white">@ViewData["ToolName"]</span>
-                    </li>
-                }
-                else
-                {
-                    <li>
-                        <span class="text-white">ابزارها</span>
-                    </li>
-                }
-            </ol>
-        </nav>
+<div class="relative bg-gradient-to-br from-[#238636]/90 via-[#2ea043]/90 to-[#3fb950]/90 dark:from-[#238636]/80 dark:via-[#2ea043]/80 dark:to-[#3fb950]/80 overflow-hidden">
+    <div class="absolute inset-0 overflow-hidden">
+        <div class="absolute -top-1/2 -right-1/2 w-full h-full rounded-full bg-white/5 animate-pulse"></div>
+        <div class="absolute -bottom-1/2 -left-1/2 w-full h-full rounded-full bg-white/5 animate-pulse delay-1000"></div>
+    </div>
 
-        <!-- Tool Header -->
-        <div class="pb-16 pt-8">
-            <div class="flex items-center justify-between">
-                <div>
-                    <h1 class="text-3xl font-bold text-white mb-2">@ViewData["ToolName"]</h1>
-                    <p class="text-blue-100">@ViewData["ToolDescription"]</p>
-                </div>
-                @if (!string.IsNullOrEmpty(ViewData["ToolIcon"]?.ToString()))
-                {
-                    <div class="bg-white/10 p-4 rounded-2xl">
-                        <i class="@ViewData["ToolIcon"] text-4xl text-white"></i>
-                    </div>
-                }
+    <div class="absolute inset-0 opacity-10 group-hover:opacity-20 transition-opacity">
+        <div class="absolute inset-0 backdrop-blur-[100px]"></div>
+        <svg class="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+            <pattern id="tool-grid" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+                <path d="M0 8L8 0M-1 1L1 -1M7 9L9 7" stroke="currentColor" stroke-width="0.5"/>
+            </pattern>
+            <rect width="100%" height="100%" fill="url(#tool-grid)"/>
+        </svg>
+    </div>
+
+    <!-- Content Container -->
+    <div class="container mx-auto px-4 py-16 relative">
+        <div class="flex items-center justify-between" data-aos="fade-up">
+            <div class="text-right">
+                <h1 class="text-3xl font-bold text-white mb-2 flex items-center gap-3">
+                    <div class="w-2 h-2 rounded-full bg-white/50 animate-pulse"></div>
+                    <span class="relative">
+                        @ViewData["ToolName"]
+                        <span class="absolute bottom-0 left-0 w-full h-[2px] bg-white/20 transform scale-x-0 group-hover/title:scale-x-100 transition-transform origin-right"></span>
+                    </span>
+                </h1>
+                <p class="text-white/80 max-w-xl mr-auto">@ViewData["ToolDescription"]</p>
             </div>
+
+            @if (!string.IsNullOrEmpty(ViewData["ToolIcon"]?.ToString()))
+            {
+                <div class="relative group/icon">
+                    <div class="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent rounded-2xl group-hover/icon:rotate-180 transition-transform duration-700"></div>
+                    <div class="absolute inset-0 bg-white/20 dark:bg-white/10 blur-xl rounded-2xl group-hover/icon:scale-110 transition-transform duration-300"></div>
+                    <div class="relative bg-white/10 dark:bg-white/5 backdrop-blur-xl p-6 rounded-2xl group-hover/icon:bg-white/20 transition-all duration-300">
+                        <i class="@ViewData["ToolIcon"] text-4xl text-white transform group-hover/icon:scale-110 transition-transform"></i>
+                    </div>
+                    <div class="absolute inset-0 bg-white/30 rounded-2xl blur-xl opacity-0 group-hover/icon:opacity-100 transition-opacity duration-300"></div>
+                    <div class="absolute -inset-2 opacity-0 group-hover/icon:opacity-100 transition-opacity duration-300 pointer-events-none">
+                        <div class="absolute top-0 right-0 w-2 h-2 bg-white rounded-full animate-ping"></div>
+                        <div class="absolute bottom-0 left-0 w-2 h-2 bg-white rounded-full animate-ping delay-300"></div>
+                        <div class="absolute top-1/2 left-0 w-2 h-2 bg-white rounded-full animate-ping delay-700"></div>
+                    </div>
+                </div>
+            }
         </div>
     </div>
 </div>
 
-<!-- Tools Navigation -->
-<!-- @if (ViewData["ShowToolNav"]?.ToString()?.ToLower() == "true")
-{
-    <div class="bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 sticky top-16 z-40">
-        <div class="container mx-auto px-4">
-            <nav class="flex items-center space-x-6 space-x-reverse overflow-x-auto">
-                <a href="/tools/grade-calculator" 
-                   class="py-4 px-2 border-b-2 @(ViewData["ToolName"]?.ToString() == "محاسبه نمره" ? "border-blue-500 text-blue-600 dark:text-blue-400" : "border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white") transition-colors">
-                    محاسبه نمره
-                </a>
-            </nav>
-        </div>
+<!-- Breadcrumb -->
+<div class="sticky top-16 inset-x-0 z-40 bg-white/80 dark:bg-slate-900/80 backdrop-blur-lg border-y border-slate-200/50 dark:border-slate-800/50">
+    <div class="container mx-auto px-4">
+        <nav class="py-4">
+            <ol class="flex items-center space-x-4 space-x-reverse text-sm">
+                <li class="group/home">
+                    <a href="/" class="flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
+                        <i class="fas fa-home text-[#238636] dark:text-[#3fb950] group-hover/home:scale-110 transition-transform"></i>
+                        <span class="relative">خانه</span>
+                    </a>
+                </li>
+
+                <li>
+                    <i class="fas fa-chevron-left text-slate-400 dark:text-slate-600"></i>
+                </li>
+
+                @if (!string.IsNullOrEmpty(ViewData["ToolName"]?.ToString()))
+                {
+                    <li>
+                        <a href="/tools" class="flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
+                            <i class="fas fa-toolbox text-[#238636] dark:text-[#3fb950]"></i>
+                            <span class="relative">ابزارها</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <i class="fas fa-chevron-left text-slate-400 dark:text-slate-600"></i>
+                    </li>
+
+                    <li class="flex items-center gap-2 text-slate-900 dark:text-white">
+                        <i class="@ViewData["ToolIcon"] text-[#238636] dark:text-[#3fb950]"></i>
+                        <span class="font-medium">@ViewData["ToolName"]</span>
+                    </li>
+                }
+                else
+                {
+                    <li class="flex items-center gap-2 text-slate-900 dark:text-white">
+                        <i class="fas fa-toolbox text-[#238636] dark:text-[#3fb950]"></i>
+                        <span class="font-medium">ابزارها</span>
+                    </li>
+                }
+            </ol>
+        </nav>
     </div>
-} -->
+</div>
 
 <!-- Main Content -->
 <div class="container mx-auto px-4 py-8">
