@@ -23,8 +23,25 @@ dotnet run
 
 The application will be available at [http://localhost:5214](http://localhost:5214)
 
+## Docker
+
+1. Build the project
+
+```bash
+docker build -t personal-website .
+```
+
+2. Run the project
+
+```bash
+docker run -d --name my-web-app -p 8080:8080 personal-website
+```
+
+The application will be available at [http://localhost:8080](http://localhost:8080)
+
 ## Technologies
 
 - ASP.NET Core
 - Tailwind CSS
 - C#
+- Docker
