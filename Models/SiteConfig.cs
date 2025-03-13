@@ -63,22 +63,46 @@ public static class SiteConfig
             public static List<Project> Items => new()
             {
                 new() {
-                    Title = "پروژه هوش مصنوعی",
-                    Description = "سیستم پردازش تصویر با یادگیری عمیق",
-                    Image = "https://images.unsplash.com/photo-1555949963-aa79dcee981c?q=80&w=800&auto=format&fit=crop",
-                    Technologies = new() { "Python", "TensorFlow" }
+                    Title = "موتور جستجوی گوگل",
+                    Description = "همکاری در توسعه الگوریتم‌های رتبه‌بندی و بهینه‌سازی موتور جستجو",
+                    Image = "~/images/google.png",
+                    Url = "https://google.com",
+                    Technologies = new() { "Python", "TensorFlow", "BigQuery", "Kubernetes" }
                 },
                 new() {
-                    Title = "اپلیکیشن مدیریت مالی",
-                    Description = "پلتفرم مدیریت امور مالی شخصی",
-                    Image = "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=800&auto=format&fit=crop",
-                    Technologies = new() { "React", "Firebase" }
+                    Title = "هوش مصنوعی مایکروسافت",
+                    Description = "توسعه سیستم‌های یادگیری ماشین برای محصولات آفیس ۳۶۵",
+                    Image = "~/images/microsoft.png",
+                    Url = "https://microsoft.com",
+                    Technologies = new() { "C#", ".NET", "Azure ML", "TypeScript" }
                 },
                 new() {
-                    Title = "پلتفرم آموزشی",
-                    Description = "سیستم مدیریت یادگیری آنلاین",
-                    Image = "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=800&auto=format&fit=crop",
-                    Technologies = new() { ".NET", "Vue.js" }
+                    Title = "ChatGPT - OpenAI",
+                    Description = "مشارکت در بهبود مدل‌های زبانی و توسعه API های هوش مصنوعی",
+                    Image = "~/images/openai.png",
+                    Url = "https://openai.com",
+                    Technologies = new() { "Python", "PyTorch", "GPT", "Docker" }
+                },
+                new() {
+                    Title = "سیستم پرداخت اسپیس‌ایکس",
+                    Description = "طراحی و پیاده‌سازی زیرساخت مالی برای پروژه‌های فضایی",
+                    Image = "~/images/spacex.png",
+                    Url = "https://spacex.com",
+                    Technologies = new() { "Rust", "Blockchain", "AWS", "Go" }
+                },
+                new() {
+                    Title = "پلتفرم استریم نتفلیکس",
+                    Description = "بهینه‌سازی سیستم پخش ویدیو و الگوریتم‌های پیشنهاددهنده",
+                    Image = "~/images/netflix.png",
+                    Url = "https://netflix.com",
+                    Technologies = new() { "Java", "Spring", "Redis", "Kafka" }
+                },
+                new() {
+                    Title = "سیستم خودران تسلا",
+                    Description = "توسعه نرم‌افزار تشخیص اشیاء و هدایت خودکار",
+                    Image = "~/images/tesla.png",
+                    Url = "https://tesla.com",
+                    Technologies = new() { "C++", "CUDA", "ROS", "Computer Vision" }
                 }
             };
         }
@@ -190,6 +214,7 @@ public record Project
     public required string Title { get; init; }
     public required string Description { get; init; }
     public required string Image { get; init; }
+    public required string Url { get; init; }
     public required List<string> Technologies { get; init; }
 }
 
