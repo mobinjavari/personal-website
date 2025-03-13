@@ -37,7 +37,7 @@ public static class SiteConfig
             public static string Title => "توسعه‌دهنده خلاق و حرفه‌ای";
             public static string JobTitle => "توسعه‌دهنده Full-Stack";
             public static string Description => "متخصص در طراحی و توسعه وب‌سایت‌های مدرن و اپلیکیشن‌های موبایل";
-            public static string ProfileImage => "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?q=80&w=800&auto=format&fit=crop";
+            public static string ProfileImage => "https://avatars.githubusercontent.com/u/87239446?v=4";
 
             public static List<CallToAction> Actions => new()
             {
