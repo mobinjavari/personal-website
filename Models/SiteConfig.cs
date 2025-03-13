@@ -65,42 +65,42 @@ public static class SiteConfig
                 new() {
                     Title = "موتور جستجوی گوگل",
                     Description = "همکاری در توسعه الگوریتم‌های رتبه‌بندی و بهینه‌سازی موتور جستجو",
-                    Image = "~/images/google.png",
+                    Image = "/images/google.jpg",
                     Url = "https://google.com",
-                    Technologies = new() { "Python", "TensorFlow", "BigQuery", "Kubernetes" }
+                    Technologies = new() { "Python", "TensorFlow", "BigQuery" }
                 },
                 new() {
                     Title = "هوش مصنوعی مایکروسافت",
                     Description = "توسعه سیستم‌های یادگیری ماشین برای محصولات آفیس ۳۶۵",
-                    Image = "~/images/microsoft.png",
+                    Image = "/images/microsoft.png",
                     Url = "https://microsoft.com",
                     Technologies = new() { "C#", ".NET", "Azure ML", "TypeScript" }
                 },
                 new() {
                     Title = "ChatGPT - OpenAI",
                     Description = "مشارکت در بهبود مدل‌های زبانی و توسعه API های هوش مصنوعی",
-                    Image = "~/images/openai.png",
+                    Image = "/images/openai.jpg",
                     Url = "https://openai.com",
                     Technologies = new() { "Python", "PyTorch", "GPT", "Docker" }
                 },
                 new() {
                     Title = "سیستم پرداخت اسپیس‌ایکس",
                     Description = "طراحی و پیاده‌سازی زیرساخت مالی برای پروژه‌های فضایی",
-                    Image = "~/images/spacex.png",
+                    Image = "/images/spacex.jpg",
                     Url = "https://spacex.com",
                     Technologies = new() { "Rust", "Blockchain", "AWS", "Go" }
                 },
                 new() {
                     Title = "پلتفرم استریم نتفلیکس",
                     Description = "بهینه‌سازی سیستم پخش ویدیو و الگوریتم‌های پیشنهاددهنده",
-                    Image = "~/images/netflix.png",
+                    Image = "/images/netflix.jpg",
                     Url = "https://netflix.com",
                     Technologies = new() { "Java", "Spring", "Redis", "Kafka" }
                 },
                 new() {
                     Title = "سیستم خودران تسلا",
                     Description = "توسعه نرم‌افزار تشخیص اشیاء و هدایت خودکار",
-                    Image = "~/images/tesla.png",
+                    Image = "/images/tesla.jpg",
                     Url = "https://tesla.com",
                     Technologies = new() { "C++", "CUDA", "ROS", "Computer Vision" }
                 }
