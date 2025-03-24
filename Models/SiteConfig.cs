@@ -27,8 +27,20 @@ public static class SiteConfig
         {
             public static List<MenuItem> MenuItems => new()
             {
-                new() { Url = "/", Icon = "home", Title = "خانه", Desc = "صفحه اصلی سایت", Brand = "fas" },
-                new() { Url = "/tools", Icon = "tools", Title = "ابزارها", Desc = "ابزارهای کاربردی", Brand = "fas" }
+                new() { 
+                    Url = "/", 
+                    Icon = "home", 
+                    Title = "خانه", 
+                    Desc = "صفحه اصلی سایت", 
+                    Brand = "fas" 
+                },
+                new() { 
+                    Url = "/tools", 
+                    Icon = "tools", 
+                    Title = "ابزارها", 
+                    Desc = "ابزارهای کاربردی", 
+                    Brand = "fas" 
+                }
             };
         }
 
@@ -41,15 +53,32 @@ public static class SiteConfig
 
             public static List<CallToAction> Actions => new()
             {
-                new() { Title = Contact.Title, Target = Contact.Id, IsPrimary = true },
-                new() { Title = Projects.Title, Target = Projects.Id, IsPrimary = false }
+                new() { 
+                    Title = Contact.Title, 
+                    Target = Contact.Id, 
+                    IsPrimary = true 
+                },
+                new() { 
+                    Title = Projects.Title, 
+                    Target = Projects.Id, 
+                    IsPrimary = false 
+                }
             };
 
             public static List<NavItem> Navigation => new()
             {
-                new() { Title = Projects.Subtitle, Target = Projects.Id },
-                new() { Title = Skills.Subtitle, Target = Skills.Id },
-                new() { Title = Contact.Subtitle, Target = Contact.Id }
+                new() { 
+                    Title = Projects.Subtitle, 
+                    Target = Projects.Id 
+                },
+                new() { 
+                    Title = Skills.Subtitle, 
+                    Target = Skills.Id 
+                },
+                new() { 
+                    Title = Contact.Subtitle,
+                    Target = Contact.Id 
+                }
             };
         }
 
@@ -116,10 +145,26 @@ public static class SiteConfig
 
             public static List<Skill> Items => new()
             {
-                new() { Title = "Frontend", Progress = 90, Icon = "code" },
-                new() { Title = "Backend", Progress = 75, Icon = "database" },
-                new() { Title = "UI/UX", Progress = 85, Icon = "palette" },
-                new() { Title = "DevOps", Progress = 70, Icon = "server" }
+                new() { 
+                    Title = "Frontend", 
+                    Progress = 90, 
+                    Icon = "code" 
+                },
+                new() { 
+                    Title = "Backend", 
+                    Progress = 75, 
+                    Icon = "database" 
+                },
+                new() { 
+                    Title = "UI/UX", 
+                    Progress = 85, 
+                    Icon = "palette" 
+                },
+                new() { 
+                    Title = "DevOps", 
+                    Progress = 70, 
+                    Icon = "server" 
+                }
             };
         }
 
@@ -159,15 +204,33 @@ public static class SiteConfig
             
             public static List<SocialLink> SocialLinks => new()
             {
-                new() { Url = "https://x.com/mobinjavari", Icon = "twitter", Color = "blue" },
-                new() { Url = "https://t.me/mobinjavari", Icon = "telegram", Color = "blue" },
-                new() { Url = "https://github.com/mobinjavari", Icon = "github", Color = "slate" }
+                new() { 
+                    Url = "https://x.com/mobinjavari", 
+                    Icon = "twitter", 
+                    Color = "blue" 
+                },
+                new() { 
+                    Url = "https://t.me/mobinjavari", 
+                    Icon = "telegram", 
+                    Color = "blue" 
+                },
+                new() { 
+                    Url = "https://github.com/mobinjavari", 
+                    Icon = "github", 
+                    Color = "slate" 
+                }
             };
 
             public static List<UsefulLink> UsefulLinks => new()
             {
-                new() { Url = "https://google.com", Title = "گوگل" },
-                new() { Url = "https://microsoft.com", Title = "مایکروسافت" }
+                new() { 
+                    Url = "https://google.com", 
+                    Title = "گوگل" 
+                },
+                new() { 
+                    Url = "https://microsoft.com", 
+                    Title = "مایکروسافت" 
+                }
             };
         }
     }
