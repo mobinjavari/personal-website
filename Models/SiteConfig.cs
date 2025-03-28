@@ -17,7 +17,7 @@ public static class SiteConfig
         public static string DefaultKeywords => "مبین جواری، برنامه نویس، توسعه دهنده وب، طراح سایت";
         public static string DefaultRobots => "index, follow";
         public static string DefaultOgType => "website";
-        public static string TwitterCardType => "summary_large_image";
+        public static string TwitterCardType => "/images/twitter-card.png";
     }
 
     // Content
