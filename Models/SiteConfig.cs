@@ -14,7 +14,7 @@ public static class SiteConfig
     {
         public static string DefaultAuthor => Site.Name;
         public static string DefaultDescription => "وب‌سایت شخصی مبین جواری - توسعه‌دهنده وب";
-        public static string DefaultKeywords => "موبین جواری، برنامه نویس، توسعه دهنده وب، طراح سایت";
+        public static string DefaultKeywords => "مبین جواری، برنامه نویس، توسعه دهنده وب، طراح سایت";
         public static string DefaultRobots => "index, follow";
         public static string DefaultOgType => "website";
         public static string TwitterCardType => "summary_large_image";
