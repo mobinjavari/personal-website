@@ -196,6 +196,14 @@ public static class SiteConfig
                         LastUpdate = DateTimeOffset.FromUnixTimeSeconds(1741592305).DateTime,
                         Status = ToolStatus.Active
                     },
+                    new() {
+                        Id = "Age Group Calculator",
+                        Name = "محاسبه گروه سنی",
+                        Description = "محاسبه گروه سنی بر اساس سن",
+                        Icon = "fas fa-calendar-alt",
+                        LastUpdate = DateTimeOffset.FromUnixTimeSeconds(1743209105).DateTime,
+                        Status = ToolStatus.Active
+                    },
                 };
             }
 
