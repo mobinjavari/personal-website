@@ -77,7 +77,7 @@
                     @{
                         var home = SiteConfig.Content.Header.MenuItems.First();
                     }
-                    <a href="@StringUtils.ToUrl($"/{home.Url}")" class="flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
+                    <a href="@StringUtils.ToUrl(home.Url)" class="flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
                         <i class="@home.Icon text-[#238636] dark:text-[#3fb950] group-hover/home:scale-110 transition-transform"></i>
                         <span class="relative">@home.Title</span>
                     </a>

@@ -158,7 +158,7 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     @foreach (var item in menuItems)
                     {
-                        <a href="@StringUtils.ToUrl($"/{item.Url}")" class="group p-6 bg-slate-50 dark:bg-slate-800/50 rounded-2xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-all duration-300">
+                        <a href="@StringUtils.ToUrl(item.Url)" class="group p-6 bg-slate-50 dark:bg-slate-800/50 rounded-2xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-all duration-300">
                             <div class="flex items-center gap-4">
                                 <span class="w-12 h-12 rounded-xl bg-[#238636]/10 dark:bg-[#3fb950]/10 flex items-center justify-center text-[#238636] dark:text-[#3fb950] group-hover:scale-110 transition-transform duration-300">
                                     <i class="@item.Icon text-xl"></i>
