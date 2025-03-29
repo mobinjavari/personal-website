@@ -5,14 +5,15 @@ public static class SiteConfig
     // Site Information
     public static class Site
     {
-        public static string Name => "Mobin Javari";
+        public static string Title => "Mobin Javari";
+        public static string Author => "مبین جواری";
         public static string ThemeColor => "#238636";
     }
 
     // Meta Tags
     public static class Meta
     {
-        public static string DefaultAuthor => Site.Name;
+        public static string DefaultAuthor => Site.Author;
         public static string DefaultDescription => "وب‌سایت شخصی مبین جواری - توسعه‌دهنده وب";
         public static string DefaultKeywords => "مبین جواری، برنامه نویس، توسعه دهنده وب، طراح سایت";
         public static string DefaultRobots => "index, follow";
@@ -25,21 +26,21 @@ public static class SiteConfig
     {   
         public static class Header
         {
+            public static string Title => Site.Author;
+
             public static List<MenuItem> MenuItems => new()
             {
                 new() { 
                     Url = "/", 
-                    Icon = "home", 
+                    Icon = "fas fa-home", 
                     Title = "خانه", 
-                    Desc = "صفحه اصلی سایت", 
-                    Brand = "fas" 
+                    Description = "صفحه اصلی سایت"
                 },
                 new() { 
-                    Url = "/tools", 
-                    Icon = "tools", 
-                    Title = "ابزارها", 
-                    Desc = "ابزارهای کاربردی", 
-                    Brand = "fas" 
+                    Url = $"/{Tools.Id}", 
+                    Icon = Tools.Icon, 
+                    Title = Tools.Title, 
+                    Description = Tools.Description
                 }
             };
         }
@@ -47,7 +48,7 @@ public static class SiteConfig
         public static class Hero
         {
             public static string Title => "توسعه‌دهنده خلاق و حرفه‌ای";
-            public static string JobTitle => "توسعه‌دهنده Full-Stack";
+            public static string Status => "توسعه‌دهنده Full-Stack";
             public static string Description => "متخصص در طراحی و توسعه وب‌سایت‌های مدرن و اپلیکیشن‌های موبایل";
             public static string ProfileImage => "https://avatars.githubusercontent.com/u/87239446?v=4";
 
@@ -68,15 +69,15 @@ public static class SiteConfig
             public static List<NavItem> Navigation => new()
             {
                 new() { 
-                    Title = Projects.Subtitle, 
+                    Title = Projects.Subject, 
                     Target = Projects.Id 
                 },
                 new() { 
-                    Title = Skills.Subtitle, 
+                    Title = Skills.Subject, 
                     Target = Skills.Id 
                 },
                 new() { 
-                    Title = Contact.Subtitle,
+                    Title = Contact.Subject,
                     Target = Contact.Id 
                 }
             };
@@ -84,9 +85,9 @@ public static class SiteConfig
 
         public static class Projects
         {
-            public static string Id => "projects";
+            public static string Id => "Projects";
+            public static string Subject => "نمونه کارها";
             public static string Title => "پروژه‌های من";
-            public static string Subtitle => "نمونه کارها";
             public static string Description => "مجموعه‌ای از پروژه‌های برجسته که نشان‌دهنده تجربه و مهارت‌های من است";
 
             public static List<Project> Items => new()
@@ -138,9 +139,9 @@ public static class SiteConfig
 
         public static class Skills
         {
-            public static string Id => "skills";
+            public static string Id => "Skills";
+            public static string Subject => "تخصص‌ها";
             public static string Title => "مهارت‌های من";
-            public static string Subtitle => "تخصص‌ها";
             public static string Description => "مجموعه توانمندی‌های فنی و تخصصی که در طول سال‌ها کسب کرده‌ام";
 
             public static List<Skill> Items => new()
@@ -148,55 +149,55 @@ public static class SiteConfig
                 new() { 
                     Title = "Frontend", 
                     Progress = 90, 
-                    Icon = "code" 
+                    Icon = "fas fa-code" 
                 },
                 new() { 
                     Title = "Backend", 
                     Progress = 75, 
-                    Icon = "database" 
+                    Icon = "fas fa-database" 
                 },
                 new() { 
                     Title = "UI/UX", 
                     Progress = 85, 
-                    Icon = "palette" 
+                    Icon = "fas fa-palette" 
                 },
                 new() { 
                     Title = "DevOps", 
                     Progress = 70, 
-                    Icon = "server" 
+                    Icon = "fas fa-server" 
                 }
             };
         }
 
         public static class Contact
         {
-            public static string Id => "contact";
+            public static string Id => "Contact";
+            public static string Subject => "ارتباط با من";
             public static string Title => "تماس با من";
-            public static string Subtitle => "ارتباط با من";
             public static string Description => "آماده همکاری در پروژه‌های جدید و پاسخگویی به سؤالات شما هستم";
             public static string Location => "تهران، ایران";
             public static string Email => "mobinjavari@duck.com";
         }
 
         public static class Tools
-        {
-            public static string Id => "tools";
-            public static string Title => "ابزارها";
-            public static string Description => "مجموعه ابزارهای کاربردی برای تسهیل کارهای روزمره";
-
-            public static List<Tool> Items => new()
             {
-                new() {
-                    Id = "grade-calculator",
-                    Title = "محاسبه نمره",
-                    Description = "محاسبه رتبه دانش‌آموز بر اساس نمره",
-                    Icon = "calculator",
-                    IconBrand = "fas",
-                    LastUpdate = DateTimeOffset.FromUnixTimeSeconds(1741592305).DateTime,
-                    Status = ToolStatus.Active
-                },
-            };
-        }
+                public static string Id => "Tools";
+                public static string Title => "ابزارها";
+                public static string Description => "مجموعه ابزارهای کاربردی برای تسهیل کارهای روزمره";
+                public static string Icon => "fas fa-toolbox";
+
+                public static List<Tool> Items => new()
+                {
+                    new() {
+                        Id = "Grade Calculator",
+                        Name = "محاسبه نمره",
+                        Description = "محاسبه رتبه دانش‌آموز بر اساس نمره",
+                        Icon = "fas fa-calculator",
+                        LastUpdate = DateTimeOffset.FromUnixTimeSeconds(1741592305).DateTime,
+                        Status = ToolStatus.Active
+                    },
+                };
+            }
 
         public static class Footer
         {
@@ -206,17 +207,17 @@ public static class SiteConfig
             {
                 new() { 
                     Url = "https://x.com/mobinjavari", 
-                    Icon = "twitter", 
+                    Icon = "fab fa-twitter", 
                     Color = "blue" 
                 },
                 new() { 
                     Url = "https://t.me/mobinjavari", 
-                    Icon = "telegram", 
+                    Icon = "fab fa-telegram", 
                     Color = "blue" 
                 },
                 new() { 
                     Url = "https://github.com/mobinjavari", 
-                    Icon = "github", 
+                    Icon = "fab fa-github", 
                     Color = "slate" 
                 }
             };
@@ -249,8 +250,7 @@ public record MenuItem
     public required string Url { get; init; }
     public required string Icon { get; init; }
     public required string Title { get; init; }
-    public required string Desc { get; init; }
-    public required string Brand { get; init; }
+    public required string Description { get; init; }
 }
 
 public record UsefulLink
@@ -291,10 +291,9 @@ public record Skill
 public record Tool
 {
     public required string Id { get; init; }
-    public required string Title { get; init; }
+    public required string Name { get; init; }
     public required string Description { get; init; }
     public required string Icon { get; init; }
-    public required string IconBrand { get; init; }
     public required DateTime LastUpdate { get; init; }
     public required ToolStatus Status { get; init; }
 }

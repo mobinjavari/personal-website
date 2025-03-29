@@ -1,12 +1,9 @@
 @page "/tools"
 @using MyWebApp.Models
+@using MyWebApp.Utils;
 @model MyWebApp.Pages.Tools.IndexModel
 @{
     Layout = "_ToolsLayout";
-    ViewData["Title"] = "Tools";
-    ViewData["ToolName"] = "لیست";
-    ViewData["ToolDescription"] = "مجموعه ابزارهای کاربردی برای تسهیل کارهای روزمره";
-    ViewData["ToolIcon"] = "fas fa-list";
 }
 
 <div class="max-w-6xl mx-auto">
@@ -25,11 +22,14 @@
 
     <!-- Tools Grid -->
     <div id="tools-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" data-aos="fade-up" data-aos-delay="100">
+        @{
+            var toolsId = SiteConfig.Content.Tools.Id.ToLower();
+        }
         @foreach (var tool in SiteConfig.Content.Tools.Items)
         {
-            <a href="/tools/@tool.Id" 
+            <a href="@StringUtils.ToUrl($"/{toolsId}/{tool.Id}")" 
                 class="tool-item group relative bg-white dark:bg-slate-800 rounded-2xl transition-all duration-500 hover:shadow-xl hover:shadow-[#238636]/5 dark:hover:shadow-[#238636]/10 hover:-translate-y-1 overflow-hidden"
-                data-tool-name="@tool.Title"
+                data-tool-name="@tool.Name"
                 data-tool-description="@tool.Description"
                 data-aos="zoom-in" data-aos-delay="150">
                 <div class="absolute inset-0">
@@ -42,15 +42,15 @@
                         <div class="relative group/icon">
                             <div class="absolute inset-0 bg-[#238636]/20 dark:bg-[#238636]/30 blur-xl rounded-full group-hover/icon:scale-125 transition-transform duration-500"></div>
                             <div class="relative bg-gradient-to-br from-[#238636]/10 to-[#2ea043]/10 dark:from-[#238636]/20 dark:to-[#2ea043]/20 p-4 rounded-xl group-hover/icon:bg-[#238636]/20 dark:group-hover/icon:bg-[#238636]/30 transition-all duration-500">
-                                <i class="@tool.IconBrand fa-@tool.Icon text-2xl text-[#238636] dark:text-[#2ea043] group-hover/icon:scale-110 transition-transform duration-500"></i>
+                                <i class="@tool.Icon text-2xl text-[#238636] dark:text-[#2ea043] group-hover/icon:scale-110 transition-transform duration-500"></i>
                             </div>
                         </div>
 
                         <div class="flex-1">
                             <h3 class="text-lg font-semibold text-slate-900 dark:text-white group-hover:text-[#238636] dark:group-hover:text-[#2ea043] transition-colors duration-300">
-                                @tool.Title
+                                @tool.Name
                             </h3>
-                            <p class="text-slate-600 dark:text-slate-400 text-sm mt-1">@tool.Description</p>
+                            <p class="text-slate-600 dark:text-slate-400 text-sm mt-1">@StringUtils.TruncateWords(tool.Description, 4)</p>
                         </div>
                     </div>
 

@@ -1,11 +1,13 @@
 @page "/tools/grade-calculator"
+@using MyWebApp.Models;
 @model MyWebApp.Pages.Tools.GradeCalculator.IndexModel
 @{
     Layout = "_ToolsLayout";
-    ViewData["Title"] = "Grade Calculator";
-    ViewData["ToolName"] = "محاسبه نمره";
-    ViewData["ToolDescription"] = "محاسبه رتبه دانش‌آموز بر اساس نمره";
-    ViewData["ToolIcon"] = "fas fa-calculator";
+    var tool = SiteConfig.Content.Tools.Items.FirstOrDefault(x => x.Id == "Grade Calculator");
+    ViewData["Title"] = tool?.Id;
+    ViewData["ToolName"] = tool?.Name;
+    ViewData["ToolDescription"] = tool?.Description;
+    ViewData["ToolIcon"] = tool?.Icon;
 }
 
 <style>
@@ -20,7 +22,7 @@
     }
 </style>
 
-<div class="min-h-screen bg-gray-50 dark:bg-gray-900 py-12">
+<div class="min-h-screen py-12">
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <!-- Header Section -->
         <div class="text-center mb-12">
@@ -116,79 +118,6 @@
                                 </div>
                             </div>
                         }
-                    </div>
-                </div>
-
-                <!-- Advertisement Card -->
-                <div class="mt-8">
-                    <div class="bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl overflow-hidden shadow-xl">
-                        <div class="relative">
-                            <!-- Background Pattern -->
-                            <div class="absolute inset-0 opacity-10">
-                                <svg class="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-                                    <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">
-                                        <path d="M 10 0 L 0 0 0 10" fill="none" stroke="white" stroke-width="0.5"/>
-                                    </pattern>
-                                    <rect width="100" height="100" fill="url(#grid)"/>
-                                </svg>
-                            </div>
-
-                            <!-- Content -->
-                            <div class="relative p-4 sm:p-6">
-                                <div class="flex flex-col sm:flex-row items-start gap-4 sm:gap-6">
-                                    <!-- Image Container -->
-                                    <div class="w-20 h-20 sm:w-24 sm:h-24 mx-auto sm:mx-0 flex-shrink-0 rounded-xl overflow-hidden">
-                                        <img src="https://placehold.co/96x96" 
-                                             alt="تبلیغات" 
-                                             class="w-full h-full object-cover"
-                                             loading="lazy" />
-                                    </div>
-
-                                    <!-- Text Content -->
-                                    <div class="flex-1 text-center sm:text-right">
-                                        <div class="flex flex-wrap items-center justify-center sm:justify-start gap-2 mb-2">
-                                            <span class="px-2 py-1 bg-white/10 rounded-lg text-xs font-medium text-white">
-                                                تبلیغات ویژه
-                                            </span>
-                                            <span class="px-2 py-1 bg-white/10 rounded-lg text-xs font-medium text-white">
-                                                محدود
-                                            </span>
-                                        </div>
-                                        <h3 class="text-lg font-bold text-white mb-2">
-                                            عنوان تبلیغ شما در اینجا
-                                        </h3>
-                                        <p class="text-white/80 text-sm leading-relaxed mb-4">
-                                            متن تبلیغ شما در این قسمت نمایش داده می‌شود. این فضا برای معرفی محصول یا خدمات شما است.
-                                        </p>
-                                        
-                                        <!-- CTA Button -->
-                                        <a href="#" class="inline-flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 
-                                                        rounded-lg text-white text-sm font-medium transition-colors duration-200">
-                                            <span>اطلاعات بیشتر</span>
-                                            <i class="fas fa-arrow-left text-xs"></i>
-                                        </a>
-                                    </div>
-                                </div>
-
-                                <!-- Bottom Stats -->
-                                <div class="mt-6 pt-6 border-t border-white/10">
-                                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-white/80 text-sm text-center sm:text-right">
-                                        <div class="flex items-center justify-center sm:justify-start gap-2">
-                                            <i class="fas fa-eye"></i>
-                                            <span>1.2K بازدید</span>
-                                        </div>
-                                        <div class="flex items-center justify-center sm:justify-start gap-2">
-                                            <i class="fas fa-clock"></i>
-                                            <span>3 روز باقی‌مانده</span>
-                                        </div>
-                                        <div class="flex items-center justify-center sm:justify-start gap-2">
-                                            <i class="fas fa-star"></i>
-                                            <span>تبلیغ ویژه</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>

@@ -1,5 +1,12 @@
+@using MyWebApp.Models;
+@using MyWebApp.Utils;
 @{
     Layout = "_Layout";
+    var title = ViewData["Title"]?.ToString();
+    var toolsId = SiteConfig.Content.Tools.Id;
+    ViewData["Title"] = string.IsNullOrEmpty(title)
+        ? toolsId
+        : $"{title} | {toolsId}";
 }
 
 <!-- Tools Header -->
@@ -26,29 +33,37 @@
                 <h1 class="text-3xl font-bold text-white mb-2 flex items-center gap-3">
                     <div class="w-2 h-2 rounded-full bg-white/50 animate-pulse"></div>
                     <span class="relative">
-                        @ViewData["ToolName"]
+                        @{
+                            var toolName = ViewData["ToolName"]?.ToString() ?? SiteConfig.Content.Tools.Title;
+                        }
+                        @toolName
                         <span class="absolute bottom-0 left-0 w-full h-[2px] bg-white/20 transform scale-x-0 group-hover/title:scale-x-100 transition-transform origin-right"></span>
                     </span>
                 </h1>
-                <p class="text-white/80 max-w-xl mr-auto">@ViewData["ToolDescription"]</p>
+                <p class="text-white/80 max-w-xl mr-auto">
+                    @{
+                        var toolDescription = ViewData["ToolDescription"]?.ToString() ?? SiteConfig.Content.Tools.Description;
+                    }
+                    @toolDescription
+                </p>
             </div>
 
-            @if (!string.IsNullOrEmpty(ViewData["ToolIcon"]?.ToString()))
-            {
-                <div class="relative group/icon">
-                    <div class="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent rounded-2xl group-hover/icon:rotate-180 transition-transform duration-700"></div>
-                    <div class="absolute inset-0 bg-white/20 dark:bg-white/10 blur-xl rounded-2xl group-hover/icon:scale-110 transition-transform duration-300"></div>
-                    <div class="relative bg-white/10 dark:bg-white/5 backdrop-blur-xl p-6 rounded-2xl group-hover/icon:bg-white/20 transition-all duration-300">
-                        <i class="@ViewData["ToolIcon"] text-4xl text-white transform group-hover/icon:scale-110 transition-transform"></i>
-                    </div>
-                    <div class="absolute inset-0 bg-white/30 rounded-2xl blur-xl opacity-0 group-hover/icon:opacity-100 transition-opacity duration-300"></div>
-                    <div class="absolute -inset-2 opacity-0 group-hover/icon:opacity-100 transition-opacity duration-300 pointer-events-none">
-                        <div class="absolute top-0 right-0 w-2 h-2 bg-white rounded-full animate-ping"></div>
-                        <div class="absolute bottom-0 left-0 w-2 h-2 bg-white rounded-full animate-ping delay-300"></div>
-                        <div class="absolute top-1/2 left-0 w-2 h-2 bg-white rounded-full animate-ping delay-700"></div>
-                    </div>
+            <div class="relative group/icon">
+                <div class="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent rounded-2xl group-hover/icon:rotate-180 transition-transform duration-700"></div>
+                <div class="absolute inset-0 bg-white/20 dark:bg-white/10 blur-xl rounded-2xl group-hover/icon:scale-110 transition-transform duration-300"></div>
+                <div class="relative bg-white/10 dark:bg-white/5 backdrop-blur-xl p-6 rounded-2xl group-hover/icon:bg-white/20 transition-all duration-300">
+                    @{
+                        var toolIcon = ViewData["ToolIcon"]?.ToString() ?? "fas fa-list";
+                    }
+                    <i class="@toolIcon text-4xl text-white transform group-hover/icon:scale-110 transition-transform"></i>
                 </div>
-            }
+                <div class="absolute inset-0 bg-white/30 rounded-2xl blur-xl opacity-0 group-hover/icon:opacity-100 transition-opacity duration-300"></div>
+                <div class="absolute -inset-2 opacity-0 group-hover/icon:opacity-100 transition-opacity duration-300 pointer-events-none">
+                    <div class="absolute top-0 right-0 w-2 h-2 bg-white rounded-full animate-ping"></div>
+                    <div class="absolute bottom-0 left-0 w-2 h-2 bg-white rounded-full animate-ping delay-300"></div>
+                    <div class="absolute top-1/2 left-0 w-2 h-2 bg-white rounded-full animate-ping delay-700"></div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -59,9 +74,12 @@
         <nav class="py-4">
             <ol class="flex items-center space-x-4 space-x-reverse text-sm">
                 <li class="group/home">
-                    <a href="/" class="flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
-                        <i class="fas fa-home text-[#238636] dark:text-[#3fb950] group-hover/home:scale-110 transition-transform"></i>
-                        <span class="relative">خانه</span>
+                    @{
+                        var home = SiteConfig.Content.Header.MenuItems.First();
+                    }
+                    <a href="@StringUtils.ToUrl($"/{home.Url}")" class="flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
+                        <i class="@home.Icon text-[#238636] dark:text-[#3fb950] group-hover/home:scale-110 transition-transform"></i>
+                        <span class="relative">@home.Title</span>
                     </a>
                 </li>
 
@@ -72,9 +90,9 @@
                 @if (!string.IsNullOrEmpty(ViewData["ToolName"]?.ToString()))
                 {
                     <li>
-                        <a href="/tools" class="flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
-                            <i class="fas fa-toolbox text-[#238636] dark:text-[#3fb950]"></i>
-                            <span class="relative">ابزارها</span>
+                        <a href="@StringUtils.ToUrl($"/{SiteConfig.Content.Tools.Id}")" class="flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
+                            <i class="@SiteConfig.Content.Tools.Icon text-[#238636] dark:text-[#3fb950]"></i>
+                            <span class="relative">@SiteConfig.Content.Tools.Title</span>
                         </a>
                     </li>
 
@@ -90,8 +108,8 @@
                 else
                 {
                     <li class="flex items-center gap-2 text-slate-900 dark:text-white">
-                        <i class="fas fa-toolbox text-[#238636] dark:text-[#3fb950]"></i>
-                        <span class="font-medium">ابزارها</span>
+                        <i class="@SiteConfig.Content.Tools.Icon text-[#238636] dark:text-[#3fb950]"></i>
+                        <span class="font-medium">@SiteConfig.Content.Tools.Title</span>
                     </li>
                 }
             </ol>
