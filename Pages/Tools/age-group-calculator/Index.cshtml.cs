@@ -9,6 +9,7 @@ public class IndexModel : PageModel
     public int? Age { get; set; }
     public string? Result { get; set; }
     public string? Error { get; set; }
+    public string? ColorClass { get; set; }
 
     public void OnGet()
     {
@@ -28,15 +29,16 @@ public class IndexModel : PageModel
             return Page();
         }
 
-        Result = Age switch
+        (Result, ColorClass) = Age switch
         {
-            <= 12 => "کودک",
-            <= 19 => "نوجوان",
-            <= 35 => "جوان",
-            <= 60 => "میان‌سال",
-            _ => "کهن‌سال"
+            <= 12 => ("کودک", "border-blue-500"),
+            <= 19 => ("نوجوان", "border-purple-500"),
+            <= 35 => ("جوان", "border-green-500"),
+            <= 60 => ("میان‌سال", "border-yellow-500"),
+            _ => ("کهن‌سال", "border-red-500")
         };
 
+        Error = null;
         return Page();
     }
 } 

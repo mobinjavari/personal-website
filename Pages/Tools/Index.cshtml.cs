@@ -1,11 +1,12 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace MyWebApp.Pages.Tools
+namespace MyWebApp.Pages.Tools;
+
+public class IndexModel : PageModel
 {
-    public class IndexModel : PageModel
+    public IActionResult OnGet()
     {
-        public void OnGet()
-        {
-        }
+        return Page();
     }
 } 
