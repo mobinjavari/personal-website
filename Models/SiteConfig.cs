@@ -204,6 +204,14 @@ public static class SiteConfig
                         LastUpdate = DateTimeOffset.FromUnixTimeSeconds(1743209105).DateTime,
                         Status = ToolStatus.Active
                     },
+                    new() {
+                        Id = "Discount Calculator",
+                        Name = "محاسبه تخفیف",
+                        Description = "محاسبه تخفیف بر اساس درصد",
+                        Icon = "fas fa-percent",
+                        LastUpdate = DateTimeOffset.FromUnixTimeSeconds(1743209105).DateTime,
+                        Status = ToolStatus.Active
+                    }
                 };
             }
 
