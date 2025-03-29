@@ -211,6 +211,14 @@ public static class SiteConfig
                         Icon = "fas fa-percent",
                         LastUpdate = DateTimeOffset.FromUnixTimeSeconds(1743209105).DateTime,
                         Status = ToolStatus.Active
+                    },
+                    new() {
+                        Id = "Password Checker",
+                        Name = "بررسی رمز عبور",
+                        Description = "بررسی رمز عبور بر اساس استانداردها",
+                        Icon = "fas fa-lock",
+                        LastUpdate = DateTimeOffset.FromUnixTimeSeconds(1743209105).DateTime,
+                        Status = ToolStatus.Active
                     }
                 };
             }
