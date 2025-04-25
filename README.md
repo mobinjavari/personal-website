@@ -1,5 +1,5 @@
 <div align="center">
-    <h1>🌟 Personal Website <sub>with</sub> C#</h1>
+    <h1>🌟 Personal Website <sub>with</sub> ASP.NET Core</h1>
     <p>
         Modern personal website with clean design and responsive interface
     </p>
@@ -41,7 +41,6 @@ The application will be available at [http://localhost:8080](http://localhost:80
 
 ## Technologies
 
-- ASP.NET Core
+- ASP.NET Core (C#)
 - Tailwind CSS
-- C#
 - Docker
