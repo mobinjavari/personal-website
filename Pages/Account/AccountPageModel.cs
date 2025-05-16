@@ -106,67 +106,51 @@ public abstract class AccountPageModel : PageModel
             return BadRequest("لطفا یک فایل انتخاب کنید");
         }
 
-        if (file.Length > 10 * 1024 * 1024)
-        {
-            return BadRequest("حجم فایل نباید بیشتر از 10 مگابایت باشد");
-        }
-
-        if (!file.FileName.EndsWith(".db"))
-        {
-            return BadRequest("فقط فایل‌های با پسوند .db مجاز هستند");
-        }
-
         try
         {
             var dbPath = Path.Combine(Directory.GetCurrentDirectory(), "app.db");
             _logger.LogInformation($"Starting database upload process. Target path: {dbPath}");
 
+            await _context.Database.CloseConnectionAsync();
+            await _context.DisposeAsync();
+            SqliteConnection.ClearPool(new SqliteConnection($"Data Source={dbPath}"));
+            
             GC.Collect();
             GC.WaitForPendingFinalizers();
 
-            // Create backup
             if (System.IO.File.Exists(dbPath))
             {
                 string backupPath = $"{dbPath}.{DateTime.Now:yyyyMMddHHmmss}.backup";
-                System.IO.File.Copy(dbPath, backupPath, true);
-                _logger.LogInformation($"Created backup at: {backupPath}");
+                try 
+                {
+                    System.IO.File.Copy(dbPath, backupPath, true);
+                    System.IO.File.Delete(dbPath);
+                }
+                catch (IOException)
+                {
+                    await Task.Delay(1000);
+                    System.IO.File.Copy(dbPath, backupPath, true);
+                    System.IO.File.Delete(dbPath);
+                }
             }
 
-            // Validate SQLite file
-            var tempPath = Path.GetTempFileName();
-            using (var stream = new FileStream(tempPath, FileMode.Create))
+            using (var fileStream = new FileStream(dbPath, FileMode.Create))
             {
-                await file.CopyToAsync(stream);
+                await file.CopyToAsync(fileStream);
             }
 
             try
             {
-                using var connection = new SqliteConnection($"Data Source={tempPath}");
-                await connection.OpenAsync();
-                await connection.CloseAsync();
+                using var testConnection = new SqliteConnection($"Data Source={dbPath}");
+                await testConnection.OpenAsync();
+                await testConnection.CloseAsync();
             }
-            catch (Exception)
+            catch
             {
-                System.IO.File.Delete(tempPath);
                 return BadRequest("فایل آپلود شده یک دیتابیس SQLite معتبر نیست");
             }
 
-            // Replace database file
-            if (System.IO.File.Exists(dbPath))
-            {
-                var fileInfo = new FileInfo(dbPath);
-                fileInfo.IsReadOnly = false;
-            }
-
-            System.IO.File.Copy(tempPath, dbPath, true);
-            System.IO.File.Delete(tempPath);
-
-            // Clear DB context and connection pool
-            await _context.DisposeAsync();
-            SqliteConnection.ClearPool(new SqliteConnection($"Data Source={dbPath}"));
-
-            _logger.LogInformation("Database file replaced successfully");
-            return RedirectToPage("/Account/Index", new { message = "دیتابیس با موفقیت آپلود و جایگزین شد" });
+            return RedirectToPage("/Account/Index");
         }
         catch (Exception ex)
         {
