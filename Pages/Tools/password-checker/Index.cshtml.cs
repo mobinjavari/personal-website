@@ -43,7 +43,6 @@ public class IndexModel : PageModel
         {
             Result = "رمز عبور قوی نیست";
             ColorClass = "border-red-500";
-            // Message = "رمز عبور باید شامل موارد زیر باشد";
             Message = null;
         }
 
@@ -65,20 +64,17 @@ public class IndexModel : PageModel
 
         var password = new StringBuilder();
         
-        // Add at least one character from each required set
         password.Append(upperCase[RandomNumberGenerator.GetInt32(upperCase.Length)]);
         password.Append(lowerCase[RandomNumberGenerator.GetInt32(lowerCase.Length)]);
         password.Append(digits[RandomNumberGenerator.GetInt32(digits.Length)]);
         password.Append(special[RandomNumberGenerator.GetInt32(special.Length)]);
 
-        // Add random characters until we reach desired length (12)
         var allChars = upperCase + lowerCase + digits + special;
         while (password.Length < 12)
         {
             password.Append(allChars[RandomNumberGenerator.GetInt32(allChars.Length)]);
         }
 
-        // Shuffle the password
         return new string(password.ToString().ToCharArray().OrderBy(x => RandomNumberGenerator.GetInt32(password.Length)).ToArray());
     }
 
@@ -105,4 +101,4 @@ public class IndexModel : PageModel
 
         return (requirements.All(r => r.IsMet), requirements);
     }
-} 
+}

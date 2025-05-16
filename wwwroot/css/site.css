@@ -82,7 +82,7 @@ body {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at center, theme('colors.brand.DEFAULT/0.1'), transparent 70%);
+  /* background: radial-gradient(circle at center, #238636, transparent 70%); */
   opacity: 0;
   transition: opacity 0.3s ease;
 }
@@ -102,5 +102,5 @@ body {
   left: 0;
   width: 100%;
   height: 2px;
-  background: linear-gradient(to right, theme('colors.brand.DEFAULT'), theme('colors.brand.dark'));
+  background: linear-gradient(to right, #2ea043, #238636);
 }

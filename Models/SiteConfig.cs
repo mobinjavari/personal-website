@@ -37,6 +37,12 @@ public static class SiteConfig
                     Description = "صفحه اصلی سایت"
                 },
                 new() { 
+                    Url = "/Account", 
+                    Icon = "fas fa-user", 
+                    Title = "حساب کاربری", 
+                    Description = "صفحه حساب کاربری"
+                },
+                new() { 
                     Url = $"/{Tools.Id}", 
                     Icon = Tools.Icon, 
                     Title = Tools.Title, 

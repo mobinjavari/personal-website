@@ -1,0 +1,18 @@
+@page
+@model MyWebApp.Pages.Auth.LogoutModel
+@{
+    ViewData["Title"] = "Logout";
+}
+
+<div class="min-h-[calc(100vh-4rem)] relative flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <!-- Pattern Background -->
+    <div class="absolute inset-0 bg-slate-50 dark:bg-slate-900">
+        <div class="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] dark:bg-[radial-gradient(#1e293b_1px,transparent_1px)]"></div>
+        <div class="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-slate-100/50 dark:to-slate-800/50"></div>
+    </div>
+
+    <div class="relative w-full max-w-md text-center">
+        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-[#238636] dark:border-[#3fb950] mx-auto"></div>
+        <p class="mt-4 text-slate-600 dark:text-slate-400">در حال خروج...</p>
+    </div>
+</div>
