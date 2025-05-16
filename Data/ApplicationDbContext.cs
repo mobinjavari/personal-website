@@ -23,5 +23,19 @@ public class ApplicationDbContext : DbContext
         modelBuilder.Entity<User>()
             .HasIndex(u => u.Username)
             .IsUnique();
+
+        // Add default owner user
+        modelBuilder.Entity<User>().HasData(
+            new User
+            {
+                Id = 1, // Using negative ID for seed data
+                Username = "mobinjavari",
+                Email = "mobinjavari@duck.com",
+                Password = "none", // adding default password
+                Rank = UserRank.Owner,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow
+            }
+        );
     }
-} 
+}
