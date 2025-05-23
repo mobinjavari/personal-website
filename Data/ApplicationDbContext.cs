@@ -29,12 +29,10 @@ public class ApplicationDbContext : DbContext
             new User
             {
                 Id = 1, // Using negative ID for seed data
-                Username = "mobinjavari",
-                Email = "mobinjavari@duck.com",
+                Username = "Owner",
+                Email = "owner@example.com",
                 Password = "none", // adding default password
-                Rank = UserRank.Owner,
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow
+                Rank = UserRank.Owner
             }
         );
     }

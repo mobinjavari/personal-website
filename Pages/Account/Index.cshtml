@@ -1,200 +1,213 @@
 @page
 @model MyWebApp.Pages.Account.IndexModel
 @{
-    ViewData["Title"] = "Dashboard";
+Layout = "_AccountLayout";
+ViewData["Title"] = "Dashboard";
 }
 
-<div class="min-h-[calc(100vh-4rem)] relative py-12 px-4 sm:px-6 lg:px-8">
-    <!-- Pattern Background -->
-    <div class="absolute inset-0 bg-slate-50 dark:bg-slate-900">
-        <div class="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] dark:bg-[radial-gradient(#1e293b_1px,transparent_1px)]"></div>
-        <div class="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-slate-100/50 dark:to-slate-800/50"></div>
+<!-- Welcome Section -->
+<div class="text-center mb-12">
+  <h1 class="text-4xl font-bold bg-gradient-to-r from-[#238636] to-[#2ea043] dark:from-[#3fb950] dark:to-[#7ee787] text-transparent bg-clip-text">
+    سلام، @Model.UserData?.DisplayName
+  </h1>
+  <p class="mt-3 text-sm text-slate-600 dark:text-slate-400">
+    به داشبورد شخصی خود خوش آمدید
+  </p>
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+  <!-- Profile Card -->
+  <div class="lg:col-span-1">
+    <div class="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-xl p-8 border border-slate-200/50 dark:border-slate-700/50">
+      <div class="flex flex-col items-center">
+        <!-- Avatar -->
+        <div class="relative">
+          <div class="w-24 h-24 rounded-full bg-gradient-to-r from-[#238636] to-[#2ea043] dark:from-[#3fb950] dark:to-[#7ee787] flex items-center justify-center text-white text-3xl font-bold">
+            @(Model.UserData?.AvatarName)
+          </div>
+          <div class="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-green-500 border-2 border-white dark:border-slate-800"></div>
+        </div>
+
+        <!-- User Info -->
+        <div class="mt-6 text-center">
+          <h2 class="text-2xl font-bold text-slate-900 dark:text-white">
+            @(Model.UserData?.FirstName ?? "خالی") @(Model.UserData?.LastName ?? "خالی‌زاده")
+          </h2>
+          <p class="mt-1 text-slate-500 dark:text-slate-400">@(Model.UserData?.Username + '@')</p>
+        </div>
+
+        <!-- User Details -->
+        <div class="mt-8 w-full space-y-4">
+          <!-- Email -->
+          <div class="flex items-center p-4 rounded-xl bg-slate-100/50 dark:bg-slate-700/50">
+            <div class="w-10 h-10 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center ml-3">
+              <i class="fas fa-envelope text-blue-600 dark:text-blue-400"></i>
+            </div>
+            <div>
+              <p class="text-sm text-slate-500 dark:text-slate-400">ایمیل</p>
+              <p class="font-medium text-slate-900 dark:text-white">@Model.UserData?.Email</p>
+            </div>
+          </div>
+
+          <!-- Rank -->
+          <div class="flex items-center p-4 rounded-xl bg-slate-100/50 dark:bg-slate-700/50">
+            <div class="w-10 h-10 rounded-lg bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center ml-3">
+              <i class="fas fa-crown text-purple-600 dark:text-purple-400"></i>
+            </div>
+            <div>
+              <p class="text-sm text-slate-500 dark:text-slate-400">سطح کاربری</p>
+              <p class="font-medium text-slate-900 dark:text-white">@Model.UserData?.Rank</p>
+            </div>
+          </div>
+
+          <!-- Join Date -->
+          <div class="flex items-center p-4 rounded-xl bg-slate-100/50 dark:bg-slate-700/50">
+            <div class="w-10 h-10 rounded-lg bg-green-100 dark:bg-green-900/30 flex items-center justify-center ml-3">
+              <i class="fas fa-calendar-alt text-green-600 dark:text-green-400"></i>
+            </div>
+            <div>
+              <p class="text-sm text-slate-500 dark:text-slate-400">تاریخ عضویت</p>
+              <p class="font-medium text-slate-900 dark:text-white">@Model.UserData?.CreatedAt.ToString("yyyy/MM/dd")</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="mt-8 flex space-x-4 rtl:space-x-reverse">
+          <a href="/Account/Profile" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-xl shadow-sm text-white bg-[#238636] hover:bg-[#2ea043] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#238636] transition-colors">
+            <i class="fas fa-user-edit ml-2 rtl:mr-0 rtl:ml-2"></i>
+            پروفایل
+          </a>
+          <a href="/Auth/Logout" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-xl text-[#238636] bg-[#238636]/10 hover:bg-[#238636]/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#238636] transition-colors">
+            <i class="fas fa-sign-out-alt ml-2 rtl:mr-0 rtl:ml-2"></i>
+            خروج
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="lg:col-span-2 space-y-6">
+    <!-- Today's Date and Time -->
+    <div class="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-xl p-6 border border-slate-200/50 dark:border-slate-700/50">
+      <h3 class="text-lg font-medium text-slate-900 dark:text-white mb-4">تاریخ و زمان (UTC)</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="flex items-center p-4 rounded-xl bg-slate-100/50 dark:bg-slate-700/50">
+          <div class="w-12 h-12 rounded-lg bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center ml-3">
+            <i class="fas fa-calendar-day text-purple-600 dark:text-purple-400 text-xl"></i>
+          </div>
+          <div>
+            <p class="text-sm text-slate-500 dark:text-slate-400">تاریخ امروز</p>
+            <p id="currentDate" class="text-xl font-bold text-slate-900 dark:text-white">@DateTime.UtcNow.ToString("yyyy/MM/dd")</p>
+          </div>
+        </div>
+        <div class="flex items-center p-4 rounded-xl bg-slate-100/50 dark:bg-slate-700/50">
+          <div class="w-12 h-12 rounded-lg bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center ml-3">
+            <i class="fas fa-clock text-orange-600 dark:text-orange-400 text-xl"></i>
+          </div>
+          <div>
+            <p class="text-sm text-slate-500 dark:text-slate-400">ساعت</p>
+            <p id="currentTime" class="text-xl font-bold text-slate-900 dark:text-white">@DateTime.UtcNow.ToString("HH:mm:ss")</p>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div class="relative max-w-6xl mx-auto">
-        <!-- Welcome Section -->
-        <div class="text-center mb-12">
-            <h1 class="text-4xl font-bold bg-gradient-to-r from-[#238636] to-[#2ea043] dark:from-[#3fb950] dark:to-[#7ee787] text-transparent bg-clip-text">
-                خوش آمدید، @Model.UserData?.DisplayName
-            </h1>
-            <p class="mt-3 text-sm text-slate-600 dark:text-slate-400">
-                به داشبورد شخصی خود خوش آمدید
+    <script>
+      function updateDateTime() {
+        const now = new Date();
+        document.getElementById('currentTime').textContent =
+          now.toLocaleTimeString('en-US', {
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: false,
+            timeZone: 'UTC'
+          });
+        document.getElementById('currentDate').textContent =
+          now.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            timeZone: 'UTC'
+          });
+      }
+
+      setInterval(updateDateTime, 1000);
+      updateDateTime();
+    </script>
+
+    <!-- Recent Activity -->
+    <div class="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-xl p-6 border border-slate-200/50 dark:border-slate-700/50">
+      <h3 class="text-lg font-medium text-slate-900 dark:text-white mb-4">فعالیت‌ها</h3>
+      <div class="space-y-4">
+        <!-- Last Login -->
+        <div class="relative flex items-center p-4 rounded-xl bg-slate-100/50 dark:bg-slate-700/50 group hover:bg-slate-200/50 dark:hover:bg-slate-600/50 transition-all duration-300">
+          <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-green-100 to-green-200 dark:from-green-900/30 dark:to-green-800/30 flex items-center justify-center ml-4 group-hover:scale-110 transition-transform">
+            <i class="fas fa-sign-in-alt text-xl text-green-600 dark:text-green-400"></i>
+          </div>
+          <div class="flex-1">
+            <h4 class="font-bold mb-1 text-slate-900 dark:text-white">آخرین ورود به حساب</h4>
+            <p class="text-sm text-slate-500 dark:text-slate-400">
+              @Model.UserData?.LastLoginAt.ToString("تاریخ: yyyy/MM/dd ساعت: HH:mm")
             </p>
+          </div>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <!-- Profile Card -->
-            <div class="lg:col-span-1">
-                <div class="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-xl p-8 border border-slate-200/50 dark:border-slate-700/50">
-                    <div class="flex flex-col items-center">
-                        <!-- Avatar -->
-                        <div class="relative">
-                            <div class="w-24 h-24 rounded-full bg-gradient-to-r from-[#238636] to-[#2ea043] dark:from-[#3fb950] dark:to-[#7ee787] flex items-center justify-center text-white text-3xl font-bold">
-                                @(Model.UserData?.FirstName?.FirstOrDefault() ?? Model.UserData?.Username.FirstOrDefault() ?? '?')
-                            </div>
-                            <div class="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-green-500 border-2 border-white dark:border-slate-800"></div>
-                        </div>
-
-                        <!-- User Info -->
-                        <div class="mt-6 text-center">
-                            <h2 class="text-2xl font-bold text-slate-900 dark:text-white">
-                                @(Model.UserData?.FirstName) @(Model.UserData?.LastName)
-                            </h2>
-                            <p class="mt-1 text-slate-500 dark:text-slate-400">@@@Model.UserData?.Username</p>
-                        </div>
-
-                        <!-- User Details -->
-                        <div class="mt-8 w-full space-y-4">
-                            <!-- Email -->
-                            <div class="flex items-center p-4 rounded-xl bg-slate-100/50 dark:bg-slate-700/50">
-                                <div class="w-10 h-10 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center ml-3">
-                                    <i class="fas fa-envelope text-blue-600 dark:text-blue-400"></i>
-                                </div>
-                                <div>
-                                    <p class="text-sm text-slate-500 dark:text-slate-400">ایمیل</p>
-                                    <p class="font-medium text-slate-900 dark:text-white">@Model.UserData?.Email</p>
-                                </div>
-                            </div>
-
-                            <!-- Rank -->
-                            <div class="flex items-center p-4 rounded-xl bg-slate-100/50 dark:bg-slate-700/50">
-                                <div class="w-10 h-10 rounded-lg bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center ml-3">
-                                    <i class="fas fa-crown text-purple-600 dark:text-purple-400"></i>
-                                </div>
-                                <div>
-                                    <p class="text-sm text-slate-500 dark:text-slate-400">سطح کاربری</p>
-                                    <p class="font-medium text-slate-900 dark:text-white">@Model.UserData?.Rank</p>
-                                </div>
-                            </div>
-
-                            <!-- Join Date -->
-                            <div class="flex items-center p-4 rounded-xl bg-slate-100/50 dark:bg-slate-700/50">
-                                <div class="w-10 h-10 rounded-lg bg-green-100 dark:bg-green-900/30 flex items-center justify-center ml-3">
-                                    <i class="fas fa-calendar-alt text-green-600 dark:text-green-400"></i>
-                                </div>
-                                <div>
-                                    <p class="text-sm text-slate-500 dark:text-slate-400">تاریخ عضویت</p>
-                                    <p class="font-medium text-slate-900 dark:text-white">@Model.UserData?.CreatedAt.ToString("yyyy/MM/dd")</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Action Buttons -->
-                        <div class="mt-8 flex space-x-4 rtl:space-x-reverse">
-                            <a href="/Account/Profile" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-xl shadow-sm text-white bg-[#238636] hover:bg-[#2ea043] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#238636] transition-colors">
-                                <i class="fas fa-user-edit ml-2 rtl:mr-0 rtl:ml-2"></i>
-                                 پروفایل
-                            </a>
-                            <form method="post" action="/Auth/Logout" class="inline">
-                                <button type="submit" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-xl text-[#238636] bg-[#238636]/10 hover:bg-[#238636]/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#238636] transition-colors">
-                                    <i class="fas fa-sign-out-alt ml-2 rtl:mr-0 rtl:ml-2"></i>
-                                     خروج
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Main Content -->
-            <div class="lg:col-span-2 space-y-6">
-                <!-- Quick Stats -->
-                <div class="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-xl p-6 border border-slate-200/50 dark:border-slate-700/50">
-                    <h3 class="text-lg font-medium text-slate-900 dark:text-white mb-4">آمار کلی</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="flex items-center p-4 rounded-xl bg-slate-100/50 dark:bg-slate-700/50">
-                            <div class="w-12 h-12 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center ml-3">
-                                <i class="fas fa-clock text-blue-600 dark:text-blue-400 text-xl"></i>
-                            </div>
-                            <div>
-                                <p class="text-sm text-slate-500 dark:text-slate-400">زمان استفاده</p>
-                                <p class="text-xl font-bold text-slate-900 dark:text-white">0 دقیقه</p>
-                            </div>
-                        </div>
-                        <div class="flex items-center p-4 rounded-xl bg-slate-100/50 dark:bg-slate-700/50">
-                            <div class="w-12 h-12 rounded-lg bg-green-100 dark:bg-green-900/30 flex items-center justify-center ml-3">
-                                <i class="fas fa-calendar-check text-green-600 dark:text-green-400 text-xl"></i>
-                            </div>
-                            <div>
-                                <p class="text-sm text-slate-500 dark:text-slate-400">آخرین ورود</p>
-                                <p class="text-xl font-bold text-slate-900 dark:text-white">@DateTime.Now.ToString("HH:mm")</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Recent Activity -->
-                <div class="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-xl p-6 border border-slate-200/50 dark:border-slate-700/50">
-                    <h3 class="text-lg font-medium text-slate-900 dark:text-white mb-4">فعالیت‌های اخیر</h3>
-                    <div class="space-y-4">
-                        <div class="flex items-center p-4 rounded-xl bg-slate-100/50 dark:bg-slate-700/50">
-                            <div class="w-10 h-10 rounded-lg bg-green-100 dark:bg-green-900/30 flex items-center justify-center ml-3">
-                                <i class="fas fa-sign-in-alt text-green-600 dark:text-green-400"></i>
-                            </div>
-                            <div class="flex-1">
-                                <p class="font-medium text-slate-900 dark:text-white">ورود به حساب کاربری</p>
-                                <p class="text-sm text-slate-500 dark:text-slate-400">@DateTime.Now.ToString("yyyy/MM/dd HH:mm")</p>
-                            </div>
-                            <span class="text-xs text-slate-500 dark:text-slate-400">همین الان</span>
-                        </div>
-                        <div class="flex items-center p-4 rounded-xl bg-slate-100/50 dark:bg-slate-700/50">
-                            <div class="w-10 h-10 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center ml-3">
-                                <i class="fas fa-user-edit text-blue-600 dark:text-blue-400"></i>
-                            </div>
-                            <div class="flex-1">
-                                <p class="font-medium text-slate-900 dark:text-white">بروزرسانی پروفایل</p>
-                                <p class="text-sm text-slate-500 dark:text-slate-400">@Model.UserData?.UpdatedAt.ToString("yyyy/MM/dd HH:mm")</p>
-                            </div>
-                            <span class="text-xs text-slate-500 dark:text-slate-400">
-                                @{
-                                    var timeSinceUpdate = Model.UserData?.UpdatedAt != null ? DateTime.Now - Model.UserData.UpdatedAt : TimeSpan.Zero;
-                                    <text>@(timeSinceUpdate.TotalMinutes.ToString("0")) دقیقه پیش</text>
-                                }
-                            </span>
-                        </div>
-                    </div>
-                </div>
-
-                @if (Model.UserData?.Rank.ToString() == "Owner")
-                {
-                    <!-- Database Management Card -->
-                    <div class="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-xl p-6 border border-slate-200/50 dark:border-slate-700/50">
-                        <h3 class="text-lg font-medium text-slate-900 dark:text-white mb-6">مدیریت دیتابیس</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div class="group flex flex-col p-4 rounded-xl bg-slate-100/50 dark:bg-slate-700/50 hover:bg-slate-200/50 dark:hover:bg-slate-600/50 transition-all duration-300">
-                                <div class="flex items-center">
-                                    <div class="w-12 h-12 rounded-lg bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center ml-3 group-hover:scale-110 transition-transform duration-300">
-                                        <i class="fas fa-download text-emerald-600 dark:text-emerald-400 text-xl"></i>
-                                    </div>
-                                    <div>
-                                        <p class="font-medium text-slate-900 dark:text-white">دانلود دیتابیس</p>
-                                        <p class="text-sm text-slate-500 dark:text-slate-400">دریافت نسخه پشتیبان</p>
-                                    </div>
-                                </div>
-                                <a href="/Account/Database/Download" class="mt-4 w-full px-6 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors text-center">
-                                    <i class="fas fa-download ml-1"></i>
-                                    دانلود
-                                </a>
-                            </div>
-                            <div class="group flex flex-col p-4 rounded-xl bg-slate-100/50 dark:bg-slate-700/50 hover:bg-slate-200/50 dark:hover:bg-slate-600/50 transition-all duration-300">
-                                <div class="flex items-center">
-                                    <div class="w-12 h-12 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center ml-3 group-hover:scale-110 transition-transform duration-300">
-                                        <i class="fas fa-upload text-blue-600 dark:text-blue-400 text-xl"></i>
-                                    </div>
-                                    <div>
-                                        <p class="font-medium text-slate-900 dark:text-white">آپلود دیتابیس</p>
-                                        <p class="text-sm text-slate-500 dark:text-slate-400">بازگردانی نسخه پشتیبان</p>
-                                    </div>
-                                </div>
-                                <a href="/Account/Database/Upload" class="mt-4 w-full px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-center">
-                                    <i class="fas fa-upload ml-1"></i>
-                                    آپلود
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                }
-            </div>
+        <!-- Last Profile Update -->
+        <div class="relative flex items-center p-4 rounded-xl bg-slate-100/50 dark:bg-slate-700/50 group hover:bg-slate-200/50 dark:hover:bg-slate-600/50 transition-all duration-300">
+          <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-blue-100 to-blue-200 dark:from-blue-900/30 dark:to-blue-800/30 flex items-center justify-center ml-4 group-hover:scale-110 transition-transform">
+            <i class="fas fa-user-edit text-xl text-blue-600 dark:text-blue-400"></i>
+          </div>
+          <div class="flex-1">
+            <h4 class="font-bold mb-1 text-slate-900 dark:text-white">آخرین بروزرسانی پروفایل</h4>
+            <p class="text-sm text-slate-500 dark:text-slate-400">
+              @Model.UserData?.LastProfileUpdatedAt.ToString("تاریخ: yyyy/MM/dd ساعت: HH:mm")
+            </p>
+          </div>
         </div>
+      </div>
     </div>
+
+    <!-- Database Management -->
+    @if (Model.UserData?.Rank.ToString() == "Owner")
+    {
+    <div class="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-xl p-6 border border-slate-200/50 dark:border-slate-700/50">
+      <h3 class="text-lg font-medium text-slate-900 dark:text-white mb-6">مدیریت دیتابیس</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="group flex flex-col p-4 rounded-xl bg-slate-100/50 dark:bg-slate-700/50 hover:bg-slate-200/50 dark:hover:bg-slate-600/50 transition-all duration-300">
+          <div class="flex items-center">
+            <div class="w-12 h-12 rounded-lg bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center ml-3 group-hover:scale-110 transition-transform duration-300">
+              <i class="fas fa-download text-emerald-600 dark:text-emerald-400 text-xl"></i>
+            </div>
+            <div>
+              <p class="font-medium text-slate-900 dark:text-white">دانلود دیتابیس</p>
+              <p class="text-sm text-slate-500 dark:text-slate-400">دریافت نسخه پشتیبان</p>
+            </div>
+          </div>
+          <a href="/Account/Database/Download" class="mt-4 w-full px-6 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors text-center">
+            <i class="fas fa-download ml-1"></i>
+            دانلود
+          </a>
+        </div>
+        <div class="group flex flex-col p-4 rounded-xl bg-slate-100/50 dark:bg-slate-700/50 hover:bg-slate-200/50 dark:hover:bg-slate-600/50 transition-all duration-300">
+          <div class="flex items-center">
+            <div class="w-12 h-12 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center ml-3 group-hover:scale-110 transition-transform duration-300">
+              <i class="fas fa-upload text-blue-600 dark:text-blue-400 text-xl"></i>
+            </div>
+            <div>
+              <p class="font-medium text-slate-900 dark:text-white">آپلود دیتابیس</p>
+              <p class="text-sm text-slate-500 dark:text-slate-400">بازگردانی نسخه پشتیبان</p>
+            </div>
+          </div>
+          <a href="/Account/Database/Upload" class="mt-4 w-full px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-center">
+            <i class="fas fa-upload ml-1"></i>
+            آپلود
+          </a>
+        </div>
+      </div>
+    </div>
+    }
+  </div>
 </div>

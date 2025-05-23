@@ -118,7 +118,7 @@ public class ProfileModel : AccountPageModel
         user.Username = Input.Username;
         user.FirstName = Input.FirstName;
         user.LastName = Input.LastName;
-        user.UpdatedAt = DateTime.UtcNow;
+        user.LastProfileUpdatedAt = DateTime.UtcNow;
 
         try
         {

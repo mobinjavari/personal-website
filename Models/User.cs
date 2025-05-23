@@ -41,9 +41,13 @@ public class User
 
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
-    public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+    public DateTime LastLoginAt { get; set; } = DateTime.UtcNow;
+
+    public DateTime LastProfileUpdatedAt { get; set; } = DateTime.UtcNow;
 
     public string DisplayName => GetDisplayName();
+
+    public string AvatarName => GetAvatarName();
 
     private string GetDisplayName()
     {
@@ -53,5 +57,16 @@ public class User
         }
 
         return Username;
+    }
+
+    private string GetAvatarName()
+    {
+        if (!string.IsNullOrEmpty(FirstName) && !string.IsNullOrEmpty(LastName))
+        {
+            return (FirstName[0].ToString() + LastName[0].ToString()).ToUpper();
+        }
+
+        return !string.IsNullOrEmpty(Username) ? 
+            Username[0].ToString().ToUpper() : "?";
     }
 } 

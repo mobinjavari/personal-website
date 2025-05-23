@@ -1,0 +1,25 @@
+@using MyWebApp.Models;
+@using MyWebApp.Utils;
+@{
+    Layout = "_Layout";
+    var title = ViewData["Title"]?.ToString();
+    ViewData["Title"] = string.IsNullOrEmpty(title)
+        ? "Account"
+        : $"{title} | Account";
+}
+
+@await RenderSectionAsync("Styles", required: false)
+
+<div class="min-h-[calc(100vh-4rem)] relative py-12 px-4 sm:px-6 lg:px-8">
+    <!-- Pattern Background -->
+    <div class="absolute inset-0 bg-slate-50 dark:bg-slate-900">
+        <div class="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] dark:bg-[radial-gradient(#1e293b_1px,transparent_1px)]"></div>
+        <div class="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-slate-100/50 dark:to-slate-800/50"></div>
+    </div>
+
+    <div class="relative max-w-6xl mx-auto">
+        @RenderBody()
+    </div>
+</div>
+
+@await RenderSectionAsync("Scripts", required: false)

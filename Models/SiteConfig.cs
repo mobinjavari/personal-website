@@ -59,7 +59,7 @@ public static class SiteConfig
             public static string ProfileImage => "https://avatars.githubusercontent.com/u/87239446?v=4";
 
             public static List<CallToAction> Actions => new()
-            {
+            {   
                 new() { 
                     Title = Contact.Title, 
                     Target = Contact.Id, 
@@ -159,17 +159,17 @@ public static class SiteConfig
                 },
                 new() { 
                     Title = "Backend", 
-                    Progress = 75, 
+                    Progress = 90, 
                     Icon = "fas fa-database" 
                 },
                 new() { 
                     Title = "UI/UX", 
-                    Progress = 85, 
+                    Progress = 80, 
                     Icon = "fas fa-palette" 
                 },
                 new() { 
                     Title = "DevOps", 
-                    Progress = 70, 
+                    Progress = 80, 
                     Icon = "fas fa-server" 
                 }
             };
@@ -186,48 +186,48 @@ public static class SiteConfig
         }
 
         public static class Tools
-            {
-                public static string Id => "Tools";
-                public static string Title => "ابزارها";
-                public static string Description => "مجموعه ابزارهای کاربردی برای تسهیل کارهای روزمره";
-                public static string Icon => "fas fa-toolbox";
+        {
+            public static string Id => "Tools";
+            public static string Title => "ابزارها";
+            public static string Description => "مجموعه ابزارهای کاربردی برای تسهیل کارهای روزمره";
+            public static string Icon => "fas fa-toolbox";
 
-                public static List<Tool> Items => new()
-                {
-                    new() {
-                        Id = "Grade Calculator",
-                        Name = "محاسبه نمره",
-                        Description = "محاسبه رتبه دانش‌آموز بر اساس نمره",
-                        Icon = "fas fa-calculator",
-                        LastUpdate = DateTimeOffset.FromUnixTimeSeconds(1741592305).DateTime,
-                        Status = ToolStatus.Active
-                    },
-                    new() {
-                        Id = "Age Group Calculator",
-                        Name = "محاسبه گروه سنی",
-                        Description = "محاسبه گروه سنی بر اساس سن",
-                        Icon = "fas fa-calendar-alt",
-                        LastUpdate = DateTimeOffset.FromUnixTimeSeconds(1743209105).DateTime,
-                        Status = ToolStatus.Active
-                    },
-                    new() {
-                        Id = "Discount Calculator",
-                        Name = "محاسبه تخفیف",
-                        Description = "محاسبه تخفیف بر اساس درصد",
-                        Icon = "fas fa-percent",
-                        LastUpdate = DateTimeOffset.FromUnixTimeSeconds(1743209105).DateTime,
-                        Status = ToolStatus.Active
-                    },
-                    new() {
-                        Id = "Password Checker",
-                        Name = "بررسی رمز عبور",
-                        Description = "بررسی رمز عبور بر اساس استانداردها",
-                        Icon = "fas fa-lock",
-                        LastUpdate = DateTimeOffset.FromUnixTimeSeconds(1743209105).DateTime,
-                        Status = ToolStatus.Active
-                    }
-                };
-            }
+            public static List<Tool> Items => new()
+            {
+                new() {
+                    Id = "Grade Calculator",
+                    Name = "محاسبه نمره",
+                    Description = "محاسبه رتبه دانش‌آموز بر اساس نمره",
+                    Icon = "fas fa-calculator",
+                    LastUpdate = DateTimeOffset.FromUnixTimeSeconds(1741592305).DateTime,
+                    Status = ToolStatus.Active
+                },
+                new() {
+                    Id = "Age Group Calculator",
+                    Name = "محاسبه گروه سنی",
+                    Description = "محاسبه گروه سنی بر اساس سن",
+                    Icon = "fas fa-calendar-alt",
+                    LastUpdate = DateTimeOffset.FromUnixTimeSeconds(1743209105).DateTime,
+                    Status = ToolStatus.Active
+                },
+                new() {
+                    Id = "Discount Calculator",
+                    Name = "محاسبه تخفیف",
+                    Description = "محاسبه تخفیف بر اساس درصد",
+                    Icon = "fas fa-percent",
+                    LastUpdate = DateTimeOffset.FromUnixTimeSeconds(1743209105).DateTime,
+                    Status = ToolStatus.Active
+                },
+                new() {
+                    Id = "Password Checker",
+                    Name = "بررسی رمز عبور",
+                    Description = "بررسی رمز عبور بر اساس استانداردها",
+                    Icon = "fas fa-lock",
+                    LastUpdate = DateTimeOffset.FromUnixTimeSeconds(1743209105).DateTime,
+                    Status = ToolStatus.Active
+                }
+            };
+        }
 
         public static class Footer
         {

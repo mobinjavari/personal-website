@@ -65,7 +65,6 @@ public class IndexModel : PageModel
             if (user != null)
             {
                 user.Password = hashedPassword;
-                user.UpdatedAt = DateTime.UtcNow;
             }
             else
             {
@@ -74,9 +73,7 @@ public class IndexModel : PageModel
                     Email = Email.ToLower(),
                     Username = GenerateUsername(Email),
                     Password = hashedPassword,
-                    Rank = UserRank.Ghost,
-                    CreatedAt = DateTime.UtcNow,
-                    UpdatedAt = DateTime.UtcNow
+                    Rank = UserRank.Ghost
                 };
                 _context.Users.Add(user);
             }
@@ -119,9 +116,11 @@ public class IndexModel : PageModel
             if (user.Rank == UserRank.Ghost)
             {
                 user.Rank = UserRank.User;
-                user.UpdatedAt = DateTime.UtcNow;
-                await _context.SaveChangesAsync();
             }
+
+            // Update last login time
+            user.LastLoginAt = DateTime.UtcNow;
+            await _context.SaveChangesAsync();
 
             var claims = new List<Claim>
             {
