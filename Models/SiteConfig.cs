@@ -258,6 +258,16 @@ public static class SiteConfig
             };
         }
 
+        public static class Authentication
+        {
+            public static string Id => "Authentication";
+            public static MetaData Meta => new()
+            {
+                Description = "ورود به حساب کاربری برای دسترسی به امکانات ویژه",
+                Keywords = "ورود, حساب کاربری, ورود به سایت, ثبت نام, احراز هویت, امنیت, ورود امن, دسترسی ویژه",
+            };
+        }
+
         public static class Footer
         {
             public static string AboutMe => "توسعه‌دهنده خلاق با تجربه در ساخت راه‌حل‌های دیجیتال و علاقه‌مند به تکنولوژی‌های نوین";

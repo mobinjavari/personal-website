@@ -1,7 +1,10 @@
 @page
+@using MyWebApp.Models;
 @model MyWebApp.Pages.Auth.IndexModel
 @{
-    ViewData["Title"] = "Authentication";
+    ViewData["Title"] = SiteConfig.Content.Authentication.Id;
+    ViewData["Description"] = SiteConfig.Content.Authentication.Meta.Description;
+    ViewData["Keywords"] = SiteConfig.Content.Authentication.Meta.Keywords;
 }
 
 <div class="min-h-[calc(100vh-4rem)] relative flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
