@@ -196,7 +196,7 @@ public static class SiteConfig
             {
                 Description = "دسترسی به ابزارهای متنوع و کاربردی آنلاین برای مدیریت بهتر کارهای روزمره، افزایش بهره‌وری و صرفه‌جویی در زمان.",
                 Keywords = "ابزار کاربردی, ابزار آنلاین, تسهیل کارهای روزمره, ابزار روزانه, ابزار رایگان, افزایش بهره‌وری, مدیریت زمان, ابزارهای مفید, ابزار دیجیتال, ابزار زندگی",
-                Image = "/images/meta/tools.png",
+                Image = "/images/meta/tools.jpg",
                 TwitterCard = "summary_large_image"
             };
 
@@ -264,7 +264,7 @@ public static class SiteConfig
             {
                 Description = "ورود به حساب کاربری برای دسترسی به امکانات ویژه",
                 Keywords = "ورود, حساب کاربری, ورود به سایت, ثبت نام, احراز هویت, امنیت, ورود امن, دسترسی ویژه",
-                Image = "/images/meta/authentication.png",
+                Image = "/images/meta/authentication.jpg",
                 TwitterCard = "summary_large_image"
             };
         }
