@@ -295,12 +295,12 @@ public static class SiteConfig
             public static List<UsefulLink> UsefulLinks => new()
             {
                 new() { 
-                    Url = "https://google.com", 
-                    Title = "گوگل" 
+                    Url = "https://github.com/mobinjavari/personal-website-cs", 
+                    Title = "لینک پروژه (گیتهاب)" 
                 },
                 new() { 
-                    Url = "https://microsoft.com", 
-                    Title = "مایکروسافت" 
+                    Url = "https://t.me/mobinjavari", 
+                    Title = "کانال تلگرام" 
                 }
             };
         }
