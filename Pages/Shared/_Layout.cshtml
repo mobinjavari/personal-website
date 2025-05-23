@@ -15,12 +15,12 @@
     <meta property="og:description" content="@(ViewData["Description"] ?? SiteConfig.Meta.DefaultDescription)" />
     <meta property="og:type" content="@(ViewData["OgType"] ?? SiteConfig.Meta.DefaultOgType)" />
     <meta property="og:url" content="@(ViewData["OgUrl"] ?? $"{Context.Request.Scheme}://{Context.Request.Host}{Context.Request.Path}")" />
-    <meta property="og:image" content="@(ViewData["OgImage"] ?? "")" />
+    <meta property="og:image" content="@(ViewData["Image"] ?? @SiteConfig.Meta.DefaultImage ?? "")" />
 
-    <meta name="twitter:card" content="@SiteConfig.Meta.TwitterCardType" />
+    <meta name="twitter:card" content="@(ViewData["TwitterCard"] ?? SiteConfig.Meta.DefaultTwitterCard)" />
     <meta name="twitter:title" content="@ViewData["Title"] | @SiteConfig.Site.Title" />
     <meta name="twitter:description" content="@(ViewData["Description"] ?? SiteConfig.Meta.DefaultDescription)" />
-    <meta name="twitter:image" content="@(ViewData["TwitterImage"] ?? ViewData["OgImage"] ?? "")" />
+    <meta name="twitter:image" content="@(ViewData["Image"] ?? @SiteConfig.Meta.DefaultImage ?? "")" />
     
     <title>@ViewData["Title"] | @SiteConfig.Site.Title</title>
     
@@ -30,6 +30,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
     <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    
     @await RenderSectionAsync("Styles", required: false)
 </head>
 <body class="min-h-screen theme-transition bg-white dark:bg-slate-900 text-slate-900 dark:text-white overflow-y-scroll">
@@ -181,6 +182,7 @@
 
     <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

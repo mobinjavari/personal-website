@@ -3,11 +3,7 @@
 @model MyWebApp.Pages.Tools.PasswordChecker.IndexModel
 @{
     Layout = "_ToolsLayout";
-    var tool = SiteConfig.Content.Tools.Items.FirstOrDefault(x => x.Id == "Password Checker");
-    ViewData["Title"] = tool?.Id;
-    ViewData["ToolName"] = tool?.Name;
-    ViewData["ToolDescription"] = tool?.Description;
-    ViewData["ToolIcon"] = tool?.Icon;
+    ViewData["ToolId"] = "Password Checker";
 }
 
 <div class="min-h-screen py-8 sm:py-12">

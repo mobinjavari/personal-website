@@ -8,7 +8,9 @@
         : $"{title} | Account";
 }
 
-@await RenderSectionAsync("Styles", required: false)
+@section Styles {
+    @await RenderSectionAsync("Styles", required: false)
+}
 
 <div class="min-h-[calc(100vh-4rem)] relative py-12 px-4 sm:px-6 lg:px-8">
     <!-- Pattern Background -->
@@ -22,4 +24,6 @@
     </div>
 </div>
 
-@await RenderSectionAsync("Scripts", required: false)
+@section Scripts {
+    @await RenderSectionAsync("Scripts", required: false)
+} 

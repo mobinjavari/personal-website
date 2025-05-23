@@ -3,10 +3,35 @@
 @{
     Layout = "_Layout";
     var title = ViewData["Title"]?.ToString();
-    var toolsId = SiteConfig.Content.Tools.Id;
-    ViewData["Title"] = string.IsNullOrEmpty(title)
-        ? toolsId
-        : $"{title} | {toolsId}";
+    var toolId = ViewData["ToolId"]?.ToString();
+    MetaData? toolsMeta = SiteConfig.Content.Tools.Meta;
+    MetaData? currentMeta = toolsMeta;
+    
+    if (string.IsNullOrEmpty(toolId))
+    {
+        ViewData["Title"] = SiteConfig.Content.Tools.Id;
+    }
+    else
+    {
+        var tool = SiteConfig.Content.Tools.Items.FirstOrDefault(x => x.Id == toolId);
+        currentMeta = tool?.Meta;
+
+        ViewData["Title"] = tool?.Id + " | " + SiteConfig.Content.Tools.Id;
+        ViewData["ToolName"] = tool?.Name;
+        ViewData["ToolDescription"] = tool?.Description;
+        ViewData["ToolIcon"] = tool?.Icon;
+    }
+
+    // Meta Tags
+    ViewData["Description"] = currentMeta?.Description ?? toolsMeta?.Description;
+    ViewData["Keywords"] = currentMeta?.Keywords ?? toolsMeta?.Keywords;
+    ViewData["OgType"] = currentMeta?.OgType ?? toolsMeta?.OgType;
+    ViewData["Image"] = currentMeta?.Image ?? toolsMeta?.Image;
+    ViewData["TwitterCard"] = currentMeta?.TwitterCard ?? toolsMeta?.TwitterCard;
+}
+
+@section Styles {
+    @await RenderSectionAsync("Styles", required: false)
 }
 
 <!-- Tools Header -->
@@ -124,4 +149,4 @@
 
 @section Scripts {
     @await RenderSectionAsync("Scripts", required: false)
-} 
+}

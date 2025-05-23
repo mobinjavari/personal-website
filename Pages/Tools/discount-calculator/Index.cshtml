@@ -3,11 +3,7 @@
 @model MyWebApp.Pages.Tools.DiscountCalculator.IndexModel
 @{
     Layout = "_ToolsLayout";
-    var tool = SiteConfig.Content.Tools.Items.FirstOrDefault(x => x.Id == "Discount Calculator");
-    ViewData["Title"] = tool?.Id;
-    ViewData["ToolName"] = tool?.Name;
-    ViewData["ToolDescription"] = tool?.Description;
-    ViewData["ToolIcon"] = tool?.Icon;
+    ViewData["ToolId"] = "Discount Calculator";
 }
 
 <style>

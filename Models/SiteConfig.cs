@@ -14,11 +14,12 @@ public static class SiteConfig
     public static class Meta
     {
         public static string DefaultAuthor => Site.Author;
-        public static string DefaultDescription => "وب‌سایت شخصی مبین جواری - توسعه‌دهنده وب";
+        public static string DefaultDescription => "وب‌سایت شخصی مبین جواری - توسعه‌دهنده فول استک";
         public static string DefaultKeywords => "مبین جواری، برنامه نویس، توسعه دهنده وب، طراح سایت";
         public static string DefaultRobots => "index, follow";
         public static string DefaultOgType => "website";
-        public static string TwitterCardType => "/images/twitter-card.png";
+        public static string DefaultTwitterCard => "summary";
+        public static string DefaultImage => Content.Hero.ProfileImage;
     }
 
     // Content
@@ -191,6 +192,14 @@ public static class SiteConfig
             public static string Title => "ابزارها";
             public static string Description => "مجموعه ابزارهای کاربردی برای تسهیل کارهای روزمره";
             public static string Icon => "fas fa-toolbox";
+            public static MetaData Meta => new()
+            {
+                Description = "دسترسی به ابزارهای متنوع و کاربردی آنلاین برای مدیریت بهتر کارهای روزمره، افزایش بهره‌وری و صرفه‌جویی در زمان.",
+                Keywords = "ابزار کاربردی, ابزار آنلاین, تسهیل کارهای روزمره, ابزار روزانه, ابزار رایگان, افزایش بهره‌وری, مدیریت زمان, ابزارهای مفید, ابزار دیجیتال, ابزار زندگی",
+                Image = null,
+                OgType = "website",
+                TwitterCard = "summary_large_image"
+            };
 
             public static List<Tool> Items => new()
             {
@@ -200,7 +209,12 @@ public static class SiteConfig
                     Description = "محاسبه رتبه دانش‌آموز بر اساس نمره",
                     Icon = "fas fa-calculator",
                     LastUpdate = DateTimeOffset.FromUnixTimeSeconds(1741592305).DateTime,
-                    Status = ToolStatus.Active
+                    Status = ToolStatus.Active,
+                    Meta = new()
+                    {
+                        Description = "محاسبه رتبه دانش‌آموزان بر اساس نمرات. با وارد کردن نمره‌ها، رتبه کلاس یا گروه را به‌صورت دقیق محاسبه کنید.",
+                        Keywords = "محاسبه رتبه, رتبه, رتبه دانش‌آموز, نمره, محاسبه نمره, ارزیابی نمره, ابزار رتبه‌بندی, نمره‌گذاری, مقایسه نمره, رتبه کلاسی, محاسبه رتبه دانش‌آموز, student ranking, grade calculator",
+                    }
                 },
                 new() {
                     Id = "Age Group Calculator",
@@ -208,7 +222,12 @@ public static class SiteConfig
                     Description = "محاسبه گروه سنی بر اساس سن",
                     Icon = "fas fa-calendar-alt",
                     LastUpdate = DateTimeOffset.FromUnixTimeSeconds(1743209105).DateTime,
-                    Status = ToolStatus.Active
+                    Status = ToolStatus.Active,
+                    Meta = new()
+                    {
+                        Description = "ابزار محاسبه گروه سنی بر اساس سن واقعی شما. با وارد کردن سن یا تاریخ تولد، گروه سنی خود را به‌صورت دقیق مشخص کنید.",
+                        Keywords = "محاسبه سن, سن, گروه سنی, محاسبه گروه سنی, ابزار سن, سن دقیق, محاسبه سن آنلاین, تعیین گروه سنی, سن تولد, سن واقعی, age calculator, گروه‌بندی سنی",
+                    }
                 },
                 new() {
                     Id = "Discount Calculator",
@@ -216,7 +235,12 @@ public static class SiteConfig
                     Description = "محاسبه تخفیف بر اساس درصد",
                     Icon = "fas fa-percent",
                     LastUpdate = DateTimeOffset.FromUnixTimeSeconds(1743209105).DateTime,
-                    Status = ToolStatus.Active
+                    Status = ToolStatus.Active,
+                    Meta = new()
+                    {
+                        Description = "ابزار آنلاین محاسبه تخفیف بر اساس درصد. کافیست قیمت و درصد تخفیف را وارد کنید تا قیمت نهایی را دقیق ببینید.",
+                        Keywords = "تخفیف, محاسبه تخفیف, درصد تخفیف, قیمت با تخفیف, محاسبه قیمت, قیمت نهایی, ابزار تخفیف, محاسبه درصد, محاسبه قیمت نهایی, قیمت پس از تخفیف, discount calculator, درصد قیمت",
+                    }
                 },
                 new() {
                     Id = "Password Checker",
@@ -224,7 +248,12 @@ public static class SiteConfig
                     Description = "بررسی رمز عبور بر اساس استانداردها",
                     Icon = "fas fa-lock",
                     LastUpdate = DateTimeOffset.FromUnixTimeSeconds(1743209105).DateTime,
-                    Status = ToolStatus.Active
+                    Status = ToolStatus.Active,
+                    Meta = new()
+                    {
+                        Description = "بررسی سریع و دقیق رمز عبور بر اساس استانداردهای امنیتی. ابزار رایگان برای سنجش قدرت پسورد و جلوگیری از نفوذ.",
+                        Keywords = "رمز عبور, بررسی رمز عبور, امنیت رمز عبور, پسورد امن, امنیت سایبری, ابزار رمز عبور, ارزیابی پسورد, استاندارد رمز عبور, پسورد قوی, تست امنیت پسورد, password checker, امنیت آنلاین",
+                    }
                 }
             };
         }
@@ -326,6 +355,17 @@ public record Tool
     public required string Icon { get; init; }
     public required DateTime LastUpdate { get; init; }
     public required ToolStatus Status { get; init; }
+    public required MetaData Meta { get; init; }
+}
+
+public record MetaData
+{
+    public string? Title { get; init; } = null;
+    public required string Description { get; init; }
+    public required string Keywords { get; init; }
+    public string? Image { get; init; } = null;
+    public string? OgType { get; init; } = null; 
+    public string? TwitterCard { get; init; } = null;
 }
 
 public enum ToolStatus
@@ -334,4 +374,4 @@ public enum ToolStatus
     Maintenance,
     Development,
     Deprecated
-} 
+}
