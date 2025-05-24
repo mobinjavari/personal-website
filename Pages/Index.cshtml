@@ -216,43 +216,75 @@
                 </div>
 
                 <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-8 md:p-10" data-aos="fade-up" data-aos-delay="100">
-                    <form class="space-y-6 text-right">
+                    <form method="post" class="space-y-6 text-right" asp-page-handler="Contact">
+                        @if (TempData["ContactMessage"] != null)
+                        {
+                            <div class="mb-6 p-4 rounded-xl flex items-center gap-3 @(TempData["ContactSuccess"] != null 
+                                ? "bg-[#238636]/10 dark:bg-[#238636]/20 text-[#238636] dark:text-[#7ee787]" 
+                                : "bg-red-500/10 dark:bg-red-500/20 text-red-600 dark:text-red-400")">
+                                <div class="text-lg">
+                                    <i class="fas @(TempData["ContactSuccess"] != null ? "fa-circle-check" : "fa-circle-exclamation")"></i>
+                                </div>
+                                <p class="text-sm font-medium">@TempData["ContactMessage"]</p>
+                            </div>
+                        }
+                        
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div class="space-y-2">
                                 <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">نام</label>
                                 <div class="relative">
                                     <input type="text" 
-                                           class="w-full px-12 py-3 text-right bg-slate-50 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-[#238636]/20 dark:focus:ring-[#238636]/30 focus:border-[#238636] dark:focus:border-[#238636] outline-none transition-all duration-200"
-                                           placeholder="نام خود را وارد کنید">
+                                        asp-for="ContactForm.Name"
+                                        class="w-full px-12 py-3 text-right bg-slate-50 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-[#238636]/20 dark:focus:ring-[#238636]/30 focus:border-[#238636] dark:focus:border-[#238636] outline-none transition-all duration-200"
+                                        placeholder="نام خود را وارد کنید">
                                     <div class="absolute inset-y-0 right-4 flex items-center pointer-events-none text-slate-400">
                                         <i class="fas fa-user"></i>
                                     </div>
                                 </div>
+                                <span asp-validation-for="ContactForm.Name" class="text-xs text-red-500"></span>
                             </div>
 
                             <div class="space-y-2">
                                 <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">ایمیل</label>
                                 <div class="relative">
-                                    <input type="email" 
-                                           class="w-full px-12 py-3 text-right bg-slate-50 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-[#238636]/20 dark:focus:ring-[#238636]/30 focus:border-[#238636] dark:focus:border-[#238636] outline-none transition-all duration-200"
-                                           placeholder="ایمیل خود را وارد کنید">
+                                    <input type="email"
+                                        asp-for="ContactForm.Email" 
+                                        class="w-full px-12 py-3 text-right bg-slate-50 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-[#238636]/20 dark:focus:ring-[#238636]/30 focus:border-[#238636] dark:focus:border-[#238636] outline-none transition-all duration-200"
+                                        placeholder="ایمیل خود را وارد کنید">
                                     <div class="absolute inset-y-0 right-4 flex items-center pointer-events-none text-slate-400">
                                         <i class="fas fa-envelope"></i>
                                     </div>
                                 </div>
+                                <span asp-validation-for="ContactForm.Email" class="text-xs text-red-500"></span>
                             </div>
+                        </div>
+
+                        <div class="space-y-2">
+                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">موضوع</label>
+                            <div class="relative">
+                                <input type="text"
+                                    asp-for="ContactForm.Subject" 
+                                    class="w-full px-12 py-3 text-right bg-slate-50 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-[#238636]/20 dark:focus:ring-[#238636]/30 focus:border-[#238636] dark:focus:border-[#238636] outline-none transition-all duration-200"
+                                    placeholder="موضوع پیام را وارد کنید">
+                                <div class="absolute inset-y-0 right-4 flex items-center pointer-events-none text-slate-400">
+                                    <i class="fas fa-heading"></i>
+                                </div>
+                            </div>
+                            <span asp-validation-for="ContactForm.Subject" class="text-xs text-red-500"></span>
                         </div>
 
                         <div class="space-y-2">
                             <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">پیام</label>
                             <div class="relative">
-                                <textarea rows="4" 
+                                <textarea asp-for="ContactForm.Message"
+                                        rows="4" 
                                         class="w-full px-12 py-3 text-right bg-slate-50 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-[#238636]/20 dark:focus:ring-[#238636]/30 focus:border-[#238636] dark:focus:border-[#238636] outline-none transition-all duration-200"
                                         placeholder="پیام خود را بنویسید"></textarea>
                                 <div class="absolute top-3 right-4 text-slate-400">
                                     <i class="fas fa-message"></i>
                                 </div>
                             </div>
+                            <span asp-validation-for="ContactForm.Message" class="text-xs text-red-500"></span>
                         </div>
 
                         <div class="flex justify-start">

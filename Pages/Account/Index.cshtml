@@ -1,4 +1,5 @@
 @page
+@using MyWebApp.Models
 @model MyWebApp.Pages.Account.IndexModel
 @{
 Layout = "_AccountLayout";
@@ -138,6 +139,81 @@ ViewData["Title"] = "Dashboard";
       updateDateTime();
     </script>
 
+    @if (Model.UserData?.Rank.ToString() == "Owner" || Model.UserData?.Rank.ToString() == "Admin")
+    {
+    <!-- Contact Messages -->
+    <div class="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-xl p-6 border border-slate-200/50 dark:border-slate-700/50">
+      <h3 class="text-lg font-medium text-slate-900 dark:text-white mb-4">لیست پیام‌ها</h3>
+      
+      <div class="overflow-x-auto max-h-[500px] overflow-y-auto">
+      <table class="min-w-full table-auto">
+      <thead class="sticky top-0 bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm">
+      <tr class="border-b border-slate-200 dark:border-slate-700">
+        <th class="px-4 py-3 text-right text-sm font-medium text-slate-500 dark:text-slate-400">فرستنده</th>
+        <th class="px-4 py-3 text-right text-sm font-medium text-slate-500 dark:text-slate-400">موضوع</th>
+        <th class="px-4 py-3 text-right text-sm font-medium text-slate-500 dark:text-slate-400">پیام</th>
+        <th class="px-4 py-3 text-right text-sm font-medium text-slate-500 dark:text-slate-400">تاریخ</th>
+        <th class="px-4 py-3 text-right text-sm font-medium text-slate-500 dark:text-slate-400">وضعیت</th>
+      </tr>
+      </thead>
+      <tbody class="divide-y divide-slate-200 dark:divide-slate-700">
+      @foreach (var message in Model.ContactMessages ?? new List<ContactMessage>())
+      {
+        <tr class="hover:bg-slate-100/50 dark:hover:bg-slate-700/50 transition-colors">
+        <td class="px-4 py-4 text-sm text-slate-900 dark:text-white">
+        <div class="flex items-center">
+        <div class="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center ml-2">
+          <i class="fas fa-user text-blue-600 dark:text-blue-400"></i>
+        </div>
+        <div>
+          <p class="font-medium">@message.Name</p>
+          <p class="text-xs text-slate-500 dark:text-slate-400">@message.Email</p>
+        </div>
+        </div>
+        </td>
+        <td class="px-4 py-4 text-sm text-slate-900 dark:text-white">
+        <p class="line-clamp-1">@message.Subject</p>
+        </td>
+        <td class="px-4 py-4 text-sm text-slate-900 dark:text-white">
+        <p class="line-clamp-1">@message.Message</p>
+        </td>
+        <td class="px-4 py-4 text-sm text-slate-500 dark:text-slate-400">
+        @message.CreatedAt.ToString("yyyy/MM/dd")
+        </td>
+        <td class="px-4 py-4 text-sm">
+        @if (message.IsRead)
+        {
+        <span class="px-2 py-2 rounded-full text-xs bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 inline-flex items-center">
+          <i class="fas fa-check ml-1"></i>
+          <span class="whitespace-nowrap">خوانده شده</span>
+        </span>
+        }
+        else
+        {
+        <span class="px-2 py-2 rounded-full text-xs bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400 inline-flex items-center">
+          <i class="fas fa-clock ml-1"></i>
+          <span class="whitespace-nowrap">جدید</span>
+        </span>
+        }
+        </td>
+        </tr>
+      }
+      </tbody>
+      </table>
+      </div>
+      
+      @if ((Model.ContactMessages?.Count ?? 0) == 0)
+      {
+      <div class="text-center py-8">
+      <div class="w-16 h-16 mx-auto rounded-full bg-slate-100 dark:bg-slate-700/50 flex items-center justify-center mb-4">
+      <i class="fas fa-inbox text-2xl text-slate-400 dark:text-slate-500"></i>
+      </div>
+      <p class="text-slate-500 dark:text-slate-400">هیچ پیامی موجود نیست</p>
+      </div>
+      }
+    </div>
+    }
+
     <!-- Recent Activity -->
     <div class="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-xl p-6 border border-slate-200/50 dark:border-slate-700/50">
       <h3 class="text-lg font-medium text-slate-900 dark:text-white mb-4">فعالیت‌ها</h3>
@@ -170,9 +246,9 @@ ViewData["Title"] = "Dashboard";
       </div>
     </div>
 
-    <!-- Database Management -->
     @if (Model.UserData?.Rank.ToString() == "Owner")
     {
+    <!-- Database Management -->
     <div class="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-xl p-6 border border-slate-200/50 dark:border-slate-700/50">
       <h3 class="text-lg font-medium text-slate-900 dark:text-white mb-6">مدیریت دیتابیس</h3>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
