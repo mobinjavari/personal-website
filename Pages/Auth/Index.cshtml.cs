@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -7,12 +8,13 @@ using MyWebApp.Data;
 using MyWebApp.Models;
 using System.Security.Claims;
 using System.Security.Cryptography;
-using System.Text;
 
 namespace MyWebApp.Pages.Auth;
 
 public class IndexModel : PageModel
 {
+    private static readonly PasswordHasher<User> _passwordHasher = new();
+
     private readonly ApplicationDbContext _context;
     private readonly ILogger<IndexModel> _logger;
 
@@ -60,24 +62,20 @@ public class IndexModel : PageModel
 
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == Email.ToLower());
             var newPassword = GenerateRandomPassword();
-            var hashedPassword = HashPassword(newPassword);
 
-            if (user != null)
-            {
-                user.Password = hashedPassword;
-            }
-            else
+            if (user == null)
             {
                 user = new User
                 {
                     Email = Email.ToLower(),
                     Username = GenerateUsername(Email),
-                    Password = hashedPassword,
+                    Password = string.Empty,
                     Rank = UserRank.Ghost
                 };
                 _context.Users.Add(user);
             }
 
+            user.Password = _passwordHasher.HashPassword(user, newPassword);
             await _context.SaveChangesAsync();
             _logger.LogInformation("Password generated for email: {Email} ~> {Password}", Email, newPassword);
 
@@ -106,7 +104,8 @@ public class IndexModel : PageModel
             }
 
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == Email.ToLower());
-            if (user == null || user.Password != HashPassword(Password))
+            if (user == null || string.IsNullOrEmpty(user.Password) ||
+                _passwordHasher.VerifyHashedPassword(user, user.Password, Password) == PasswordVerificationResult.Failed)
             {
                 ErrorMessage = "ایمیل یا رمز عبور اشتباه است";
                 ShowPassword = true;
@@ -118,7 +117,6 @@ public class IndexModel : PageModel
                 user.Rank = UserRank.User;
             }
 
-            // Update last login time
             user.LastLoginAt = DateTime.UtcNow;
             await _context.SaveChangesAsync();
 
@@ -147,7 +145,7 @@ public class IndexModel : PageModel
     {
         var username = email.Split('@')[0].ToLower();
         username = new string(username.Where(c => char.IsLetter(c)).ToArray());
-        
+
         var baseUsername = username;
         var counter = 1;
         while (_context.Users.AsNoTracking().Any(u => u.Username == username))
@@ -162,19 +160,11 @@ public class IndexModel : PageModel
     private string GenerateRandomPassword()
     {
         const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*";
-        var random = new Random();
         var password = new char[12];
-        
-        for (int i = 0; i < password.Length; i++)
-            password[i] = chars[random.Next(chars.Length)];
-        
-        return new string(password);
-    }
 
-    private string HashPassword(string password)
-    {
-        using var sha256 = SHA256.Create();
-        var hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
-        return Convert.ToBase64String(hashedBytes);
+        for (int i = 0; i < password.Length; i++)
+            password[i] = chars[RandomNumberGenerator.GetInt32(chars.Length)];
+
+        return new string(password);
     }
 }

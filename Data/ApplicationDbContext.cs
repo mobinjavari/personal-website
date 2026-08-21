@@ -33,10 +33,10 @@ public class ApplicationDbContext : DbContext
         modelBuilder.Entity<User>().HasData(
             new User
             {
-                Id = 1, // Using negative ID for seed data
+                Id = 1,
                 Username = "Owner",
-                Email = "owner@example.com",
-                Password = "none", // adding default password
+                Email = "owner@example.org",
+                Password = string.Empty,
                 Rank = UserRank.Owner
             }
         );
