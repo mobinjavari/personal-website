@@ -35,7 +35,7 @@
 }
 
 <!-- Tools Header -->
-<div class="relative bg-gradient-to-br from-[#238636]/90 via-[#2ea043]/90 to-[#3fb950]/90 dark:from-[#238636]/80 dark:via-[#2ea043]/80 dark:to-[#3fb950]/80 overflow-hidden">
+<div class="relative bg-gradient-to-br from-brand-600/90 via-brand-500/90 to-brand-400/90 dark:from-brand-600/80 dark:via-brand-500/80 dark:to-brand-400/80 overflow-hidden">
     <div class="absolute inset-0 overflow-hidden">
         <div class="absolute -top-1/2 -right-1/2 w-full h-full rounded-full bg-white/5 animate-pulse"></div>
         <div class="absolute -bottom-1/2 -left-1/2 w-full h-full rounded-full bg-white/5 animate-pulse delay-1000"></div>
@@ -97,13 +97,13 @@
 <div class="sticky top-16 inset-x-0 z-40 bg-white/80 dark:bg-slate-900/80 backdrop-blur-lg border-y border-slate-200/50 dark:border-slate-800/50">
     <div class="container mx-auto px-4">
         <nav class="py-3 sm:py-4">
-            <ol class="flex items-center space-x-3 sm:space-x-4 space-x-reverse text-xs sm:text-sm">
+            <ol class="flex items-center gap-x-3 sm:gap-x-4 text-xs sm:text-sm">
                 <li class="group/home">
                     @{
                         var home = SiteConfig.Content.Header.MenuItems.First();
                     }
                     <a href="@StringUtils.ToUrl(home.Url)" class="flex items-center gap-1.5 sm:gap-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
-                        <i class="@home.Icon text-[#238636] dark:text-[#3fb950] text-sm sm:text-base group-hover/home:scale-110 transition-transform"></i>
+                        <i class="@home.Icon text-brand-600 dark:text-brand-400 text-sm sm:text-base group-hover/home:scale-110 transition-transform"></i>
                         <span class="relative">@home.Title</span>
                     </a>
                 </li>
@@ -116,7 +116,7 @@
                 {
                     <li>
                         <a href="@StringUtils.ToUrl($"/{SiteConfig.Content.Tools.Id}")" class="flex items-center gap-1.5 sm:gap-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
-                            <i class="@SiteConfig.Content.Tools.Icon text-[#238636] dark:text-[#3fb950] text-sm sm:text-base"></i>
+                            <i class="@SiteConfig.Content.Tools.Icon text-brand-600 dark:text-brand-400 text-sm sm:text-base"></i>
                             <span class="relative">@SiteConfig.Content.Tools.Title</span>
                         </a>
                     </li>
@@ -126,14 +126,14 @@
                     </li>
 
                     <li class="flex items-center gap-1.5 sm:gap-2 text-slate-900 dark:text-white">
-                        <i class="@ViewData["ToolIcon"] text-[#238636] dark:text-[#3fb950] text-sm sm:text-base"></i>
+                        <i class="@ViewData["ToolIcon"] text-brand-600 dark:text-brand-400 text-sm sm:text-base"></i>
                         <span class="font-medium">@ViewData["ToolName"]</span>
                     </li>
                 }
                 else
                 {
                     <li class="flex items-center gap-1.5 sm:gap-2 text-slate-900 dark:text-white">
-                        <i class="@SiteConfig.Content.Tools.Icon text-[#238636] dark:text-[#3fb950] text-sm sm:text-base"></i>
+                        <i class="@SiteConfig.Content.Tools.Icon text-brand-600 dark:text-brand-400 text-sm sm:text-base"></i>
                         <span class="font-medium">@SiteConfig.Content.Tools.Title</span>
                     </li>
                 }
