@@ -1,8 +1,23 @@
 ﻿@page
 @model IndexModel
 @using MyWebApp.Models;
+@using System.Text.Json;
+@inject IConfiguration Configuration
 @{
     ViewData["Title"] = "Portfolio";
+    var siteUrl = Configuration["SITE_URL"]?.TrimEnd('/') ?? $"{Request.Scheme}://{Request.Host}";
+    var personSchema = JsonSerializer.Serialize(new Dictionary<string, object>
+    {
+        ["@context"] = "https://schema.org",
+        ["@type"] = "Person",
+        ["name"] = SiteConfig.Site.Author,
+        ["url"] = $"{siteUrl}/",
+        ["image"] = SiteConfig.Content.Hero.ProfileImage,
+        ["jobTitle"] = SiteConfig.Content.Hero.Status,
+        ["description"] = SiteConfig.Meta.DefaultDescription,
+        ["sameAs"] = SiteConfig.Content.Footer.SocialLinks.Select(link => link.Url)
+    });
+    var personSchemaScript = $"<script type=\"application/ld+json\">{personSchema}</script>";
 }
 
 <div class="relative min-h-screen bg-[#ffffff] dark:bg-[#0d1117]">
@@ -20,7 +35,7 @@
         </div>
 
         <div class="absolute inset-0 overflow-hidden">
-            <div class="absolute -top-1/2 -right-1/2 w-full h-full rounded-full bg-gradient-to-b from-[#238636]/10 to-transparent dark:from-[#238636]/20 animate-pulse"></div>
+            <div class="absolute -top-1/2 -right-1/2 w-full h-full rounded-full bg-gradient-to-b from-brand-600/10 to-transparent dark:from-brand-600/20 animate-pulse"></div>
             <div class="absolute -bottom-1/2 -left-1/2 w-full h-full rounded-full bg-gradient-to-t from-blue-500/10 to-transparent dark:from-blue-500/20 animate-pulse delay-1000"></div>
         </div>
 
@@ -29,7 +44,7 @@
         <div class="relative container mx-auto px-4 pt-28 pb-20">
             <div class="flex flex-col lg:flex-row items-center justify-between gap-12">
                 <div class="lg:w-1/2 text-center lg:text-right" data-aos="fade-up">
-                    <span class="inline-block px-4 py-2 rounded-2xl bg-[#238636] bg-opacity-10 dark:bg-opacity-20 text-[#238636] dark:text-[#7ee787] text-sm font-medium mb-4">
+                    <span class="inline-block px-4 py-2 rounded-2xl bg-brand-600 bg-opacity-10 dark:bg-opacity-20 text-brand-600 dark:text-brand-300 text-sm font-medium mb-4">
                         @SiteConfig.Content.Hero.Status
                     </span>
                     <h1 class="text-5xl lg:text-6xl font-bold mb-6 text-[#24292f] dark:text-[#c9d1d9]">
@@ -44,7 +59,7 @@
                             @if (action.IsPrimary)
                             {
                                 <button onclick="scrollToSection('@action.Target')" 
-                                        data-section="@action.Target" class="group relative px-8 py-4 bg-[#238636] hover:bg-[#2ea043] dark:bg-[#238636] dark:hover:bg-[#2ea043] text-white rounded-2xl transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl hover:shadow-[#238636]/20 dark:hover:shadow-[#238636]/30 overflow-hidden">
+                                        data-section="@action.Target" class="group relative px-8 py-4 bg-brand-600 hover:bg-brand-500 dark:bg-brand-600 dark:hover:bg-brand-500 text-white rounded-2xl transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl hover:shadow-brand-600/20 dark:hover:shadow-brand-600/30 overflow-hidden">
                                     <span class="relative z-10 text-lg font-medium">@action.Title</span>
                                     <div class="absolute inset-0 -translate-y-full group-hover:translate-y-0 bg-gradient-to-b from-white/10 to-transparent transition-transform duration-300"></div>
                                 </button>
@@ -52,9 +67,9 @@
                             else
                             {
                                 <button onclick="scrollToSection('@action.Target')" 
-                                        data-section="@action.Target" class="group relative px-8 py-4 border-2 border-[#238636] dark:border-[#238636] text-[#238636] dark:text-[#7ee787] rounded-2xl transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl hover:shadow-[#238636]/10 dark:hover:shadow-[#238636]/20 overflow-hidden">
+                                        data-section="@action.Target" class="group relative px-8 py-4 border-2 border-brand-600 dark:border-brand-600 text-brand-600 dark:text-brand-300 rounded-2xl transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl hover:shadow-brand-600/10 dark:hover:shadow-brand-600/20 overflow-hidden">
                                     <span class="relative z-10 text-lg font-medium">@action.Title</span>
-                                    <div class="absolute inset-0 translate-y-full group-hover:translate-y-0 bg-[#238636]/10 dark:bg-[#238636]/20 transition-transform duration-300"></div>
+                                    <div class="absolute inset-0 translate-y-full group-hover:translate-y-0 bg-brand-600/10 dark:bg-brand-600/20 transition-transform duration-300"></div>
                                 </button>
                             }
                         }
@@ -65,8 +80,8 @@
                         <img src="@SiteConfig.Content.Hero.ProfileImage"
                              alt="Profile" 
                              class="rounded-3xl shadow-2xl w-full max-w-md mx-auto ring-1 ring-[#d0d7de] dark:ring-[#30363d]">
-                        <div class="absolute -top-4 -right-4 w-full h-full rounded-3xl -z-10 bg-gradient-to-r from-[#238636] to-[#2ea043] dark:from-[#3fb950] dark:to-[#7ee787] opacity-20 dark:opacity-30 animate-float-delay-1"></div>
-                        <div class="absolute -bottom-4 -left-4 w-full h-full rounded-3xl -z-10 bg-gradient-to-l from-[#238636] to-[#2ea043] dark:from-[#3fb950] dark:to-[#7ee787] opacity-20 dark:opacity-30 animate-float-delay-2"></div>
+                        <div class="absolute -top-4 -right-4 w-full h-full rounded-3xl -z-10 bg-gradient-to-r from-brand-600 to-brand-500 dark:from-brand-400 dark:to-brand-300 opacity-20 dark:opacity-30 animate-float-delay-1"></div>
+                        <div class="absolute -bottom-4 -left-4 w-full h-full rounded-3xl -z-10 bg-gradient-to-l from-brand-600 to-brand-500 dark:from-brand-400 dark:to-brand-300 opacity-20 dark:opacity-30 animate-float-delay-2"></div>
                     </div>
                 </div>
             </div>
@@ -84,8 +99,8 @@
                                 data-section="@item.Target"
                                 class="relative group whitespace-nowrap py-3 sm:py-4 px-4 sm:px-6 text-sm sm:text-base text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors nav-section">
                             <span>@item.Title</span>
-                            <span class="absolute bottom-0 left-0 w-full h-0.5 bg-[#238636] dark:bg-[#3fb950] scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300"></span>
-                            <span class="active-indicator absolute bottom-0 left-0 w-full h-0.5 bg-[#238636] dark:bg-[#3fb950] scale-x-0 transition-transform origin-left duration-300"></span>
+                            <span class="absolute bottom-0 left-0 w-full h-0.5 bg-brand-600 dark:bg-brand-400 scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300"></span>
+                            <span class="active-indicator absolute bottom-0 left-0 w-full h-0.5 bg-brand-600 dark:bg-brand-400 scale-x-0 transition-transform origin-left duration-300"></span>
                         </button>
                     }
                 </div>
@@ -97,7 +112,7 @@
     <section data-section="@SiteConfig.Content.Projects.Id" class="py-20 bg-white dark:bg-slate-900">
         <div class="container mx-auto px-4">
             <div class="text-center mb-12" data-aos="fade-up">
-                <span class="inline-block px-4 py-2 rounded-full bg-[#238636]/10 dark:bg-[#238636]/20 text-[#238636] dark:text-[#7ee787] text-sm font-medium mb-4">
+                <span class="inline-block px-4 py-2 rounded-full bg-brand-600/10 dark:bg-brand-600/20 text-brand-600 dark:text-brand-300 text-sm font-medium mb-4">
                     @SiteConfig.Content.Projects.Subject
                 </span>
                 <h2 class="text-4xl font-bold mb-4">@SiteConfig.Content.Projects.Title</h2>
@@ -109,7 +124,7 @@
                     <div class="group bg-white dark:bg-slate-800 rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 relative overflow-hidden" 
                          data-aos="fade-up" data-aos-delay="100">
                         <div class="relative h-48 rounded-t-3xl overflow-hidden">
-                            <div class="absolute inset-0 bg-gradient-to-br from-[#238636]/20 to-transparent dark:from-[#238636]/30 group-hover:scale-150 transition-transform duration-500"></div>
+                            <div class="absolute inset-0 bg-gradient-to-br from-brand-600/20 to-transparent dark:from-brand-600/30 group-hover:scale-150 transition-transform duration-500"></div>
                             <img src="@project.Image" 
                                  alt="@project.Title" 
                                  class="w-full h-full object-cover transform group-hover:scale-110 transition duration-500">
@@ -117,7 +132,7 @@
                         </div>
 
                         <div class="p-6">
-                            <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3 group-hover:text-[#238636] dark:group-hover:text-[#3fb950] transition-colors">
+                            <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3 group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors">
                                 @project.Title
                             </h3>
                             <p class="text-slate-600 dark:text-slate-400 text-sm mb-4 line-clamp-2">
@@ -127,7 +142,7 @@
                             <div class="flex flex-wrap gap-2 mb-6">
                                 @foreach (var tech in project.Technologies)
                                 {
-                                    <span class="px-3 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-400 rounded-lg text-xs font-medium hover:scale-105 hover:shadow-md transition-all duration-300">
+                                    <span dir="ltr" class="px-3 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-400 rounded-lg text-xs font-medium hover:scale-105 hover:shadow-md transition-all duration-300">
                                         @tech
                                     </span>
                                 }
@@ -136,7 +151,7 @@
                             <div class="h-px w-full bg-gradient-to-r from-transparent via-slate-200 dark:via-slate-700 to-transparent"></div>
 
                             <div class="mt-4">
-                                <a href="@project.Url" target="_blank" class="group/btn flex items-center justify-between text-[#238636] dark:text-[#3fb950] hover:opacity-75 transition-opacity">
+                                <a href="@project.Url" target="_blank" class="group/btn flex items-center justify-between text-brand-600 dark:text-brand-400 hover:opacity-75 transition-opacity">
                                     <span class="text-sm font-medium">مشاهده پروژه</span>
                                     <span class="transform group-hover/btn:translate-x-1 transition-transform">
                                         <i class="fas fa-arrow-left"></i>
@@ -154,7 +169,7 @@
     <section data-section="@SiteConfig.Content.Skills.Id" class="py-20 bg-gray-50 dark:bg-slate-800">
         <div class="container mx-auto px-4">
             <div class="text-center mb-12" data-aos="fade-up">
-                <span class="inline-block px-4 py-2 rounded-full bg-[#238636]/10 dark:bg-[#238636]/20 text-[#238636] dark:text-[#7ee787] text-sm font-medium mb-4">
+                <span class="inline-block px-4 py-2 rounded-full bg-brand-600/10 dark:bg-brand-600/20 text-brand-600 dark:text-brand-300 text-sm font-medium mb-4">
                     @SiteConfig.Content.Skills.Subject
                 </span>
                 <h2 class="text-4xl font-bold mb-4">@SiteConfig.Content.Skills.Title</h2>
@@ -164,7 +179,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 @foreach (var skill in SiteConfig.Content.Skills.Items)
                 {
-                    <div class="group bg-white dark:bg-slate-700 rounded-3xl p-6 hover:translate-y-[-0.5rem] hover:shadow-xl transition-all duration-500 relative overflow-hidden hover:bg-gradient-to-br hover:from-[#238636]/5 hover:to-transparent dark:hover:from-[#238636]/10 dark:hover:to-transparent" 
+                    <div class="group bg-white dark:bg-slate-700 rounded-3xl p-6 hover:translate-y-[-0.5rem] hover:shadow-xl transition-all duration-500 relative overflow-hidden hover:bg-gradient-to-br hover:from-brand-600/5 hover:to-transparent dark:hover:from-brand-600/10 dark:hover:to-transparent" 
                          data-aos="zoom-in" data-aos-delay="100">
                         <div class="absolute inset-0 opacity-5 dark:opacity-10">
                             <svg class="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
@@ -176,8 +191,8 @@
                         </div>
 
                         <div class="relative">
-                            <div class="w-14 h-14 mb-4 bg-[#238636]/10 dark:bg-[#238636]/20 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-all duration-500">
-                                <i class="@skill.Icon text-xl text-[#238636] dark:text-[#3fb950]"></i>
+                            <div class="w-14 h-14 mb-4 bg-brand-600/10 dark:bg-brand-600/20 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-all duration-500">
+                                <i class="@skill.Icon text-xl text-brand-600 dark:text-brand-400"></i>
                             </div>
                         </div>
 
@@ -185,13 +200,13 @@
                             <h3 class="text-base font-semibold text-slate-900 dark:text-white">
                                 @skill.Title
                             </h3>
-                            <span class="text-sm font-medium bg-[#238636]/10 dark:bg-[#238636]/20 text-[#238636] dark:text-[#3fb950] px-2 py-1 rounded-lg">
+                            <span class="text-sm font-medium bg-brand-600/10 dark:bg-brand-600/20 text-brand-600 dark:text-brand-400 px-2 py-1 rounded-lg">
                                 @skill.Progress%
                             </span>
                         </div>
 
                         <div class="h-1.5 w-full bg-slate-100 dark:bg-slate-600/30 rounded-full overflow-hidden">
-                            <div class="relative h-full bg-gradient-to-r from-[#238636] to-[#2ea043] dark:from-[#238636] dark:to-[#3fb950] rounded-full transition-all duration-700 ease-out"
+                            <div class="relative h-full bg-gradient-to-r from-brand-600 to-brand-500 dark:from-brand-600 dark:to-brand-400 rounded-full transition-all duration-700 ease-out"
                                  style="width: 0%"
                                  data-progress="@skill.Progress">
                                 <div class="absolute inset-0 w-full h-full bg-white/20 group-hover:animate-shimmer"></div>
@@ -208,7 +223,7 @@
         <div class="container mx-auto px-4">
             <div class="max-w-3xl mx-auto">
                 <div class="text-center mb-12" data-aos="fade-up">
-                    <span class="inline-block px-4 py-2 rounded-full bg-[#238636]/10 dark:bg-[#238636]/20 text-[#238636] dark:text-[#7ee787] text-sm font-medium mb-4">
+                    <span class="inline-block px-4 py-2 rounded-full bg-brand-600/10 dark:bg-brand-600/20 text-brand-600 dark:text-brand-300 text-sm font-medium mb-4">
                         @SiteConfig.Content.Contact.Subject
                     </span>
                     <h2 class="text-4xl font-bold mb-4">@SiteConfig.Content.Contact.Title</h2>
@@ -220,7 +235,7 @@
                         @if (TempData["ContactMessage"] != null)
                         {
                             <div class="mb-6 p-4 rounded-xl flex items-center gap-3 @(TempData["ContactSuccess"] != null 
-                                ? "bg-[#238636]/10 dark:bg-[#238636]/20 text-[#238636] dark:text-[#7ee787]" 
+                                ? "bg-brand-600/10 dark:bg-brand-600/20 text-brand-600 dark:text-brand-300" 
                                 : "bg-red-500/10 dark:bg-red-500/20 text-red-600 dark:text-red-400")">
                                 <div class="text-lg">
                                     <i class="fas @(TempData["ContactSuccess"] != null ? "fa-circle-check" : "fa-circle-exclamation")"></i>
@@ -235,7 +250,7 @@
                                 <div class="relative">
                                     <input type="text" 
                                         asp-for="ContactForm.Name"
-                                        class="w-full px-12 py-3 text-right bg-slate-50 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-[#238636]/20 dark:focus:ring-[#238636]/30 focus:border-[#238636] dark:focus:border-[#238636] outline-none transition-all duration-200"
+                                        class="w-full px-12 py-3 text-right bg-slate-50 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-brand-600/20 dark:focus:ring-brand-600/30 focus:border-brand-600 dark:focus:border-brand-600 outline-none transition-all duration-200"
                                         placeholder="نام خود را وارد کنید">
                                     <div class="absolute inset-y-0 right-4 flex items-center pointer-events-none text-slate-400">
                                         <i class="fas fa-user"></i>
@@ -249,7 +264,7 @@
                                 <div class="relative">
                                     <input type="email"
                                         asp-for="ContactForm.Email" 
-                                        class="w-full px-12 py-3 text-right bg-slate-50 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-[#238636]/20 dark:focus:ring-[#238636]/30 focus:border-[#238636] dark:focus:border-[#238636] outline-none transition-all duration-200"
+                                        class="w-full px-12 py-3 text-right bg-slate-50 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-brand-600/20 dark:focus:ring-brand-600/30 focus:border-brand-600 dark:focus:border-brand-600 outline-none transition-all duration-200"
                                         placeholder="ایمیل خود را وارد کنید">
                                     <div class="absolute inset-y-0 right-4 flex items-center pointer-events-none text-slate-400">
                                         <i class="fas fa-envelope"></i>
@@ -264,7 +279,7 @@
                             <div class="relative">
                                 <input type="text"
                                     asp-for="ContactForm.Subject" 
-                                    class="w-full px-12 py-3 text-right bg-slate-50 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-[#238636]/20 dark:focus:ring-[#238636]/30 focus:border-[#238636] dark:focus:border-[#238636] outline-none transition-all duration-200"
+                                    class="w-full px-12 py-3 text-right bg-slate-50 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-brand-600/20 dark:focus:ring-brand-600/30 focus:border-brand-600 dark:focus:border-brand-600 outline-none transition-all duration-200"
                                     placeholder="موضوع پیام را وارد کنید">
                                 <div class="absolute inset-y-0 right-4 flex items-center pointer-events-none text-slate-400">
                                     <i class="fas fa-heading"></i>
@@ -278,7 +293,7 @@
                             <div class="relative">
                                 <textarea asp-for="ContactForm.Message"
                                         rows="4" 
-                                        class="w-full px-12 py-3 text-right bg-slate-50 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-[#238636]/20 dark:focus:ring-[#238636]/30 focus:border-[#238636] dark:focus:border-[#238636] outline-none transition-all duration-200"
+                                        class="w-full px-12 py-3 text-right bg-slate-50 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-brand-600/20 dark:focus:ring-brand-600/30 focus:border-brand-600 dark:focus:border-brand-600 outline-none transition-all duration-200"
                                         placeholder="پیام خود را بنویسید"></textarea>
                                 <div class="absolute top-3 right-4 text-slate-400">
                                     <i class="fas fa-message"></i>
@@ -289,8 +304,8 @@
 
                         <div class="flex justify-start">
                             <button type="submit" 
-                                    class="group relative inline-flex items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-[#238636] to-[#2ea043] p-0.5 font-bold text-white hover:text-white focus:outline-none focus:ring-4 focus:ring-[#238636]/50 group-hover:from-[#238636] group-hover:to-[#2ea043] dark:focus:ring-[#238636]/50">
-                                <span class="relative rounded-lg bg-[#238636] px-8 py-3 transition-all duration-75 ease-in group-hover:bg-opacity-0 flex items-center gap-2">
+                                    class="group relative inline-flex items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-brand-600 to-brand-500 p-0.5 font-bold text-white hover:text-white focus:outline-none focus:ring-4 focus:ring-brand-600/50 group-hover:from-brand-600 group-hover:to-brand-500 dark:focus:ring-brand-600/50">
+                                <span class="relative rounded-lg bg-brand-600 px-8 py-3 transition-all duration-75 ease-in group-hover:bg-opacity-0 flex items-center gap-2">
                                     <i class="fas fa-paper-plane group-hover:-translate-x-1 transition-transform duration-200"></i>
                                     <span>ارسال پیام</span>
                                 </span>
@@ -301,7 +316,7 @@
                     <div class="mt-10 pt-8 border-t border-slate-200 dark:border-slate-700">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div class="flex items-center gap-6 p-4 rounded-xl bg-slate-50 dark:bg-slate-700/50">
-                                <div class="w-12 h-12 rounded-full bg-[#238636]/10 dark:bg-[#238636]/20 flex items-center justify-center text-[#238636] dark:text-[#7ee787]">
+                                <div class="w-12 h-12 rounded-full bg-brand-600/10 dark:bg-brand-600/20 flex items-center justify-center text-brand-600 dark:text-brand-300">
                                     <i class="fas fa-envelope text-lg"></i>
                                 </div>
                                 <div>
@@ -311,7 +326,7 @@
                             </div>
 
                             <div class="flex items-center gap-6 p-4 rounded-xl bg-slate-50 dark:bg-slate-700/50">
-                                <div class="w-12 h-12 rounded-full bg-[#238636]/10 dark:bg-[#238636]/20 flex items-center justify-center text-[#238636] dark:text-[#7ee787]">
+                                <div class="w-12 h-12 rounded-full bg-brand-600/10 dark:bg-brand-600/20 flex items-center justify-center text-brand-600 dark:text-brand-300">
                                     <i class="fas fa-location-dot text-lg"></i>
                                 </div>
                                 <div>
@@ -326,3 +341,7 @@
         </div>
     </section>
 </div>
+
+@section Scripts {
+    @Html.Raw(personSchemaScript)
+}

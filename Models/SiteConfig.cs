@@ -2,7 +2,19 @@ namespace MyWebApp.Models;
 
 public static class SiteConfig
 {
-    // Site Information
+    private static string _twitterUsername = string.Empty;
+    private static string _telegramUsername = string.Empty;
+    private static string _gitHubUsername = string.Empty;
+    private static string _contactEmail = string.Empty;
+
+    public static void Configure(IConfiguration configuration)
+    {
+        _twitterUsername = configuration["TWITTER_USERNAME"] ?? string.Empty;
+        _telegramUsername = configuration["TELEGRAM_USERNAME"] ?? string.Empty;
+        _gitHubUsername = configuration["GITHUB_USERNAME"] ?? string.Empty;
+        _contactEmail = configuration["CONTACT_EMAIL"] ?? string.Empty;
+    }
+
     public static class Site
     {
         public static string Title => "Mobin Javari";
@@ -10,7 +22,6 @@ public static class SiteConfig
         public static string ThemeColor => "#238636";
     }
 
-    // Meta Tags
     public static class Meta
     {
         public static string DefaultAuthor => Site.Author;
@@ -22,31 +33,30 @@ public static class SiteConfig
         public static string DefaultImage => Content.Hero.ProfileImage;
     }
 
-    // Content
     public static class Content
-    {   
+    {
         public static class Header
         {
             public static string Title => Site.Author;
 
             public static List<MenuItem> MenuItems => new()
             {
-                new() { 
-                    Url = "/", 
-                    Icon = "fas fa-home", 
-                    Title = "خانه", 
+                new() {
+                    Url = "/",
+                    Icon = "fas fa-home",
+                    Title = "خانه",
                     Description = "صفحه اصلی سایت"
                 },
-                new() { 
-                    Url = "/Account", 
-                    Icon = "fas fa-user", 
-                    Title = "حساب کاربری", 
+                new() {
+                    Url = "/Account",
+                    Icon = "fas fa-user",
+                    Title = "حساب کاربری",
                     Description = "صفحه حساب کاربری"
                 },
-                new() { 
-                    Url = $"/{Tools.Id}", 
-                    Icon = Tools.Icon, 
-                    Title = Tools.Title, 
+                new() {
+                    Url = $"/{Tools.Id}",
+                    Icon = Tools.Icon,
+                    Title = Tools.Title,
                     Description = Tools.Description
                 }
             };
@@ -60,32 +70,32 @@ public static class SiteConfig
             public static string ProfileImage => "https://avatars.githubusercontent.com/u/87239446?v=4";
 
             public static List<CallToAction> Actions => new()
-            {   
-                new() { 
-                    Title = Contact.Title, 
-                    Target = Contact.Id, 
-                    IsPrimary = true 
+            {
+                new() {
+                    Title = Contact.Title,
+                    Target = Contact.Id,
+                    IsPrimary = true
                 },
-                new() { 
-                    Title = Projects.Title, 
-                    Target = Projects.Id, 
-                    IsPrimary = false 
+                new() {
+                    Title = Projects.Title,
+                    Target = Projects.Id,
+                    IsPrimary = false
                 }
             };
 
             public static List<NavItem> Navigation => new()
             {
-                new() { 
-                    Title = Projects.Subject, 
-                    Target = Projects.Id 
+                new() {
+                    Title = Projects.Subject,
+                    Target = Projects.Id
                 },
-                new() { 
-                    Title = Skills.Subject, 
-                    Target = Skills.Id 
+                new() {
+                    Title = Skills.Subject,
+                    Target = Skills.Id
                 },
-                new() { 
+                new() {
                     Title = Contact.Subject,
-                    Target = Contact.Id 
+                    Target = Contact.Id
                 }
             };
         }
@@ -153,25 +163,25 @@ public static class SiteConfig
 
             public static List<Skill> Items => new()
             {
-                new() { 
-                    Title = "Frontend", 
-                    Progress = 90, 
-                    Icon = "fas fa-code" 
+                new() {
+                    Title = "Frontend",
+                    Progress = 90,
+                    Icon = "fas fa-code"
                 },
-                new() { 
-                    Title = "Backend", 
-                    Progress = 90, 
-                    Icon = "fas fa-database" 
+                new() {
+                    Title = "Backend",
+                    Progress = 90,
+                    Icon = "fas fa-database"
                 },
-                new() { 
-                    Title = "UI/UX", 
-                    Progress = 80, 
-                    Icon = "fas fa-palette" 
+                new() {
+                    Title = "UI/UX",
+                    Progress = 80,
+                    Icon = "fas fa-palette"
                 },
-                new() { 
-                    Title = "DevOps", 
-                    Progress = 80, 
-                    Icon = "fas fa-server" 
+                new() {
+                    Title = "DevOps",
+                    Progress = 80,
+                    Icon = "fas fa-server"
                 }
             };
         }
@@ -183,7 +193,7 @@ public static class SiteConfig
             public static string Title => "تماس با من";
             public static string Description => "آماده همکاری در پروژه‌های جدید و پاسخگویی به سؤالات شما هستم";
             public static string Location => "تهران، ایران";
-            public static string Email => "mobinjavari@duck.com";
+            public static string Email => _contactEmail;
         }
 
         public static class Tools
@@ -272,42 +282,41 @@ public static class SiteConfig
         public static class Footer
         {
             public static string AboutMe => "توسعه‌دهنده خلاق با تجربه در ساخت راه‌حل‌های دیجیتال و علاقه‌مند به تکنولوژی‌های نوین";
-            
+
             public static List<SocialLink> SocialLinks => new()
             {
-                new() { 
-                    Url = "https://x.com/mobinjavari", 
-                    Icon = "fab fa-twitter", 
-                    Color = "blue" 
+                new() {
+                    Url = $"https://x.com/{_twitterUsername}",
+                    Icon = "fab fa-twitter",
+                    Color = "blue"
                 },
-                new() { 
-                    Url = "https://t.me/mobinjavari", 
-                    Icon = "fab fa-telegram", 
-                    Color = "blue" 
+                new() {
+                    Url = $"https://t.me/{_telegramUsername}",
+                    Icon = "fab fa-telegram",
+                    Color = "blue"
                 },
-                new() { 
-                    Url = "https://github.com/mobinjavari", 
-                    Icon = "fab fa-github", 
-                    Color = "slate" 
+                new() {
+                    Url = $"https://github.com/{_gitHubUsername}",
+                    Icon = "fab fa-github",
+                    Color = "slate"
                 }
             };
 
             public static List<UsefulLink> UsefulLinks => new()
             {
-                new() { 
-                    Url = "https://github.com/mobinjavari/personal-website-cs", 
-                    Title = "لینک پروژه (گیتهاب)" 
+                new() {
+                    Url = $"https://github.com/{_gitHubUsername}/personal-website-cs",
+                    Title = "لینک پروژه (گیتهاب)"
                 },
-                new() { 
-                    Url = "https://t.me/mobinjavari", 
-                    Title = "کانال تلگرام" 
+                new() {
+                    Url = $"https://t.me/{_telegramUsername}",
+                    Title = "کانال تلگرام"
                 }
             };
         }
     }
 }
 
-// Models
 public record SocialLink
 {
     public required string Url { get; init; }
@@ -375,7 +384,7 @@ public record MetaData
     public required string Description { get; init; }
     public required string Keywords { get; init; }
     public string? Image { get; init; } = null;
-    public string? OgType { get; init; } = null; 
+    public string? OgType { get; init; } = null;
     public string? TwitterCard { get; init; } = null;
 }
 

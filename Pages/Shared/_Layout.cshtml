@@ -1,5 +1,10 @@
 ﻿@using MyWebApp.Models;
 @using MyWebApp.Utils;
+@inject IConfiguration Configuration
+@{
+    var siteUrl = Configuration["SITE_URL"]?.TrimEnd('/') ?? $"{Context.Request.Scheme}://{Context.Request.Host}";
+    var canonicalUrl = ViewData["CanonicalUrl"] as string ?? $"{siteUrl}{Context.Request.Path}";
+}
 <!DOCTYPE html>
 <html lang="fa" dir="rtl" class="light">
 <head>
@@ -10,27 +15,28 @@
     <meta name="author" content="@(ViewData["Author"] ?? SiteConfig.Meta.DefaultAuthor)" />
     <meta name="robots" content="@(ViewData["Robots"] ?? SiteConfig.Meta.DefaultRobots)" />
     <meta name="theme-color" content="@SiteConfig.Site.ThemeColor" />
+    <link rel="canonical" href="@canonicalUrl" />
 
     <meta property="og:title" content="@ViewData["Title"] | @SiteConfig.Site.Title" />
     <meta property="og:description" content="@(ViewData["Description"] ?? SiteConfig.Meta.DefaultDescription)" />
     <meta property="og:type" content="@(ViewData["OgType"] ?? SiteConfig.Meta.DefaultOgType)" />
-    <meta property="og:url" content="@(ViewData["OgUrl"] ?? $"{Context.Request.Scheme}://{Context.Request.Host}{Context.Request.Path}")" />
+    <meta property="og:url" content="@(ViewData["OgUrl"] ?? canonicalUrl)" />
     <meta property="og:image" content="@(ViewData["Image"] ?? @SiteConfig.Meta.DefaultImage ?? "")" />
 
     <meta name="twitter:card" content="@(ViewData["TwitterCard"] ?? SiteConfig.Meta.DefaultTwitterCard)" />
     <meta name="twitter:title" content="@ViewData["Title"] | @SiteConfig.Site.Title" />
     <meta name="twitter:description" content="@(ViewData["Description"] ?? SiteConfig.Meta.DefaultDescription)" />
     <meta name="twitter:image" content="@(ViewData["Image"] ?? @SiteConfig.Meta.DefaultImage ?? "")" />
-    
+
     <title>@ViewData["Title"] | @SiteConfig.Site.Title</title>
-    
+
     <script src="https://cdn.tailwindcss.com?v=3.4.1"></script>
-    <script src="~/js/tailwind.config.js"></script>
-    
+    <script src="~/js/tailwind.config.js" asp-append-version="true"></script>
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
     <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    
+
     @await RenderSectionAsync("Styles", required: false)
 </head>
 <body class="min-h-screen theme-transition bg-white dark:bg-slate-900 text-slate-900 dark:text-white overflow-y-scroll">
@@ -39,7 +45,7 @@
             <div class="container mx-auto px-4">
                 <div class="flex items-center justify-between h-16">
                     <a href="/" class="text-2xl font-bold">
-                        <span class="bg-gradient-to-r from-[#238636] to-[#2ea043] dark:from-[#3fb950] dark:to-[#7ee787] text-transparent bg-clip-text">
+                        <span class="bg-gradient-to-r from-brand-600 to-brand-500 dark:from-brand-400 dark:to-brand-300 text-transparent bg-clip-text">
                             @SiteConfig.Content.Header.Title
                         </span>
                     </a>
@@ -82,7 +88,7 @@
                     <h3 class="text-xl font-bold mb-4 text-slate-900 dark:text-white relative inline-block">
                         <span class="relative">
                             درباره من
-                            <span class="absolute bottom-0 left-0 w-full h-[50%] bg-gradient-to-t from-[#238636]/20 to-transparent dark:from-[#3fb950]/20 rounded-b-lg"></span>
+                            <span class="absolute bottom-0 left-0 w-full h-[50%] bg-gradient-to-t from-brand-600/20 to-transparent dark:from-brand-400/20 rounded-b-lg"></span>
                         </span>
                     </h3>
                     <p class="text-slate-600 dark:text-slate-300 leading-relaxed">
@@ -94,7 +100,7 @@
                     <h3 class="text-xl font-bold mb-4 text-slate-900 dark:text-white relative inline-block">
                         <span class="relative">
                             لینک‌های مفید
-                            <span class="absolute bottom-0 left-0 w-full h-[50%] bg-gradient-to-t from-[#238636]/20 to-transparent dark:from-[#3fb950]/20 rounded-b-lg"></span>
+                            <span class="absolute bottom-0 left-0 w-full h-[50%] bg-gradient-to-t from-brand-600/20 to-transparent dark:from-brand-400/20 rounded-b-lg"></span>
                         </span>
                     </h3>
                     @{
@@ -107,7 +113,7 @@
                             <li>
                                 <a href="@link.Url" 
                                    class="group flex items-center text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors">
-                                    <span class="m-2 w-2 h-2 rounded-full bg-[#238636] dark:bg-[#3fb950] mr-2 transform scale-0 group-hover:scale-100 transition-transform"></span>
+                                    <span class="m-2 w-2 h-2 rounded-full bg-brand-600 dark:bg-brand-400 mr-2 transform scale-0 group-hover:scale-100 transition-transform"></span>
                                     @link.Title
                                 </a>
                             </li>
@@ -119,14 +125,14 @@
                     <h3 class="text-xl font-bold mb-4 text-slate-900 dark:text-white relative inline-block">
                         <span class="relative">
                             شبکه‌های اجتماعی
-                            <span class="absolute bottom-0 left-0 w-full h-[50%] bg-gradient-to-t from-[#238636]/20 to-transparent dark:from-[#3fb950]/20 rounded-b-lg"></span>
+                            <span class="absolute bottom-0 left-0 w-full h-[50%] bg-gradient-to-t from-brand-600/20 to-transparent dark:from-brand-400/20 rounded-b-lg"></span>
                         </span>
                     </h3>
                     @{
                         var socialLinks = SiteConfig.Content.Footer.SocialLinks;
                     }
 
-                    <div class="flex space-x-4 space-x-reverse">
+                    <div class="flex gap-4">
                         @foreach (var social in socialLinks)
                         {
                             <a href="@social.Url" 
@@ -141,7 +147,7 @@
 
             <div class="py-6 border-t border-slate-200 dark:border-slate-700">
                 <p class="text-center text-slate-600 dark:text-slate-300">
-                    <span class="bg-gradient-to-r from-[#238636] to-[#2ea043] dark:from-[#3fb950] dark:to-[#7ee787] text-transparent bg-clip-text">
+                    <span class="bg-gradient-to-r from-brand-600 to-brand-500 dark:from-brand-400 dark:to-brand-300 text-transparent bg-clip-text">
                         &copy; @DateTime.Now.Year
                     </span> 
                     - تمامی حقوق محفوظ است
@@ -162,14 +168,14 @@
                     {
                         <a href="@StringUtils.ToUrl(item.Url)" class="group p-6 bg-slate-50 dark:bg-slate-800/50 rounded-2xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-all duration-300">
                             <div class="flex items-center gap-4">
-                                <span class="w-12 h-12 rounded-xl bg-[#238636]/10 dark:bg-[#3fb950]/10 flex items-center justify-center text-[#238636] dark:text-[#3fb950] group-hover:scale-110 transition-transform duration-300">
+                                <span class="w-12 h-12 rounded-xl bg-brand-600/10 dark:bg-brand-400/10 flex items-center justify-center text-brand-600 dark:text-brand-400 group-hover:scale-110 transition-transform duration-300">
                                     <i class="@item.Icon text-xl"></i>
                                 </span>
                                 <div class="flex-1">
                                     <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-1">@item.Title</h3>
                                     <p class="text-sm text-slate-600 dark:text-slate-400">@StringUtils.TruncateWords(item.Description, 3)</p>
                                 </div>
-                                <span class="text-[#238636] dark:text-[#3fb950] opacity-0 group-hover:opacity-100 transition-opacity">
+                                <span class="text-brand-600 dark:text-brand-400 opacity-0 group-hover:opacity-100 transition-opacity">
                                     <i class="fas fa-arrow-left"></i>
                                 </span>
                             </div>
