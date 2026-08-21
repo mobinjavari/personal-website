@@ -63,7 +63,7 @@ public class IndexModel : PageModel
         const string special = "!@#$%^&*(),.?\":{}|<>";
 
         var password = new StringBuilder();
-        
+
         password.Append(upperCase[RandomNumberGenerator.GetInt32(upperCase.Length)]);
         password.Append(lowerCase[RandomNumberGenerator.GetInt32(lowerCase.Length)]);
         password.Append(digits[RandomNumberGenerator.GetInt32(digits.Length)]);

@@ -14,9 +14,9 @@ public class ProfileModel : AccountPageModel
 {
     [TempData]
     public string? StatusMessage { get; set; }
-    
+
     [TempData]
-    public bool AlertType { get; set; } = false; // Changed from bool? to bool with default value
+    public bool IsSuccessAlert { get; set; }
 
     public ProfileModel(ILogger<ProfileModel> logger, ApplicationDbContext context)
         : base(logger, context)
@@ -103,7 +103,6 @@ public class ProfileModel : AccountPageModel
             return NotFound();
         }
 
-        // Check if username is already taken by another user
         if (Input.Username != user.Username)
         {
             var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.Username == Input.Username);
@@ -114,7 +113,6 @@ public class ProfileModel : AccountPageModel
             }
         }
 
-        // Update user data
         user.Username = Input.Username;
         user.FirstName = Input.FirstName;
         user.LastName = Input.LastName;
@@ -124,14 +122,14 @@ public class ProfileModel : AccountPageModel
         {
             await _context.SaveChangesAsync();
             StatusMessage = "اطلاعات با موفقیت بروزرسانی شد";
-            AlertType = true;
+            IsSuccessAlert = true;
             return RedirectToPage();
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error updating user profile");
             StatusMessage = "خطا در بروزرسانی اطلاعات";
-            AlertType = false; 
+            IsSuccessAlert = false;
             return Page();
         }
     }

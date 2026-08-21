@@ -64,4 +64,4 @@ public class IndexModel : PageModel
         20 => "border-green-500",
         _ => "border-gray-500"
     };
-} 
+}

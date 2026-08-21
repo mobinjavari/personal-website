@@ -66,7 +66,7 @@ public class User
             return (FirstName[0].ToString() + LastName[0].ToString()).ToUpper();
         }
 
-        return !string.IsNullOrEmpty(Username) ? 
+        return !string.IsNullOrEmpty(Username) ?
             Username[0].ToString().ToUpper() : "?";
     }
-} 
+}

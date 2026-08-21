@@ -41,4 +41,4 @@ public class IndexModel : PageModel
         Error = null;
         return Page();
     }
-} 
+}

@@ -6,7 +6,7 @@ public static class StringUtils
     {
         if (string.IsNullOrEmpty(text)) return text;
         var words = text.Split(' ');
-        return words.Length > wordCount 
+        return words.Length > wordCount
             ? string.Join(" ", words.Take(wordCount)) + "..."
             : text;
     }

@@ -60,4 +60,4 @@ public class IndexModel : PageModel
         "متوسط" => "fas fa-arrow-right",
         _ => "fas fa-exclamation"
     };
-} 
+}

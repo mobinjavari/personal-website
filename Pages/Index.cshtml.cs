@@ -40,8 +40,7 @@ public class IndexModel : PageModel
 
             TempData["ContactSuccess"] = true;
             TempData["ContactMessage"] = "پیام شما با موفقیت ارسال شد.";
-            
-            // Clear the form
+
             ModelState.Clear();
             ContactForm = new ContactMessage();
         }

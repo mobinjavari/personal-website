@@ -26,16 +26,16 @@ namespace MyWebApp.Pages.Account.Database
         public override async Task<IActionResult> OnPostAsync()
         {
             await base.OnGetAsync();
-            
+
             if (DatabaseFile == null)
             {
                 Message = "لطفا یک فایل انتخاب کنید";
                 AlertClass = "alert-danger";
                 return Page();
             }
-            
+
             var result = await UploadDatabaseAsync(DatabaseFile);
-            
+
             if (result is RedirectToPageResult)
             {
                 Message = "دیتابیس با موفقیت آپلود و جایگزین شد";

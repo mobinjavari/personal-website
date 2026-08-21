@@ -18,7 +18,7 @@ public class IndexModel : AccountPageModel
     public List<ContactMessage> ContactMessages { get; set; }
     public string? Message { get; set; }
     public string? AlertClass { get; set; }
-    
+
     [BindProperty]
     public IFormFile? DatabaseFile { get; set; }
 
@@ -30,7 +30,6 @@ public class IndexModel : AccountPageModel
             return result;
         }
 
-        // Load contact messages
         ContactMessages = await _context.ContactMessages
             .OrderByDescending(m => m.CreatedAt)
             .ToListAsync();

@@ -114,14 +114,14 @@ public abstract class AccountPageModel : PageModel
             await _context.Database.CloseConnectionAsync();
             await _context.DisposeAsync();
             SqliteConnection.ClearPool(new SqliteConnection($"Data Source={dbPath}"));
-            
+
             GC.Collect();
             GC.WaitForPendingFinalizers();
 
             if (System.IO.File.Exists(dbPath))
             {
                 string backupPath = $"{dbPath}.{DateTime.Now:yyyyMMddHHmmss}.backup";
-                try 
+                try
                 {
                     System.IO.File.Copy(dbPath, backupPath, true);
                     System.IO.File.Delete(dbPath);
