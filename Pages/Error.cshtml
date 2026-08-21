@@ -1,0 +1,19 @@
+@page
+@model ErrorModel
+@{
+    ViewData["Title"] = "خطا";
+    ViewData["Description"] = "متأسفانه خطایی در پردازش درخواست رخ داد.";
+    ViewData["Robots"] = "noindex, nofollow";
+}
+
+<div class="min-h-[calc(100vh-4rem)] flex items-center justify-center px-4 text-center">
+    <div>
+        <h1 class="text-4xl font-bold text-slate-900 dark:text-white mb-4">خطایی رخ داد</h1>
+        <p class="text-slate-600 dark:text-slate-400 mb-6">متأسفانه مشکلی در پردازش درخواست شما پیش آمد. لطفاً دوباره تلاش کنید.</p>
+        @if (Model.ShowRequestId)
+        {
+            <p class="text-xs text-slate-400 dark:text-slate-600 mb-6">شناسه درخواست: <code>@Model.RequestId</code></p>
+        }
+        <a href="/" class="inline-block px-6 py-3 bg-brand-600 hover:bg-brand-500 text-white rounded-xl transition-colors">بازگشت به صفحه اصلی</a>
+    </div>
+</div>
