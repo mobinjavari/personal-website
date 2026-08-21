@@ -4,9 +4,10 @@ tailwind.config = {
         extend: {
             colors: {
                 brand: {
-                    light: '#238636',
-                    DEFAULT: '#2ea043',
-                    dark: '#3fb950'
+                    600: '#238636',
+                    500: '#2ea043',
+                    400: '#3fb950',
+                    300: '#7ee787'
                 },
                 surface: {
                     50: '#f8fafc',

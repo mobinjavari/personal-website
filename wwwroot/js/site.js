@@ -128,10 +128,10 @@ function updateActiveSection(sectionId) {
         const indicator = button.querySelector('.active-indicator');
         
         if (buttonSection === sectionId) {
-            button.classList.add('text-[#238636]', 'dark:text-[#3fb950]');
+            button.classList.add('text-brand-600', 'dark:text-brand-400');
             indicator.classList.replace('scale-x-0', 'scale-x-100');
         } else {
-            button.classList.remove('text-[#238636]', 'dark:text-[#3fb950]');
+            button.classList.remove('text-brand-600', 'dark:text-brand-400');
             indicator.classList.replace('scale-x-100', 'scale-x-0');
         }
     });
