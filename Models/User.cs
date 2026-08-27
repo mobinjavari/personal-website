@@ -23,7 +23,7 @@ public class User
     public string Username { get; set; } = null!;
 
     [Required]
-    [StringLength(50)]
+    [StringLength(256)]
     public string Password { get; set; } = null!;
 
     [Required]
