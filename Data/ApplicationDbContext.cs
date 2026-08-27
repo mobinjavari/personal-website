@@ -23,6 +23,10 @@ public class ApplicationDbContext : DbContext
             .IsUnique();
 
         modelBuilder.Entity<User>()
+            .Property(u => u.Username)
+            .UseCollation("NOCASE");
+
+        modelBuilder.Entity<User>()
             .HasIndex(u => u.Username)
             .IsUnique();
 
