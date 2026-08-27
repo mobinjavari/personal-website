@@ -30,21 +30,31 @@ public class IndexModel : PageModel
     [BindProperty]
     public string Password { get; set; } = string.Empty;
 
+    [BindProperty]
+    public string? ReturnUrl { get; set; }
+
     public bool ShowPassword { get; set; }
     public string? ErrorMessage { get; set; }
     public string? SuccessMessage { get; set; }
 
-    public IActionResult OnGet()
+    public IActionResult OnGet(string? returnUrl)
     {
         if (User.Identity?.IsAuthenticated == true)
         {
             return RedirectToPage("/Account/Index");
         }
 
+        ReturnUrl = returnUrl;
+
         if (TempData.TryGetValue("Email", out var email))
         {
             Email = email?.ToString() ?? string.Empty;
             ShowPassword = true;
+        }
+
+        if (string.IsNullOrEmpty(ReturnUrl) && TempData.TryGetValue("ReturnUrl", out var returnUrlValue))
+        {
+            ReturnUrl = returnUrlValue?.ToString();
         }
 
         return Page();
@@ -80,6 +90,7 @@ public class IndexModel : PageModel
             _logger.LogInformation("Password generated for email: {Email} ~> {Password}", Email, newPassword);
 
             TempData["Email"] = Email;
+            TempData["ReturnUrl"] = ReturnUrl;
             ShowPassword = true;
             SuccessMessage = "رمز عبور به ایمیل شما ارسال شد.";
             return Page();
@@ -130,6 +141,13 @@ public class IndexModel : PageModel
                 new ClaimsPrincipal(new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme)));
 
             TempData.Remove("Email");
+            TempData.Remove("ReturnUrl");
+
+            if (!string.IsNullOrEmpty(ReturnUrl) && Url.IsLocalUrl(ReturnUrl))
+            {
+                return LocalRedirect(ReturnUrl);
+            }
+
             return RedirectToPage("/Account/Index");
         }
         catch (Exception ex)

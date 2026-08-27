@@ -61,6 +61,7 @@
             @if (!Model.ShowPassword)
             {
                 <form method="post" asp-page-handler="CheckEmail" class="space-y-6">
+                    <input type="hidden" name="ReturnUrl" value="@Model.ReturnUrl" />
                     <div>
                         <label for="email" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
                             ایمیل
@@ -88,6 +89,7 @@
             {
                 <form method="post" asp-page-handler="Login" class="space-y-6">
                     <input type="hidden" name="Email" value="@Model.Email" />
+                    <input type="hidden" name="ReturnUrl" value="@Model.ReturnUrl" />
                     <div>
                         <label for="email" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
                             ایمیل
