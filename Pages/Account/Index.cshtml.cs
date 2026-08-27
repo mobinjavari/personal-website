@@ -9,8 +9,8 @@ namespace MyWebApp.Pages.Account;
 
 public class IndexModel : AccountPageModel
 {
-    public IndexModel(ILogger<IndexModel> logger, ApplicationDbContext context)
-        : base(logger, context)
+    public IndexModel(ILogger<IndexModel> logger, ApplicationDbContext context, IConfiguration configuration)
+        : base(logger, context, configuration)
     {
         ContactMessages = new();
     }
@@ -35,5 +35,33 @@ public class IndexModel : AccountPageModel
             .ToListAsync();
 
         return Page();
+    }
+
+    public async Task<IActionResult> OnPostMessageDetailsAsync(int id)
+    {
+        var userId = GetUserId();
+        var caller = userId.HasValue ? await _context.Users.FindAsync(userId.Value) : null;
+        if (caller is not { Rank: UserRank.Owner or UserRank.Admin })
+        {
+            return StatusCode(StatusCodes.Status403Forbidden);
+        }
+
+        var message = await _context.ContactMessages.FindAsync(id);
+        if (message == null)
+        {
+            return NotFound();
+        }
+
+        message.IsRead = true;
+        await _context.SaveChangesAsync();
+
+        return new JsonResult(new
+        {
+            message.Name,
+            message.Email,
+            message.Subject,
+            message.Message,
+            CreatedAt = message.CreatedAt.ToString("yyyy/MM/dd HH:mm")
+        });
     }
 }
