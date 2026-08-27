@@ -18,8 +18,8 @@ public class ProfileModel : AccountPageModel
     [TempData]
     public bool IsSuccessAlert { get; set; }
 
-    public ProfileModel(ILogger<ProfileModel> logger, ApplicationDbContext context)
-        : base(logger, context)
+    public ProfileModel(ILogger<ProfileModel> logger, ApplicationDbContext context, IConfiguration configuration)
+        : base(logger, context, configuration)
     {
         Input = new InputModel();
     }

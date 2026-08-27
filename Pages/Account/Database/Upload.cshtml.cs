@@ -14,7 +14,8 @@ namespace MyWebApp.Pages.Account.Database
 
         public UploadModel(
             ILogger<AccountPageModel> logger,
-            ApplicationDbContext context) : base(logger, context)
+            ApplicationDbContext context,
+            IConfiguration configuration) : base(logger, context, configuration)
         {
         }
 

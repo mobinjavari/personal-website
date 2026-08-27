@@ -14,12 +14,14 @@ public abstract class AccountPageModel : PageModel
 {
     protected readonly ILogger<AccountPageModel> _logger;
     protected readonly ApplicationDbContext _context;
+    private readonly IConfiguration _configuration;
     public User? UserData { get; protected set; }
 
-    public AccountPageModel(ILogger<AccountPageModel> logger, ApplicationDbContext context)
+    public AccountPageModel(ILogger<AccountPageModel> logger, ApplicationDbContext context, IConfiguration configuration)
     {
         _logger = logger;
         _context = context;
+        _configuration = configuration;
     }
 
     public virtual async Task<IActionResult> OnGetAsync()
@@ -71,6 +73,13 @@ public abstract class AccountPageModel : PageModel
         return User.FindFirstValue(ClaimTypes.Email);
     }
 
+    protected string GetDatabasePath()
+    {
+        var connectionString = _configuration.GetConnectionString("DefaultConnection");
+        var dataSource = new SqliteConnectionStringBuilder(connectionString).DataSource;
+        return Path.IsPathRooted(dataSource) ? dataSource : Path.Combine(Directory.GetCurrentDirectory(), dataSource);
+    }
+
     protected async Task<IActionResult> DownloadDatabaseAsync()
     {
         if (UserData?.Rank != UserRank.Owner)
@@ -78,7 +87,7 @@ public abstract class AccountPageModel : PageModel
             return RedirectToPage("/Account/Index");
         }
 
-        var dbPath = Path.Combine(Directory.GetCurrentDirectory(), "app.db");
+        var dbPath = GetDatabasePath();
         if (!System.IO.File.Exists(dbPath))
         {
             return NotFound();
@@ -108,8 +117,8 @@ public abstract class AccountPageModel : PageModel
 
         try
         {
-            var dbPath = Path.Combine(Directory.GetCurrentDirectory(), "app.db");
-            _logger.LogInformation($"Starting database upload process. Target path: {dbPath}");
+            var dbPath = GetDatabasePath();
+            _logger.LogInformation("Starting database upload process. Target path: {DbPath}", dbPath);
 
             await _context.Database.CloseConnectionAsync();
             await _context.DisposeAsync();
