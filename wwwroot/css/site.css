@@ -43,6 +43,11 @@ html {
     color 0.3s ease-in-out;
 }
 
+nav.nav-scrolled {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06) !important;
+  transition: box-shadow 0.3s ease-in-out;
+}
+
 body {
   overflow-y: scroll;
 }

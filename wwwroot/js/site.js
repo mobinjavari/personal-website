@@ -40,11 +40,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 
 window.addEventListener('scroll', () => {
     const nav = document.querySelector('nav');
-    if (window.scrollY > 0) {
-        nav.classList.add('shadow-lg');
-    } else {
-        nav.classList.remove('shadow-lg');
-    }
+    nav.classList.toggle('nav-scrolled', window.scrollY > 0);
 });
 
 function initTheme() {
@@ -92,12 +88,8 @@ function scrollToSection(sectionId) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    const sections = ['home', 'projects', 'skills', 'contact'];
-    sections.forEach(section => {
-        const element = document.querySelector(`[data-section="${section}"]`);
-        if (element) {
-            element.id = section;
-        }
+    document.querySelectorAll('[data-section]').forEach((element) => {
+        element.id = element.dataset.section.toLowerCase();
     });
 });
 
