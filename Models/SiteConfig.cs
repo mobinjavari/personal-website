@@ -263,6 +263,58 @@ public static class SiteConfig
                         Description = "بررسی سریع و دقیق رمز عبور بر اساس استانداردهای امنیتی. ابزار رایگان برای سنجش قدرت پسورد و جلوگیری از نفوذ.",
                         Keywords = "رمز عبور, بررسی رمز عبور, امنیت رمز عبور, پسورد امن, امنیت سایبری, ابزار رمز عبور, ارزیابی پسورد, استاندارد رمز عبور, پسورد قوی, تست امنیت پسورد, password checker, امنیت آنلاین",
                     }
+                },
+                new() {
+                    Id = "Date Converter",
+                    Name = "تبدیل تاریخ",
+                    Description = "تبدیل تاریخ شمسی به میلادی و برعکس",
+                    Icon = "fas fa-exchange-alt",
+                    LastUpdate = DateTimeOffset.FromUnixTimeSeconds(1787832000).DateTime,
+                    Status = ToolStatus.Active,
+                    Meta = new()
+                    {
+                        Description = "ابزار آنلاین تبدیل تاریخ شمسی به میلادی و برعکس، همراه با نمایش روز هفته. سریع، دقیق و رایگان.",
+                        Keywords = "تبدیل تاریخ, تاریخ شمسی, تاریخ میلادی, تبدیل تاریخ شمسی به میلادی, تبدیل تاریخ میلادی به شمسی, تقویم شمسی, تقویم میلادی, محاسبه تاریخ, date converter, تبدیل سال",
+                    }
+                },
+                new() {
+                    Id = "BMI Calculator",
+                    Name = "محاسبه شاخص توده بدنی",
+                    Description = "محاسبه BMI بر اساس قد و وزن",
+                    Icon = "fas fa-weight-scale",
+                    LastUpdate = DateTimeOffset.FromUnixTimeSeconds(1787832000).DateTime,
+                    Status = ToolStatus.Active,
+                    Meta = new()
+                    {
+                        Description = "محاسبه شاخص توده بدنی (BMI) بر اساس قد و وزن. با یک محاسبه ساده، وضعیت وزنی خود را مشاهده کنید.",
+                        Keywords = "BMI, شاخص توده بدنی, محاسبه BMI, محاسبه وزن ایده‌آل, کم‌وزنی, اضافه‌وزن, چاقی, ابزار سلامت, محاسبه چربی بدن, bmi calculator, تناسب اندام",
+                    }
+                },
+                new() {
+                    Id = "Loan Calculator",
+                    Name = "محاسبه قسط وام",
+                    Description = "محاسبه قسط ماهانه وام بر اساس مبلغ و نرخ سود",
+                    Icon = "fas fa-landmark",
+                    LastUpdate = DateTimeOffset.FromUnixTimeSeconds(1787832000).DateTime,
+                    Status = ToolStatus.Active,
+                    Meta = new()
+                    {
+                        Description = "محاسبه‌گر آنلاین قسط وام بر اساس مبلغ، نرخ سود سالانه و مدت بازپرداخت. مجموع سود و بازپرداخت را هم ببینید.",
+                        Keywords = "محاسبه قسط وام, قسط وام, محاسبه سود وام, وام بانکی, اقساط مساوی, محاسبه اقساط, نرخ سود وام, loan calculator, محاسبه وام بانکی, برآورد قسط",
+                    }
+                },
+                new() {
+                    Id = "Number to Words",
+                    Name = "تبدیل عدد به حروف",
+                    Description = "تبدیل عدد به حروف فارسی برای چک و فاکتور",
+                    Icon = "fas fa-spell-check",
+                    LastUpdate = DateTimeOffset.FromUnixTimeSeconds(1787832000).DateTime,
+                    Status = ToolStatus.Active,
+                    Meta = new()
+                    {
+                        Description = "تبدیل آنلاین عدد به حروف فارسی، مناسب برای نوشتن مبلغ چک، فاکتور و قرارداد.",
+                        Keywords = "تبدیل عدد به حروف, عدد به حروف فارسی, مبلغ به حروف, نوشتن چک, حروف عدد, تبدیل رقم به حروف, number to words, مبلغ فاکتور, عدد نویسی",
+                    }
                 }
             };
         }

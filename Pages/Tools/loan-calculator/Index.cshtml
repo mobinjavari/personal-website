@@ -1,0 +1,216 @@
+@page
+@using MyWebApp.Models;
+@model MyWebApp.Pages.Tools.LoanCalculator.IndexModel
+@{
+    Layout = "_ToolsLayout";
+    ViewData["ToolId"] = "Loan Calculator";
+}
+
+<style>
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    input[type="number"] {
+        -moz-appearance: textfield;
+    }
+</style>
+
+<div class="min-h-screen py-8 sm:py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-8 sm:mb-12">
+            <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">
+                محاسبه‌گر قسط وام
+            </h1>
+            <p class="mt-2 sm:mt-3 text-base sm:text-lg text-gray-500 dark:text-gray-400">
+                مبلغ وام، نرخ سود سالانه و مدت بازپرداخت را وارد کنید
+            </p>
+        </div>
+
+        <div class="grid gap-6 sm:gap-8 md:grid-cols-3">
+            <div class="md:col-span-2">
+                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl rounded-2xl">
+                    <div class="p-6 sm:p-8">
+                        <form method="post" class="space-y-4 sm:space-y-6">
+                            <div>
+                                <label for="Amount" class="block text-sm sm:text-base font-semibold text-gray-900 dark:text-white mb-2 sm:mb-3">
+                                    مبلغ وام
+                                </label>
+                                <div class="relative">
+                                    <input asp-for="Amount" type="number" min="0"
+                                           class="block w-full h-12 sm:h-14 rounded-xl border-0 py-3 sm:py-4 pr-4 pl-20
+                                                  text-base sm:text-lg font-medium text-gray-900 dark:text-white
+                                                  ring-1 ring-inset ring-gray-300 dark:ring-gray-700
+                                                  placeholder:text-gray-400 dark:placeholder:text-gray-500
+                                                  focus:ring-2 focus:ring-inset focus:ring-indigo-500
+                                                  dark:bg-gray-800/50 dark:focus:ring-indigo-500
+                                                  transition-shadow duration-200"
+                                           placeholder="مثال: 100000000" />
+                                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                        <span class="text-sm sm:text-base font-medium text-gray-500 dark:text-gray-400">تومان</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-3 sm:gap-4">
+                                <div>
+                                    <label for="AnnualRate" class="block text-sm sm:text-base font-semibold text-gray-900 dark:text-white mb-2 sm:mb-3">
+                                        نرخ سود سالانه
+                                    </label>
+                                    <div class="relative">
+                                        <input asp-for="AnnualRate" type="number" min="0" step="0.1"
+                                               class="block w-full h-12 sm:h-14 rounded-xl border-0 py-3 sm:py-4 pr-4 pl-12
+                                                      text-base sm:text-lg font-medium text-gray-900 dark:text-white
+                                                      ring-1 ring-inset ring-gray-300 dark:ring-gray-700
+                                                      placeholder:text-gray-400 dark:placeholder:text-gray-500
+                                                      focus:ring-2 focus:ring-inset focus:ring-indigo-500
+                                                      dark:bg-gray-800/50 dark:focus:ring-indigo-500
+                                                      transition-shadow duration-200"
+                                               placeholder="مثال: 18" />
+                                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                            <span class="text-sm sm:text-base font-medium text-gray-500 dark:text-gray-400">٪</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label for="Months" class="block text-sm sm:text-base font-semibold text-gray-900 dark:text-white mb-2 sm:mb-3">
+                                        مدت بازپرداخت
+                                    </label>
+                                    <div class="relative">
+                                        <input asp-for="Months" type="number" min="1"
+                                               class="block w-full h-12 sm:h-14 rounded-xl border-0 py-3 sm:py-4 pr-4 pl-16
+                                                      text-base sm:text-lg font-medium text-gray-900 dark:text-white
+                                                      ring-1 ring-inset ring-gray-300 dark:ring-gray-700
+                                                      placeholder:text-gray-400 dark:placeholder:text-gray-500
+                                                      focus:ring-2 focus:ring-inset focus:ring-indigo-500
+                                                      dark:bg-gray-800/50 dark:focus:ring-indigo-500
+                                                      transition-shadow duration-200"
+                                               placeholder="مثال: 24" />
+                                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                            <span class="text-sm sm:text-base font-medium text-gray-500 dark:text-gray-400">ماه</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button type="submit"
+                                    class="w-full bg-indigo-600 text-white rounded-lg px-4 py-2.5 sm:py-3
+                                           hover:bg-indigo-700 focus:outline-none focus:ring-2
+                                           focus:ring-offset-2 focus:ring-indigo-500
+                                           transition-colors duration-200 text-base sm:text-lg font-medium">
+                                محاسبه قسط
+                            </button>
+                        </form>
+
+                        @if (!string.IsNullOrEmpty(Model.Message))
+                        {
+                            <div class="mt-4 sm:mt-6 rounded-lg bg-red-50 dark:bg-red-900/20 p-3 sm:p-4">
+                                <div class="flex">
+                                    <div class="flex-shrink-0">
+                                        <i class="fas fa-exclamation-circle text-red-400 text-base sm:text-lg"></i>
+                                    </div>
+                                    <div class="mr-3">
+                                        <p class="text-xs sm:text-sm text-red-700 dark:text-red-400">@Model.Message</p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        else if (!string.IsNullOrEmpty(Model.MonthlyInstallment))
+                        {
+                            <div class="mt-4 sm:mt-6">
+                                <div class="relative overflow-hidden rounded-2xl bg-white dark:bg-gray-800/50 shadow-lg">
+                                    <div class="absolute inset-0 opacity-10 bg-gradient-to-br from-current to-transparent bg-indigo-500"></div>
+                                    <div class="relative p-4 sm:p-6">
+                                        <div class="flex items-center justify-between">
+                                            <div class="flex items-center gap-3 sm:gap-4">
+                                                <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-gradient-to-br from-indigo-400 to-current/80
+                                                            flex items-center justify-center">
+                                                    <i class="fas fa-landmark text-xl sm:text-2xl text-white"></i>
+                                                </div>
+                                                <div class="flex flex-col">
+                                                    <span class="text-xs sm:text-sm font-medium text-gray-500 dark:text-gray-400">قسط ماهانه</span>
+                                                    <span class="text-xl sm:text-2xl font-extrabold bg-gradient-to-r text-black dark:text-white to-current bg-clip-text">
+                                                        @Model.MonthlyInstallment تومان
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700 space-y-2">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-xs sm:text-sm text-gray-500 dark:text-gray-400">مجموع بازپرداخت</span>
+                                                <span class="text-sm sm:text-base font-semibold text-gray-900 dark:text-white">@Model.TotalPayment تومان</span>
+                                            </div>
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-xs sm:text-sm text-gray-500 dark:text-gray-400">مجموع سود پرداختی</span>
+                                                <span class="text-sm sm:text-base font-semibold text-gray-900 dark:text-white">@Model.TotalInterest تومان</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="md:col-span-1">
+                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl rounded-2xl">
+                    <div class="p-4 sm:p-6">
+                        <h3 class="text-base sm:text-lg font-semibold text-gray-900 dark:text-white flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
+                            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-yellow-100 dark:bg-yellow-900/30
+                                      flex items-center justify-center">
+                                <i class="fas fa-star text-yellow-600 dark:text-yellow-400 text-sm sm:text-base"></i>
+                            </div>
+                            نحوه محاسبه
+                        </h3>
+                        <div class="space-y-3 sm:space-y-4">
+                            <div class="flex items-center p-2 sm:p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors duration-200">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-minus text-base sm:text-lg text-indigo-500"></i>
+                                </div>
+                                <div class="mr-3">
+                                    <p class="text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300">بر اساس روش اقساط مساوی محاسبه می‌شود</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-2 sm:p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors duration-200">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-minus text-base sm:text-lg text-indigo-500"></i>
+                                </div>
+                                <div class="mr-3">
+                                    <p class="text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300">نرخ سود را به‌صورت سالانه وارد کنید</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-6 bg-white dark:bg-gray-800 overflow-hidden shadow-xl rounded-2xl">
+                    <div class="p-4 sm:p-6">
+                        <h3 class="text-base sm:text-lg font-medium text-gray-900 dark:text-white flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
+                            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-yellow-100 dark:bg-yellow-900/30
+                                      flex items-center justify-center">
+                                <i class="fas fa-lightbulb text-yellow-600 dark:text-yellow-400 text-sm sm:text-base"></i>
+                            </div>
+                            نکات مهم
+                        </h3>
+                        <ul class="space-y-2 sm:space-y-3 text-xs sm:text-sm text-gray-600 dark:text-gray-400">
+                            <li class="flex items-center gap-2">
+                                <i class="fas fa-check text-green-500"></i>
+                                این ابزار فقط برای برآورد اولیه است
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <i class="fas fa-check text-green-500"></i>
+                                شرایط دقیق بانک ممکن است متفاوت باشد
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <i class="fas fa-check text-green-500"></i>
+                                نمایش آنی نتیجه پس از محاسبه
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
