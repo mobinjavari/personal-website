@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Data.Sqlite;
-using System.Security.Claims;
 using MyWebApp.Data;
 using MyWebApp.Models;
 using Microsoft.EntityFrameworkCore;
@@ -66,11 +65,6 @@ public abstract class AccountPageModel : PageModel
     {
         var idClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
         return !string.IsNullOrEmpty(idClaim) && int.TryParse(idClaim, out var id) ? id : null;
-    }
-
-    protected string? GetUserEmail()
-    {
-        return User.FindFirstValue(ClaimTypes.Email);
     }
 
     protected string GetDatabasePath()
