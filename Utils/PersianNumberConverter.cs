@@ -24,7 +24,7 @@ public static class PersianNumberConverter
 
     private static readonly string[] Scales =
     {
-        "", "هزار", "میلیون", "میلیارد", "تریلیون"
+        "", "هزار", "میلیون", "میلیارد", "تریلیون", "کوادریلیون", "کوینتیلیون"
     };
 
     public static string ToWords(long number)
@@ -35,7 +35,7 @@ public static class PersianNumberConverter
         }
 
         var isNegative = number < 0;
-        var absolute = Math.Abs(number);
+        var absolute = isNegative ? (ulong)(-(number + 1)) + 1 : (ulong)number;
 
         var groups = new List<int>();
         while (absolute > 0)
